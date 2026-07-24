@@ -1,0 +1,16 @@
+- `[x]` 1. Update `trading_engine/ml/predict.py`
+  - `[x]` Read `VN30F1M_features.parquet` and filter rows with `Signal != 0`.
+  - `[x]` Load XGBoost model and predict `Confidence` (`predict_proba[:, 1]`).
+  - `[x]` Merge TP, SL, exit metrics from Triple Barrier (by recreating logic or joining with `ml_dataset.csv`).
+  - `[x]` Output enriched predictions to `data/ml_predictions.csv`.
+- `[x]` 2. Create `trading_engine/visualize/chart.py`
+  - `[x]` Add CLI arguments (`--bars`, `--days`, `--from`, `--to`, `--session`, `--min-conf`).
+  - `[x]` Filter Data by Time/Session.
+  - `[x]` Filter Signals by Minimum Confidence.
+  - `[x]` Add Layer 1: Candlesticks
+  - `[x]` Add Layer 2: EMA20, EMA50, VWAP
+  - `[x]` Add Layer 3 & 4: BUY/SELL markers colored by Confidence (dark green, light green, grey etc.).
+  - `[x]` Add Hover Details: TP/SL size, ATR, RVOL, EMA20 Distance, RSI.
+  - `[x]` Calculate Mini Backtest Metrics (Trades, Winrate, PF, Net Profit, Average Hold, Max Drawdown).
+  - `[x]` Render Dashboard (Annotations) and save HTML.
+- `[x]` 3. Verify changes locally.
