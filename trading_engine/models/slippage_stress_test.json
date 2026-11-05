@@ -1,0 +1,96 @@
+{
+  "full_dataset": [
+    {
+      "slippage": 0.1,
+      "trades": 256,
+      "win_rate": 69.53,
+      "pf": 2.719,
+      "net_pnl": 63300357.0,
+      "avg_pts": 2.473,
+      "max_dd": 6581786.0
+    },
+    {
+      "slippage": 0.3,
+      "trades": 256,
+      "win_rate": 61.72,
+      "pf": 2.161,
+      "net_pnl": 49148571.0,
+      "avg_pts": 1.92,
+      "max_dd": 7419643.0
+    },
+    {
+      "slippage": 0.5,
+      "trades": 255,
+      "win_rate": 56.47,
+      "pf": 1.86,
+      "net_pnl": 40484286.0,
+      "avg_pts": 1.588,
+      "max_dd": 7309286.0
+    },
+    {
+      "slippage": 0.7,
+      "trades": 255,
+      "win_rate": 52.94,
+      "pf": 1.592,
+      "net_pnl": 31397143.0,
+      "avg_pts": 1.231,
+      "max_dd": 7881786.0
+    },
+    {
+      "slippage": 1.0,
+      "trades": 255,
+      "win_rate": 47.06,
+      "pf": 1.312,
+      "net_pnl": 18392857.0,
+      "avg_pts": 0.721,
+      "max_dd": 8516071.0
+    }
+  ],
+  "year_2026": [
+    {
+      "slippage": 0.1,
+      "trades": 43,
+      "win_rate": 55.81,
+      "pf": 0.961,
+      "net_pnl": -517857.0,
+      "avg_pts": -0.12,
+      "max_dd": 6581786.0
+    },
+    {
+      "slippage": 0.3,
+      "trades": 43,
+      "win_rate": 48.84,
+      "pf": 0.839,
+      "net_pnl": -2295714.0,
+      "avg_pts": -0.534,
+      "max_dd": 7419643.0
+    },
+    {
+      "slippage": 0.5,
+      "trades": 43,
+      "win_rate": 51.16,
+      "pf": 0.789,
+      "net_pnl": -3125357.0,
+      "avg_pts": -0.727,
+      "max_dd": 7309286.0
+    },
+    {
+      "slippage": 0.7,
+      "trades": 43,
+      "win_rate": 37.21,
+      "pf": 0.641,
+      "net_pnl": -5942500.0,
+      "avg_pts": -1.382,
+      "max_dd": 7881786.0
+    },
+    {
+      "slippage": 1.0,
+      "trades": 42,
+      "win_rate": 35.71,
+      "pf": 0.621,
+      "net_pnl": -6262857.0,
+      "avg_pts": -1.491,
+      "max_dd": 8516071.0
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "execution": "commission=0 temporary research mode; slippage and all ATR exits remain enabled",
+  "results": [
+    {
+      "setup": "SPRING",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 34,
+          "trades": 33,
+          "net_pnl": -9585675.541876072,
+          "profit_factor": 0.576615839415116,
+          "win_rate": 0.24242424242424243
+        },
+        {
+          "period": "2025",
+          "raw_events": 31,
+          "trades": 31,
+          "net_pnl": -5402273.169862474,
+          "profit_factor": 0.7094766288900759,
+          "win_rate": 0.2903225806451613
+        },
+        {
+          "period": "2026",
+          "raw_events": 19,
+          "trades": 19,
+          "net_pnl": 1362486.301018726,
+          "profit_factor": 1.149628231268972,
+          "win_rate": 0.47368421052631576
+        }
+      ]
+    },
+    {
+      "setup": "TEST",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1075851.3476352163,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "setup": "LPS",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 2,
+          "trades": 2,
+          "net_pnl": 3589294.7460360117,
+          "profit_factor": null,
+          "win_rate": 1.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1102531.026865381,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": 1750322.144471056,
+          "profit_factor": null,
+          "win_rate": 1.0
+        }
+      ]
+    },
+    {
+      "setup": "SOS",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1102531.026865381,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "setup": "NO_SUPPLY",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 71,
+          "trades": 48,
+          "net_pnl": 10417411.897562467,
+          "profit_factor": 1.3812352677236568,
+          "win_rate": 0.4166666666666667
+        },
+        {
+          "period": "2025",
+          "raw_events": 88,
+          "trades": 54,
+          "net_pnl": -23444590.69282006,
+          "profit_factor": 0.34400020371170975,
+          "win_rate": 0.14814814814814814
+        },
+        {
+          "period": "2026",
+          "raw_events": 49,
+          "trades": 33,
+          "net_pnl": -185865.63404744572,
+          "profit_factor": 0.9897581001552296,
+          "win_rate": 0.36363636363636365
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "freeze_timestamp": "2026-10-19T17:15:00+07:00",
+  "freeze_policy": "STRICT_FREEZE_NO_DATA_SNOOPING",
+  "active_oos_cutoff_date": "2026-10-19",
+  "protocol": "All market bars from 2026-10-19 onwards are 100% blind out-of-sample test data. No parameter tuning, no feature tampering, no retraining without formal RFC.",
+  "model_checksums": {
+    "xgboost_model_pkl": {
+      "path": "trading_engine/models/xgboost_model.pkl",
+      "sha256": "9b3af22a1cc29cf7fa7cbd1502bd15b6f3572a9db2ef561c36efa7995dcdcb9f",
+      "size_bytes": 2174433
+    },
+    "confidence_threshold_pkl": {
+      "path": "trading_engine/models/confidence_threshold.pkl",
+      "sha256": "46ce2e181e7da1eb4ae44bb005778a4b8905fe9a6a861e3665d5456e976b7040",
+      "threshold_value": 0.55
+    },
+    "feature_columns_pkl": {
+      "path": "trading_engine/models/feature_columns.pkl",
+      "sha256": "c894565287c39eba2b136ad5ad133c295c4c6e0c3522cdb67ce68e760d6a7136",
+      "feature_count": 36,
+      "features": [
+        "TrendScore", "StructureScore", "VolumeScore", "MomentumScore",
+        "ATR", "ADX", "RSI", "VWAP_Distance", "EMA_Distance", "RVOL",
+        "TimeOfDay", "DayOfWeek", "Return_5", "Return_15", "Return_30",
+        "Return_60", "ATR_Percent", "RealizedVol_30", "EMA20_Slope_5",
+        "EMA50_Slope_15", "Distance_DayHigh", "Distance_DayLow",
+        "Volume_Spike", "Volume_Imbalance_20", "OpenSession", "LunchSession",
+        "CloseSession", "HTF_5m_Trend", "HTF_15m_Trend", "HTF_1h_Trend",
+        "ADX_Regime", "BB_Width", "RegimeCode", "WyckoffScore",
+        "VSA_NoSupply", "HardWyckoffEventOK"
+      ]
+    }
+  },
+  "hyperparameters": {
+    "objective": "binary:logistic",
+    "n_estimators": 500,
+    "learning_rate": 0.03,
+    "max_depth": 6,
+    "min_child_weight": 5,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "gamma": 0.2,
+    "reg_alpha": 0.1,
+    "reg_lambda": 1.0,
+    "random_state": 42,
+    "eval_metric": "logloss"
+  },
+  "execution_rules": {
+    "fixed_contracts": 1,
+    "commission_per_contract": 15000.0,
+    "round_trip_commission": 30000.0,
+    "default_slippage_points": 0.10,
+    "stress_tested_slippage_levels": [0.10, 0.30, 0.50, 0.70, 1.00],
+    "trailing_stop_atr": 1.5,
+    "hard_sl_atr_mult": 2.5,
+    "cooldown_bars": 15
+  },
+  "paper_trade_milestones": {
+    "minimum_closed_trades": 50,
+    "target_closed_trades": 100,
+    "required_profit_factor": 1.30,
+    "required_win_rate": 0.50,
+    "live_switch_guard": "DNSE real execution remains OFF until milestone criteria are achieved."
+  }
+}

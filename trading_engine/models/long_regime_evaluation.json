@@ -1,0 +1,113 @@
+{
+  "selection_rule": "Long only; select thresholds for TREND_UP and HIGH_VOL by maximum 2025 validation PnL, PF breaks ties; at least 20 trades, positive PnL and PF > 1.",
+  "baseline": {
+    "thresholds": {
+      "default": 0.45
+    },
+    "validation": {
+      "trades": 8,
+      "net_pnl": 8806863.430213299,
+      "gross_profit": 10973134.756722651,
+      "gross_loss": 2166271.3265093546,
+      "profit_factor": 5.065447999260709,
+      "win_rate": 0.75,
+      "pnl_by_regime": {
+        "HIGH_VOL": {
+          "count": 3,
+          "sum": 2554052.8085,
+          "win_rate": 0.6667
+        },
+        "RANGE": {
+          "count": 4,
+          "sum": 7392958.3236,
+          "win_rate": 1.0
+        },
+        "TREND_DOWN": {
+          "count": 1,
+          "sum": -1140147.702,
+          "win_rate": 0.0
+        }
+      }
+    },
+    "test": {
+      "trades": 3,
+      "net_pnl": 438297.12408573856,
+      "gross_profit": 1595006.4528679831,
+      "gross_loss": 1156709.3287822446,
+      "profit_factor": 1.3789172553377496,
+      "win_rate": 0.3333333333333333,
+      "pnl_by_regime": {
+        "RANGE": {
+          "count": 2,
+          "sum": -1156709.3288,
+          "win_rate": 0.0
+        },
+        "TREND_DOWN": {
+          "count": 1,
+          "sum": 1595006.4529,
+          "win_rate": 1.0
+        }
+      }
+    }
+  },
+  "regime_threshold_result": {
+    "status": "TRADE",
+    "selected": {
+      "thresholds": {
+        "default": 0.45,
+        "TREND_UP": 0.32,
+        "HIGH_VOL": 0.5
+      },
+      "validation": {
+        "trades": 10,
+        "net_pnl": 10622675.848375183,
+        "gross_profit": 13013010.188246768,
+        "gross_loss": 2390334.3398715835,
+        "profit_factor": 5.444012568110396,
+        "win_rate": 0.7,
+        "pnl_by_regime": {
+          "HIGH_VOL": {
+            "count": 3,
+            "sum": 3649560.7318,
+            "win_rate": 0.6667
+          },
+          "RANGE": {
+            "count": 4,
+            "sum": 7392958.3236,
+            "win_rate": 1.0
+          },
+          "TREND_DOWN": {
+            "count": 1,
+            "sum": -1140147.702,
+            "win_rate": 0.0
+          },
+          "TREND_UP": {
+            "count": 2,
+            "sum": 720304.4949,
+            "win_rate": 0.5
+          }
+        }
+      }
+    },
+    "test": {
+      "trades": 3,
+      "net_pnl": 438297.12408573856,
+      "gross_profit": 1595006.4528679831,
+      "gross_loss": 1156709.3287822446,
+      "profit_factor": 1.3789172553377496,
+      "win_rate": 0.3333333333333333,
+      "pnl_by_regime": {
+        "RANGE": {
+          "count": 2,
+          "sum": -1156709.3288,
+          "win_rate": 0.0
+        },
+        "TREND_DOWN": {
+          "count": 1,
+          "sum": 1595006.4529,
+          "win_rate": 1.0
+        }
+      }
+    }
+  }
+}

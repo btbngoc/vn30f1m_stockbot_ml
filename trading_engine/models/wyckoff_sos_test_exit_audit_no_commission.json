@@ -1,0 +1,214 @@
+{
+  "execution": "commission=0 research mode; 0.10-point slippage, ATR TP/SL/trailing, time limit and cooldown remain enabled",
+  "r_multiple": "Net PnL divided by initial ATR stop risk.",
+  "setups": [
+    {
+      "setup": "TEST",
+      "years": [
+        {
+          "period": "2024",
+          "signal_events": 112,
+          "overall": {
+            "trades": 85,
+            "net_pnl": -32888034.28415961,
+            "avg_pnl": -386918.0504018777,
+            "win_rate": 0.21176470588235294,
+            "avg_r_multiple": -0.47726509262827466,
+            "median_r_multiple": -1.1330700231440245,
+            "avg_holding_bars": 3.929411764705882
+          },
+          "by_exit_reason": {
+            "SL": {
+              "trades": 69,
+              "net_pnl": -57097167.24116365,
+              "avg_pnl": -827495.1774081688,
+              "win_rate": 0.028985507246376812,
+              "avg_r_multiple": -1.0169269032650803,
+              "median_r_multiple": -1.1531158694838273,
+              "avg_holding_bars": 3.420289855072464
+            },
+            "TP": {
+              "trades": 16,
+              "net_pnl": 24209132.95700404,
+              "avg_pnl": 1513070.8098127525,
+              "win_rate": 1.0,
+              "avg_r_multiple": 1.8500264657429497,
+              "median_r_multiple": 1.8634542353621324,
+              "avg_holding_bars": 6.125
+            }
+          }
+        },
+        {
+          "period": "2025",
+          "signal_events": 105,
+          "overall": {
+            "trades": 83,
+            "net_pnl": -21272545.29414322,
+            "avg_pnl": -256295.72643546047,
+            "win_rate": 0.26506024096385544,
+            "avg_r_multiple": -0.2995867335993934,
+            "median_r_multiple": -1.0396989707264757,
+            "avg_holding_bars": 4.542168674698795
+          },
+          "by_exit_reason": {
+            "SL": {
+              "trades": 66,
+              "net_pnl": -44682000.73708854,
+              "avg_pnl": -677000.0111680082,
+              "win_rate": 0.07575757575757576,
+              "avg_r_multiple": -0.8669985395401497,
+              "median_r_multiple": -1.0816722739663858,
+              "avg_holding_bars": 4.545454545454546
+            },
+            "TP": {
+              "trades": 17,
+              "net_pnl": 23409455.44294532,
+              "avg_pnl": 1377026.7907614894,
+              "win_rate": 1.0,
+              "avg_r_multiple": 1.9033061600529544,
+              "median_r_multiple": 1.9300379092069482,
+              "avg_holding_bars": 4.529411764705882
+            }
+          }
+        },
+        {
+          "period": "2026",
+          "signal_events": 45,
+          "overall": {
+            "trades": 31,
+            "net_pnl": -3625194.0288848337,
+            "avg_pnl": -116941.7428672527,
+            "win_rate": 0.3548387096774194,
+            "avg_r_multiple": -0.12853191305714465,
+            "median_r_multiple": -0.9019120437082246,
+            "avg_holding_bars": 6.096774193548387
+          },
+          "by_exit_reason": {
+            "SL": {
+              "trades": 24,
+              "net_pnl": -16149715.690898642,
+              "avg_pnl": -672904.82045411,
+              "win_rate": 0.16666666666666666,
+              "avg_r_multiple": -0.7274035848210091,
+              "median_r_multiple": -1.0480126162408205,
+              "avg_holding_bars": 5.5
+            },
+            "TP": {
+              "trades": 7,
+              "net_pnl": 12524521.662013808,
+              "avg_pnl": 1789217.3802876868,
+              "win_rate": 1.0,
+              "avg_r_multiple": 1.9247423901332474,
+              "median_r_multiple": 1.9268966287178537,
+              "avg_holding_bars": 8.142857142857142
+            }
+          }
+        }
+      ]
+    },
+    {
+      "setup": "SOS",
+      "years": [
+        {
+          "period": "2024",
+          "signal_events": 231,
+          "overall": {
+            "trades": 196,
+            "net_pnl": -43658373.88167188,
+            "avg_pnl": -222746.8055187341,
+            "win_rate": 0.29591836734693877,
+            "avg_r_multiple": -0.3014058509495608,
+            "median_r_multiple": -1.073243923788158,
+            "avg_holding_bars": 4.301020408163265
+          },
+          "by_exit_reason": {
+            "SL": {
+              "trades": 163,
+              "net_pnl": -90831210.94296315,
+              "avg_pnl": -557246.6929016145,
+              "win_rate": 0.15337423312883436,
+              "avg_r_multiple": -0.7416039028889285,
+              "median_r_multiple": -1.1004672341456017,
+              "avg_holding_bars": 4.098159509202454
+            },
+            "TP": {
+              "trades": 33,
+              "net_pnl": 47172837.061291255,
+              "avg_pnl": 1429479.91094822,
+              "win_rate": 1.0,
+              "avg_r_multiple": 1.8729057389327706,
+              "median_r_multiple": 1.8759832678715902,
+              "avg_holding_bars": 5.303030303030303
+            }
+          }
+        },
+        {
+          "period": "2025",
+          "signal_events": 303,
+          "overall": {
+            "trades": 249,
+            "net_pnl": -25054584.645669177,
+            "avg_pnl": -100620.82187015734,
+            "win_rate": 0.3172690763052209,
+            "avg_r_multiple": -0.12077086989068388,
+            "median_r_multiple": -0.9614383929970509,
+            "avg_holding_bars": 4.393574297188755
+          },
+          "by_exit_reason": {
+            "SL": {
+              "trades": 192,
+              "net_pnl": -111363828.2411382,
+              "avg_pnl": -580019.9387559282,
+              "win_rate": 0.11458333333333333,
+              "avg_r_multiple": -0.7240844647439859,
+              "median_r_multiple": -1.0544498643576732,
+              "avg_holding_bars": 3.9739583333333335
+            },
+            "TP": {
+              "trades": 57,
+              "net_pnl": 86309243.59546903,
+              "avg_pnl": 1514197.2560608601,
+              "win_rate": 1.0,
+              "avg_r_multiple": 1.9114433443520178,
+              "median_r_multiple": 1.916632466811714,
+              "avg_holding_bars": 5.807017543859649
+            }
+          }
+        },
+        {
+          "period": "2026",
+          "signal_events": 94,
+          "overall": {
+            "trades": 79,
+            "net_pnl": -734779.68096547,
+            "avg_pnl": -9301.008619816077,
+            "win_rate": 0.379746835443038,
+            "avg_r_multiple": -0.026266124088405222,
+            "median_r_multiple": -0.6411374576282777,
+            "avg_holding_bars": 7.405063291139241
+          },
+          "by_exit_reason": {
+            "SL": {
+              "trades": 61,
+              "net_pnl": -31646406.73290987,
+              "avg_pnl": -518793.5529985225,
+              "win_rate": 0.19672131147540983,
+              "avg_r_multiple": -0.6059982989318012,
+              "median_r_multiple": -1.0374302977600316,
+              "avg_holding_bars": 7.590163934426229
+            },
+            "TP": {
+              "trades": 18,
+              "net_pnl": 30911627.051944405,
+              "avg_pnl": 1717312.6139969113,
+              "win_rate": 1.0,
+              "avg_r_multiple": 1.9383818017697705,
+              "median_r_multiple": 1.9379248268356388,
+              "avg_holding_bars": 6.777777777777778
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

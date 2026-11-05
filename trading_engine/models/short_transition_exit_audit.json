@@ -1,0 +1,14 @@
+{
+  "execution": "raw transition-gated LPSY break-confirm trades only; no entry/exit configuration changes, ML or paper-trade changes",
+  "trades": 5,
+  "by_exit_reason": {
+    "SL": 4,
+    "TP": 1
+  },
+  "trailing_sl_exits": 1,
+  "mean_realized_r": -0.35782835706453886,
+  "mean_mfe_r": 1.1158495166578706,
+  "mean_mae_r": 1.1843101697614924,
+  "index_csv": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_transition_exit_audit\\transition_trade_r_multiples.csv",
+  "chart_directory": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_transition_exit_audit"
+}

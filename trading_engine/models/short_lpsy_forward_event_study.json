@@ -1,0 +1,37 @@
+{
+  "purpose": "event study only; no entry, backtest, ML, exit or paper-trade change",
+  "definition": "from the first actionable 1m bar after completed 5m LPSY, measure whether low reaches -1 ATR or high reaches +1 ATR first during the next 60 minutes",
+  "events": 44,
+  "outcomes": {
+    "Up1RBeforeDown1R": 22,
+    "Down1RBeforeUp1R": 21,
+    "No1RResolution60m": 1
+  },
+  "median_minutes_to_down_1r": 4.0,
+  "median_minutes_to_break_lpsy_low": 2.0,
+  "by_slow_trend_down": {
+    "false": {
+      "Down1RBeforeUp1R": 18,
+      "No1RResolution60m": 1,
+      "Up1RBeforeDown1R": 19
+    },
+    "true": {
+      "Down1RBeforeUp1R": 3,
+      "No1RResolution60m": 0,
+      "Up1RBeforeDown1R": 3
+    }
+  },
+  "by_transition_down": {
+    "false": {
+      "Down1RBeforeUp1R": 19,
+      "No1RResolution60m": 1,
+      "Up1RBeforeDown1R": 18
+    },
+    "true": {
+      "Down1RBeforeUp1R": 2,
+      "No1RResolution60m": 0,
+      "Up1RBeforeDown1R": 4
+    }
+  },
+  "cases_csv": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_lpsy_forward_event_study.csv"
+}

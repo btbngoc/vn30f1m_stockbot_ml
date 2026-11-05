@@ -1,0 +1,118 @@
+{
+  "execution": "independent raw Short audit; completed 5m UTAD -> Test -> LPSY is unchanged; no ML, model selection or paper-trade changes; commission=0 research mode with slippage and active ATR exits",
+  "fast_gate": "completed 15m Close < EMA20, EMA10 < EMA20, and EMA20.diff(3) < 0",
+  "event_counts": {
+    "slow_trend_lpsy": 7,
+    "transition_trend_lpsy": 6
+  },
+  "results": [
+    {
+      "setup": "SLOW_TREND_LPSY_BREAK_CONFIRM",
+      "all_history_events": 3,
+      "all_history": {
+        "trades": 3,
+        "net_pnl": -3136560.855802213,
+        "profit_factor": 0.0,
+        "win_rate": 0.0
+      },
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1019088.0648540314,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "setup": "TRANSITION_LPSY_BREAK_CONFIRM",
+      "all_history_events": 5,
+      "all_history": {
+        "trades": 5,
+        "net_pnl": -1717555.2841844365,
+        "profit_factor": 0.5225555827870028,
+        "win_rate": 0.2
+      },
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -255220.87559593274,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1145084.4800718187,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -980758.3526947383,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "setup": "TRANSITION_LPSY_RETEST_30M",
+      "all_history_events": 3,
+      "all_history": {
+        "trades": 3,
+        "net_pnl": -3272435.9360685977,
+        "profit_factor": 0.0,
+        "win_rate": 0.0
+      },
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1145084.4800718187,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -980758.3526947383,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    }
+  ]
+}

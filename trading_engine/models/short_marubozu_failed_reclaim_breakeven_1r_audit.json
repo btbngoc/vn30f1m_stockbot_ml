@@ -1,0 +1,41 @@
+{
+  "execution": "commission=0; same failed-reclaim entry and TP=2ATR/trailing; stop moves to entry only after completed candle MFE reaches +1R",
+  "stage_counts": {
+    "large_bearish_marubozus": 4309,
+    "failed_reclaims": 886
+  },
+  "all_history": {
+    "entry_events": 886,
+    "trades": 884,
+    "net_pnl": -79106618.59563296,
+    "profit_factor": 0.6748248663546744,
+    "win_rate": 0.27941176470588236
+  },
+  "years": [
+    {
+      "period": "2024",
+      "entry_events": 85,
+      "trades": 85,
+      "net_pnl": -29991215.311987527,
+      "profit_factor": 0.3871305987059379,
+      "win_rate": 0.18823529411764706
+    },
+    {
+      "period": "2025",
+      "entry_events": 73,
+      "trades": 73,
+      "net_pnl": 1765111.6865921274,
+      "profit_factor": 1.0453245436075806,
+      "win_rate": 0.3287671232876712
+    },
+    {
+      "period": "2026",
+      "entry_events": 39,
+      "trades": 39,
+      "net_pnl": -2385313.80671759,
+      "profit_factor": 0.8821989066268985,
+      "win_rate": 0.28205128205128205
+    }
+  ],
+  "trades_csv": "D:\\VN30F1M stock bot\\trading_engine\\models\\short_marubozu_failed_reclaim_breakeven_1r_trades.csv"
+}

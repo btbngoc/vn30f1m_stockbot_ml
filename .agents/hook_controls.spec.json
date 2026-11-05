@@ -1,0 +1,39 @@
+{
+  "status": "SPEC_ONLY_NOT_ACTIVE",
+  "tool_neutral": true,
+  "note": "Các event dưới đây là khái niệm, không phải tên event/API của công cụ. Cần adapter và enforcement thực tế.",
+  "controls": [
+    {
+      "id": "H01",
+      "conceptual_event": "before_source_share",
+      "check": "Đối chiếu source classification, allowed tool/account và sensitive-content scan",
+      "decision": "ALLOW / BLOCK / NEEDS_HUMAN",
+      "on_error": "Không tự cho phép chia sẻ khi chưa xác minh; chuyển review theo policy",
+      "evidence": "Source IDs, decision, timestamp; không log nguyên secret"
+    },
+    {
+      "id": "H02",
+      "conceptual_event": "before_write_or_external_action",
+      "check": "Target/path/action trong scope và quyền đã giao; cần approval nào",
+      "decision": "ALLOW / BLOCK / NEEDS_HUMAN",
+      "on_error": "Không thực hiện action bị kiểm soát khi không xác định được quyền",
+      "evidence": "Action type, target an toàn, scope version, decision"
+    },
+    {
+      "id": "H03",
+      "conceptual_event": "before_gate_transition",
+      "check": "Input/output version, required evidence và acceptance prerequisites đủ",
+      "decision": "ALLOW / BLOCK / NEEDS_HUMAN",
+      "on_error": "Giữ trạng thái, ghi prerequisite thiếu",
+      "evidence": "Gate ID, version, evidence references, actor/decision"
+    },
+    {
+      "id": "H04",
+      "conceptual_event": "after_step_completion",
+      "check": "Lưu step result và state; không ghi thực thi khi chỉ tạo nháp",
+      "decision": "RECORDED / RECORD_FAILED",
+      "on_error": "Báo lỗi lưu trạng thái, không coi đã bàn giao; không log nội dung nhạy cảm",
+      "evidence": "Step ID, output/evidence refs, storage result"
+    }
+  ]
+}

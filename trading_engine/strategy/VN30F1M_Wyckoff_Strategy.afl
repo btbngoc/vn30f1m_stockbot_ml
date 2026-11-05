@@ -1,0 +1,1049 @@
+//==============================================================================
+// CHIẾN LƯỢC: VN30F1M WYCKOFF MULTI-TIMEFRAME (1M - 5M - 15M)
+// PHIÊN BẢN: 2.2 (Sửa lỗi biến colorCyan, shapeCross và hàm DateTimeToStr)
+// THIẾT KẾ DÀNH CHO: AmiBroker (Khung thời gian biểu đồ gốc: 1 Phút)
+// BẢN QUYỀN / TÁC GIẢ: VN30F1M Bot Trading Engine
+//==============================================================================
+
+SetFormulaName("VN30F1M_Wyckoff_MTF_V2_Visual");
+SetBarsRequired(sbrAll, sbrAll);
+
+//------------------------------------------------------------------------------
+// 1. CẤU HÌNH THÔNG SỐ VÀ BACKTEST SETTINGS
+//------------------------------------------------------------------------------
+SetOption("InitialEquity", 100000000);   // Vốn khởi tạo: 100,000,000 VND
+SetOption("FuturesMode", True);
+SetOption("MinShares", 1);
+SetOption("PriceBoundChecking", True);
+SetOption("CommissionMode", 2);          // Phí cố định theo HĐ
+SetOption("CommissionAmount", 15000);     // Thuế, phí giao dịch và quản lý vị thế thực tế: 15,000 VND / HĐ / chiều (30,000 VND round-trip)
+SetTradeDelays(0, 0, 0, 0);              // Khớp ngay tại nến tín hiệu
+PositionSize = MarginDeposit = 1;        // Cố định khối lượng giao dịch 1 hợp đồng
+PointValue = 100000;                     // 1 điểm VN30F1M = 100,000 VND
+
+// Nhóm thông số Quản trị Rủi ro
+_SECTION_BEGIN("Quản Trị Rủi Ro");
+RiskPerTrade       = Param("Risk Per Trade (%)", 1.0, 0.5, 5.0, 0.5) / 100;
+SL_ATR_Mult        = Param("Stop Loss ATR Mult", 1.0, 0.5, 3.0, 0.1);
+EnableFixedTP      = ParamToggle("Mục Tiêu Chốt Lời Cố Định (TP)", "Tắt (Thả Lãi Trôi Theo Trailing SL 1.5x)|Bật Chốt Lời Cố Định", 0);
+TP_ATR_Mult        = Param("Take Profit ATR Mult (Nếu Bật)", 4.0, 1.0, 6.0, 0.5);
+Trail_ATR_Mult     = Param("Trailing Stop ATR Mult", 1.5, 0.5, 3.0, 0.1);
+Hard_SL_Mult       = Param("Hard Stop Loss Mult", 2.5, 1.5, 5.0, 0.5);
+MaxHoldingBars     = Param("Max Holding Bars (0 = Tắt TimeLimit)", 0, 0, 120, 5); // Mặc định tắt TimeLimit 50 phút theo yêu cầu
+CooldownBars       = Param("Cooldown Bars after exit", 15, 1, 30, 1);
+SlippagePoints     = Param("Slippage Points", 0.10, 0.0, 0.5, 0.05);
+_SECTION_END();
+
+// Nhóm tùy chọn hiển thị Đồ họa & Đánh dấu
+_SECTION_BEGIN("Tùy Chọn Đồ Họa & Nhãn");
+CandleStyleOption  = ParamList("Kiểu Nến (Candle Style)", "Nến Đặc Ruột Xanh/Đỏ Hiện Đại|Nến Rỗng (Hollow)|Nến Chuẩn AmiBroker", 0);
+TradeLabelMode     = ParamList("Hiển thị Nhãn Text Entry / Exit", "Tắt Nhãn Text (Chỉ Hiện Mũi Tên)|Ngắn Gọn (Khuyên Dùng)|Đầy Đủ Chi Tiết", 0);
+ShowEntryLine      = ParamToggle("Vẽ Đường Giá Entry Nối Dài", "Tắt|Bật", 1);
+ShowSLTPBands      = ParamToggle("Hiển thị Đường SL & TP", "Tắt|Bật", 1);
+ShowPositionRibbon = ParamToggle("Hiển thị Dải Trạng Thái Vị Thế", "Tắt|Bật", 1);
+ShowVolume         = ParamToggle("Hiển thị Khối Lượng Volume Đáy Chart", "Tắt|Bật", 1);
+VolHeightPct       = Param("Độ Cao Cột Volume (%)", 20, 10, 40, 5) / 100;
+_SECTION_END();
+
+// Nhóm kết nối AutoTrade (AmiX Direct & Python Realtime Engine)
+_SECTION_BEGIN("Cấu Hình AutoTrade: AmiX & Python Engine");
+AutoTradeMode       = ParamList("1. Chế Độ Đẩy Lệnh", "1. Đẩy Trực Tiếp Sang Ami X (Port 7979)|2. Đẩy Sang Python Webhook (Port 8000)|3. AmiX Đặt Lệnh + Python Giám Sát (Không Double Lệnh)|Tắt Đẩy Lệnh", 0);
+Webhook_Symbol      = ParamStr("2. Mã Hợp Đồng", "VN30F1M");
+Webhook_Volume      = Param("3. Khối Lượng (HĐ)", 1, 1, 100, 1);
+AutoRefreshSec      = Param("4. Tần Số Refresh Chart (Giây)", 1, 1, 10, 1);
+
+// Cấu hình đẩy trực tiếp sang Ami X (Port 7979)
+AmiX_Host           = ParamStr("AmiX Base URL", "http://localhost:7979");
+AmiX_Price_Mode     = ParamList("AmiX Loại Giá Đặt", "MTL (Khớp Ngay Thị Trường)|LO (Theo Giá Nến)", 0);
+AmiX_Account        = ParamStr("AmiX Số TK (Để trống = Tự lấy)", "");
+AmiX_LoanID         = ParamStr("AmiX Mã Gói Vay (Loan)", "2403");
+ForceExitNow        = ParamToggle("5. ĐÓNG LỆNH NGAY (Chốt Lời/Cắt Lỗ Nến Này)", "Tắt (Chạy Theo Thuật Toán)|BẬT ĐÓNG LỆNH NGAY", 0);
+AmiX_TestPing       = ParamTrigger("AmiX Bắn Lệnh Test Thử", "BẤM TEST AMIX");
+AmiX_CloseDealsBtn  = ParamTrigger("AmiX Đóng Hết Deals Khẩn Cấp", "BẤM ĐÓNG TOÀN BỘ DEALS");
+AmiX_ResetSyncBtn   = ParamTrigger("Đồng Bộ: Đã Đóng Deal Ngoài App", "BẤM RESET VỀ 0 (FLAT)");
+
+// Cấu hình đẩy sang Python Webhook Bridge (Port 8000)
+Python_Webhook_URL  = ParamStr("Python Webhook URL", "http://localhost:8000/webhook/signal");
+Python_TestPing     = ParamTrigger("Python Test Ping Webhook", "BẤM TEST PYTHON");
+_SECTION_END();
+
+RequestTimedRefresh(AutoRefreshSec);
+
+//------------------------------------------------------------------------------
+// 2. TÍNH TOÁN DỮ LIỆU ĐA KHUNG THỜI GIAN (MULTI-TIMEFRAME: 15M & 5M)
+//------------------------------------------------------------------------------
+
+// === A. KHUNG LỚN 15 PHÚT (TREND GATE & BẢO VỆ STOP LOSS ĐẢO CHIỀU) ===
+TimeFrameSet(in15Minute);
+C_15m = Close;
+H_15m = High;
+L_15m = Low;
+EMA10_15m = EMA(Close, 10);
+EMA20_15m = EMA(Close, 20);
+EMA50_15m = EMA(Close, 50);
+EMA200_15m = EMA(Close, 200);
+ATR_15m = ATR(14);
+
+// Xác nhận Uptrend / Downtrend 15m
+HTF_15m_TrendOK = (EMA200_15m > Ref(EMA200_15m, -10)) AND (EMA50_15m > EMA200_15m) AND (C_15m > EMA50_15m);
+HTF_15m_TrendDownOK = (EMA200_15m < Ref(EMA200_15m, -10)) AND (EMA50_15m < EMA200_15m) AND (C_15m < EMA50_15m);
+HTF_15m_TrendTransitionDown = (C_15m < EMA20_15m) AND (EMA10_15m < EMA20_15m) AND (EMA20_15m < Ref(EMA20_15m, -3));
+
+// Xác nhận đảo chiều tăng khung 15m (Dùng để kích hoạt Soft Stop Loss cho lệnh Short)
+HTF_15m_Reversal = HTF_15m_TrendOK OR (NOT HTF_15m_TrendDownOK AND NOT HTF_15m_TrendTransitionDown);
+TimeFrameRestore();
+
+// Mở rộng dữ liệu 15m về khung 1m (Tránh tương lai Lookahead bằng expandFirst)
+HTF_15m_TrendOK_1m             = TimeFrameExpand(HTF_15m_TrendOK, in15Minute, expandFirst);
+HTF_15m_TrendDownOK_1m         = TimeFrameExpand(HTF_15m_TrendDownOK, in15Minute, expandFirst);
+HTF_15m_TrendTransitionDown_1m = TimeFrameExpand(HTF_15m_TrendTransitionDown, in15Minute, expandFirst);
+HTF_15m_Reversal_1m            = TimeFrameExpand(HTF_15m_Reversal, in15Minute, expandFirst);
+HTF_15m_ATR_1m                 = TimeFrameExpand(ATR_15m, in15Minute, expandFirst);
+EMA20_15m_1m                   = TimeFrameExpand(EMA20_15m, in15Minute, expandFirst);
+
+// === B. KHUNG TRUNG BÌNH 5 PHÚT (CẤU TRÚC HỘP & WYCKOFF SETUPS) ===
+TimeFrameSet(in5Minute);
+C_5m = Close;
+H_5m = High;
+L_5m = Low;
+V_5m = Volume;
+EMA20_5m = EMA(Close, 20);
+ATR_5m = ATR(14);
+VolMA20_5m = MA(Volume, 20);
+
+// Khung dao động giá 24 nến 5m
+RangeHigh_5m = Ref(HHV(High, 24), -1);
+RangeLow_5m  = Ref(LLV(Low, 24), -1);
+RangeWidth_5m = RangeHigh_5m - RangeLow_5m;
+
+// Điều kiện hộp Phân phối / Tích lũy 5m
+Distribution_5m = (RangeWidth_5m >= ATR_5m * 2.0) AND (RangeWidth_5m <= ATR_5m * 10.0) AND (abs(EMA20_5m - Ref(EMA20_5m, -12)) <= ATR_5m * 1.5);
+SupplyZone_5m   = Distribution_5m AND (C_5m >= RangeHigh_5m - RangeWidth_5m * 0.40);
+DemandZone_5m   = Distribution_5m AND (C_5m <= RangeLow_5m + RangeWidth_5m * 0.40);
+
+// Setup 1: UTAD Bull Trap Phase C (Rướn vượt đỉnh giả, râu trên dài, volume lớn)
+Spread_5m = H_5m - L_5m;
+UTAD_5m = (H_5m > RangeHigh_5m) AND (V_5m >= VolMA20_5m * 1.30) AND 
+          (H_5m - C_5m >= Spread_5m * 0.40) AND (C_5m <= L_5m + Spread_5m * 0.40);
+
+// Setup 3: LPSY (Test kháng cự yếu ớt)
+LPSY_5m = SupplyZone_5m AND (V_5m <= VolMA20_5m * 0.80) AND (C_5m <= (H_5m + L_5m) / 2);
+
+// Setup 4: SOW (Sign of Weakness gãy hỗ trợ hộp)
+SOW_5m = (C_5m < RangeLow_5m) AND (V_5m >= VolMA20_5m * 1.20);
+
+// Setup Long: 
+// 1. Spring & Test (Phase C rũ bỏ xuyên thủng đáy hộp)
+Spring_5m = (L_5m < RangeLow_5m) AND (C_5m > RangeLow_5m) AND (V_5m >= VolMA20_5m * 1.30) AND (C_5m >= L_5m + Spread_5m * 0.60);
+Test_5m   = DemandZone_5m AND (L_5m <= RangeLow_5m + 1.5 * ATR_5m) AND (V_5m <= VolMA20_5m * 0.70);
+
+// 3. LPS (Last Point of Support trên 5m)
+LPS_5m    = DemandZone_5m AND (V_5m <= VolMA20_5m * 0.80) AND (C_5m >= (H_5m + L_5m) / 2);
+
+// 4. SOS (Sign of Strength bứt phá đỉnh hộp 5m)
+SOS_5m    = (C_5m > RangeHigh_5m) AND (V_5m >= VolMA20_5m * 1.20);
+TimeFrameRestore();
+
+// Mở rộng dữ liệu 5m về khung 1m
+RangeHigh_5m_1m = TimeFrameExpand(RangeHigh_5m, in5Minute, expandFirst);
+RangeLow_5m_1m  = TimeFrameExpand(RangeLow_5m, in5Minute, expandFirst);
+SupplyZone_1m   = TimeFrameExpand(SupplyZone_5m, in5Minute, expandFirst);
+DemandZone_1m   = TimeFrameExpand(DemandZone_5m, in5Minute, expandFirst);
+UTAD_1m         = TimeFrameExpand(UTAD_5m, in5Minute, expandFirst);
+LPSY_1m         = TimeFrameExpand(LPSY_5m, in5Minute, expandFirst);
+SOW_1m          = TimeFrameExpand(SOW_5m, in5Minute, expandFirst);
+Spring_1m       = TimeFrameExpand(Spring_5m, in5Minute, expandFirst);
+Test_1m         = TimeFrameExpand(Test_5m, in5Minute, expandFirst);
+LPS_1m          = TimeFrameExpand(LPS_5m, in5Minute, expandFirst);
+SOS_1m          = TimeFrameExpand(SOS_5m, in5Minute, expandFirst);
+HTF_5m_ATR_1m   = TimeFrameExpand(ATR_5m, in5Minute, expandFirst);
+
+//------------------------------------------------------------------------------
+// 3. TÍNH TOÁN CHỈ BÁO KHUNG 1 PHÚT & BỘ LỌC VSA (NO DEMAND / NO SUPPLY)
+//------------------------------------------------------------------------------
+EMA10_1m = EMA(Close, 10);
+EMA20_1m = EMA(Close, 20);
+EMA50_1m = EMA(Close, 50);
+ATR_1m   = ATR(14);
+VolMA20_1m = MA(Volume, 20);
+
+// VWAP nội ngày
+PV = (High + Low + Close) / 3 * Volume;
+BarsNewDay = 1 + BarsSince(Day() != Ref(Day(), -1));
+CumPV = Sum(PV, BarsNewDay);
+CumVol = Sum(Volume, BarsNewDay);
+VWAP_1m = IIf(CumVol > 0 AND CumPV > 0, CumPV / CumVol, Close);
+
+// Chênh lệch giá & Nến VSA 1m
+Spread_1m = Max(High - Low, 0.001);
+MedianSpread_1m = MA(Spread_1m, 20);
+
+// VSA No Demand: Test kháng cự, Vol thấp, Spread hẹp hoặc râu trên dài
+AtResistance = (High >= EMA20_1m) OR (High >= VWAP_1m) OR (Close < EMA10_1m);
+UpperWickOrWeakClose = (High - Close >= Spread_1m * 0.35) OR (Close <= Low + Spread_1m * 0.50);
+NoDemand_1m = (Volume <= VolMA20_1m * 0.85) AND (Spread_1m <= MedianSpread_1m * 0.95) AND AtResistance AND UpperWickOrWeakClose;
+
+// VSA No Supply: Thử nghiệm hỗ trợ, Vol thấp, Spread hẹp hoặc râu dưới dài (rút chân)
+AtSupport = (Low <= EMA20_1m) OR (Low <= VWAP_1m) OR (Close > EMA10_1m);
+LowerWickOrStrongClose = (Close - Low >= Spread_1m * 0.35) OR (Close >= Low + Spread_1m * 0.50);
+NoSupply_1m = (Volume <= VolMA20_1m * 0.85) AND (Spread_1m <= MedianSpread_1m * 0.95) AND AtSupport AND LowerWickOrStrongClose;
+
+//------------------------------------------------------------------------------
+// 4. KÍCH HOẠT TÍN HIỆU THEO 4 NHÓM SETUP WYCKOFF ĐỐI XỨNG
+//------------------------------------------------------------------------------
+
+// Bộ lọc xu hướng lớn cho Short
+HardShortTrend = HTF_15m_TrendDownOK_1m OR HTF_15m_TrendTransitionDown_1m;
+
+// 1. UTAD Upthrust Rejection (Cửa sổ 6 nến 1m)
+UTAD_Active = BarsSince(UTAD_1m) <= 6;
+UTAD_Short_Timing = UTAD_Active AND NoDemand_1m AND (HTF_15m_TrendOK_1m == 0);
+
+// 2. Supply Zone Retest (Đã bổ sung điều kiện nến 1m gãy dưới EMA10)
+Supply_Active = BarsSince(SupplyZone_1m) <= 6;
+Supply_Short_Timing = Supply_Active AND HardShortTrend AND NoDemand_1m AND (Close < Open) AND (Close < EMA10_1m);
+
+// 3. Setup 3: LPSY Resistance Retest (Cửa sổ 3 nến 1m)
+LPSY_Active = BarsSince(LPSY_1m) <= 3;
+LPSY_Short_Timing = LPSY_Active AND HardShortTrend AND NoDemand_1m;
+
+// 4. Setup 4: SOW Weak Pullback (Cửa sổ 12 nến 1m)
+SOW_Active = BarsSince(SOW_1m) <= 12;
+WeakPullback = (High <= Ref(High, -1)) AND (Close < EMA10_1m);
+SOW_Short_Timing = SOW_Active AND HardShortTrend AND (WeakPullback OR NoDemand_1m);
+
+// Tổng hợp ứng viên Short chuẩn mực
+ShortCandidate = (HardShortTrend OR UTAD_Short_Timing) AND 
+                 (UTAD_Short_Timing OR Supply_Short_Timing OR LPSY_Short_Timing OR SOW_Short_Timing);
+RawShortSignal = ShortCandidate AND NOT Ref(ShortCandidate, -1);
+
+// Bộ lọc xu hướng lớn cho Long (Symmetric với HardShortTrend)
+HardLongTrend = HTF_15m_TrendOK_1m OR ((Close > EMA50_1m) AND (EMA20_1m > EMA50_1m));
+
+// 1. Setup 1: Spring Phase C & Test (Cửa sổ 6 nến 1m)
+Spring_Active = BarsSince(Spring_1m OR Test_1m) <= 6;
+Spring_Timing = Spring_Active AND (NoSupply_1m OR ((Close > Open) AND (Close > EMA10_1m))) AND (HTF_15m_TrendDownOK_1m == 0);
+
+// 2. Setup 2: Demand Zone Retest (Cửa sổ 6 nến 1m)
+Demand_Active = BarsSince(DemandZone_1m) <= 6;
+Demand_Timing = Demand_Active AND HardLongTrend AND NoSupply_1m AND (Close > Open) AND (Close > EMA10_1m);
+
+// 3. Setup 3: LPS Support Reclaim (Cửa sổ 3 nến 1m)
+LPS_Active = BarsSince(LPS_1m) <= 3;
+LPS_Timing = LPS_Active AND HardLongTrend AND NoSupply_1m;
+
+// 4. Setup 4: SOS Breakout Pullback (Cửa sổ 12 nến 1m)
+SOS_Active = BarsSince(SOS_1m) <= 12;
+StrongPullback = (Low >= Ref(Low, -1)) AND (Close > EMA10_1m);
+SOS_Timing = SOS_Active AND HardLongTrend AND (StrongPullback OR NoSupply_1m);
+
+// Tổng hợp ứng viên Long chuẩn mực (4 Setups đối xứng)
+LongCandidate = (HardLongTrend OR Spring_Timing) AND 
+                (Spring_Timing OR Demand_Timing OR LPS_Timing OR SOS_Timing);
+RawBuySignal = LongCandidate AND NOT Ref(LongCandidate, -1);
+
+//------------------------------------------------------------------------------
+// 5. CƠ CHẾ THOÁT LỆNH ĐA TẦNG VÀ STATE MACHINE MÔ PHỎNG THỰC THI
+//------------------------------------------------------------------------------
+Buy = Short = Sell = Cover = 0;
+BuyPrice = ShortPrice = SellPrice = CoverPrice = 0;
+
+Pos = 0; // 0: Flat, 1: Long, -1: Short
+EntryPrice = 0;
+InitialSL = TrailingSL = HardSL = TakeProfit = 0;
+TradeATR = 0;
+EntryBar = 0;
+CooldownTimer = 0;
+CurrentSetup = "";
+
+// Các mảng dữ liệu phục vụ vẽ trực quan trên đồ thị
+PlotSL        = Null;
+PlotHardSL    = Null;
+PlotTP        = Null;
+PlotEntryLine = Null;
+PosRibbon     = Null;
+PlotEntryDot  = Null;
+PlotInitSLDot = Null;
+PlotExitDot   = Null;
+
+// Mảng đánh dấu hình dạng exit đặc biệt
+IsTP_Exit     = 0;
+IsHardSL_Exit = 0;
+
+for (i = 1; i < BarCount; i++)
+{
+    if (CooldownTimer > 0) CooldownTimer--;
+
+    // === XỬ LÝ KHI ĐANG GIỮ VỊ THẾ ===
+    if (Pos != 0)
+    {
+        ExitFlag = False;
+        ExitReason = "";
+        CurrentExitPrice = 0;
+
+        if (Pos == -1) // VỊ THẾ SHORT
+        {
+            // 1. Tầng 1: Emergency Hard SL (Cắt lỗ khẩn cấp chống giật sốc)
+            if (High[i] >= HardSL)
+            {
+                Cover[i] = 1;
+                CoverPrice[i] = HardSL + SlippagePoints;
+                ExitFlag = True;
+                ExitReason = "Hard_SL";
+                IsHardSL_Exit[i] = 1;
+                CurrentExitPrice = CoverPrice[i];
+            }
+            // 2. Tầng 2: Trailing Stop khóa lãi khi đã ở vùng có lời
+            else if (TrailingSL <= EntryPrice AND High[i] >= TrailingSL)
+            {
+                Cover[i] = 1;
+                CoverPrice[i] = TrailingSL + SlippagePoints;
+                ExitFlag = True;
+                ExitReason = "Trail_SL";
+                CurrentExitPrice = CoverPrice[i];
+            }
+            // 3. Tầng 3: Soft Stop Loss VÙNG LỖ - CHỈ THOÁT KHI 15M ĐẢO CHIỀU TĂNG!
+            else if (High[i] >= TrailingSL AND HTF_15m_Reversal_1m[i] == 1)
+            {
+                Cover[i] = 1;
+                CoverPrice[i] = TrailingSL + SlippagePoints;
+                ExitFlag = True;
+                ExitReason = "15m_Rev_SL";
+                CurrentExitPrice = CoverPrice[i];
+            }
+            // 4. Take Profit đạt mục tiêu (Chỉ kích hoạt nếu bật EnableFixedTP)
+            else if (EnableFixedTP AND Low[i] <= TakeProfit)
+            {
+                Cover[i] = 1;
+                CoverPrice[i] = TakeProfit - SlippagePoints;
+                ExitFlag = True;
+                ExitReason = "Take_Profit";
+                IsTP_Exit[i] = 1;
+                CurrentExitPrice = CoverPrice[i];
+            }
+            // 5. TimeLimit (Chỉ bật nếu MaxHoldingBars > 0)
+            else if (MaxHoldingBars > 0 AND i - EntryBar >= MaxHoldingBars)
+            {
+                Cover[i] = 1;
+                CoverPrice[i] = Close[i] + SlippagePoints;
+                ExitFlag = True;
+                ExitReason = "TimeLimit";
+                CurrentExitPrice = CoverPrice[i];
+            }
+            // 6. Đóng lệnh chủ động bằng tay / Bấm Reset vị thế về 0
+            else if (i == BarCount - 1 AND (ForceExitNow OR StaticVarGetText("Wyckoff_Last_Action") == "FLAT"))
+            {
+                Cover[i] = 1;
+                CoverPrice[i] = Close[i];
+                ExitFlag = True;
+                ExitReason = "Manual_Exit";
+                CurrentExitPrice = CoverPrice[i];
+            }
+
+            if (ExitFlag)
+            {
+                PlotExitDot[i] = CurrentExitPrice;
+            }
+
+            // ĐÁNH DẤU NHÃN TEXT LỆNH EXIT CHO SHORT
+            if (ExitFlag AND TradeLabelMode != "Tắt Nhãn Text (Chỉ Hiện Mũi Tên)")
+            {
+                Pts = EntryPrice - CurrentExitPrice;
+                PtsStr = WriteIf(Pts >= 0, "+" + NumToStr(Pts, 1.1) + "đ", NumToStr(Pts, 1.1) + "đ");
+                VndStr = WriteIf(Pts >= 0, "+" + NumToStr(Pts * 100, 1.0) + "k", NumToStr(Pts * 100, 1.0) + "k");
+                BoxColor = ColorRGB(180, 30, 30);
+                if (Pts >= 0) BoxColor = ColorRGB(0, 130, 50);
+                
+                if (TradeLabelMode == "Ngắn Gọn (Khuyên Dùng)")
+                {
+                    LabelText = StrFormat("ĐÓNG SHORT: %s\n%s", PtsStr, ExitReason);
+                }
+                else
+                {
+                    LabelText = StrFormat("CLOSE SHORT (%s)\nGiá: %g | %s (%s)", ExitReason, CurrentExitPrice, PtsStr, VndStr);
+                }
+                PlotText(LabelText, i, Low[i], colorWhite, BoxColor, 36);
+            }
+
+            // Dời Trailing Stop xuống theo đà giảm giá nếu chưa đóng vị thế
+            if (NOT ExitFlag)
+            {
+                TrailingSL = Min(TrailingSL, Close[i] + Trail_ATR_Mult * HTF_5m_ATR_1m[i]);
+            }
+        }
+        else if (Pos == 1) // VỊ THẾ LONG (3 TẦNG BẢO VỆ ĐỐI XỨNG)
+        {
+            // 1. Tầng 1: Emergency Hard SL (Cắt lỗ khẩn cấp)
+            if (Low[i] <= HardSL)
+            {
+                Sell[i] = 1;
+                SellPrice[i] = HardSL - SlippagePoints;
+                ExitFlag = True;
+                ExitReason = "Hard_SL";
+                IsHardSL_Exit[i] = 1;
+                CurrentExitPrice = SellPrice[i];
+            }
+            // 2. Tầng 2: Trailing Stop khóa lãi khi đã có lợi nhuận
+            else if (TrailingSL >= EntryPrice AND Low[i] <= TrailingSL)
+            {
+                Sell[i] = 1;
+                SellPrice[i] = TrailingSL - SlippagePoints;
+                ExitFlag = True;
+                ExitReason = "Trail_SL";
+                CurrentExitPrice = SellPrice[i];
+            }
+            // 3. Tầng 3: Soft Stop Loss VÙNG LỖ - CHỈ THOÁT KHI 15M ĐẢO CHIỀU GIẢM!
+            else if (Low[i] <= TrailingSL AND (HTF_15m_TrendDownOK_1m[i] == 1 OR HTF_15m_TrendTransitionDown_1m[i] == 1))
+            {
+                Sell[i] = 1;
+                SellPrice[i] = TrailingSL - SlippagePoints;
+                ExitFlag = True;
+                ExitReason = "15m_Rev_SL";
+                CurrentExitPrice = SellPrice[i];
+            }
+            // 4. Take Profit đạt mục tiêu (Chỉ kích hoạt nếu bật EnableFixedTP)
+            else if (EnableFixedTP AND High[i] >= TakeProfit)
+            {
+                Sell[i] = 1;
+                SellPrice[i] = TakeProfit + SlippagePoints;
+                ExitFlag = True;
+                ExitReason = "Take_Profit";
+                IsTP_Exit[i] = 1;
+                CurrentExitPrice = SellPrice[i];
+            }
+            // 5. TimeLimit (Chỉ bật nếu MaxHoldingBars > 0)
+            else if (MaxHoldingBars > 0 AND i - EntryBar >= MaxHoldingBars)
+            {
+                Sell[i] = 1;
+                SellPrice[i] = Close[i] - SlippagePoints;
+                ExitFlag = True;
+                ExitReason = "TimeLimit";
+                CurrentExitPrice = SellPrice[i];
+            }
+            // 6. Đóng lệnh chủ động bằng tay / Bấm Reset vị thế về 0
+            else if (i == BarCount - 1 AND (ForceExitNow OR StaticVarGetText("Wyckoff_Last_Action") == "FLAT"))
+            {
+                Sell[i] = 1;
+                SellPrice[i] = Close[i];
+                ExitFlag = True;
+                ExitReason = "Manual_Exit";
+                CurrentExitPrice = SellPrice[i];
+            }
+
+            if (ExitFlag)
+            {
+                PlotExitDot[i] = CurrentExitPrice;
+            }
+
+            // ĐÁNH DẤU NHÃN TEXT LỆNH EXIT CHO LONG
+            if (ExitFlag AND TradeLabelMode != "Tắt Nhãn Text (Chỉ Hiện Mũi Tên)")
+            {
+                Pts = CurrentExitPrice - EntryPrice;
+                PtsStr = WriteIf(Pts >= 0, "+" + NumToStr(Pts, 1.1) + "đ", NumToStr(Pts, 1.1) + "đ");
+                VndStr = WriteIf(Pts >= 0, "+" + NumToStr(Pts * 100, 1.0) + "k", NumToStr(Pts * 100, 1.0) + "k");
+                BoxColor = ColorRGB(180, 30, 30);
+                if (Pts >= 0) BoxColor = ColorRGB(0, 130, 50);
+                
+                if (TradeLabelMode == "Ngắn Gọn (Khuyên Dùng)")
+                {
+                    LabelText = StrFormat("ĐÓNG LONG: %s\n%s", PtsStr, ExitReason);
+                }
+                else
+                {
+                    LabelText = StrFormat("CLOSE LONG (%s)\nGiá: %g | %s (%s)", ExitReason, CurrentExitPrice, PtsStr, VndStr);
+                }
+                PlotText(LabelText, i, High[i], colorWhite, BoxColor, -36);
+            }
+
+            if (NOT ExitFlag)
+            {
+                TrailingSL = Max(TrailingSL, Close[i] - Trail_ATR_Mult * HTF_5m_ATR_1m[i]);
+            }
+        }
+
+        // Ghi nhận mảng để vẽ lên đồ thị
+        PlotSL[i]        = TrailingSL;
+        PlotHardSL[i]    = HardSL;
+        PlotTP[i]        = TakeProfit;
+        PlotEntryLine[i] = EntryPrice;
+        PosRibbon[i]     = IIf(Pos == 1, colorDarkGreen, colorDarkRed);
+
+        // Reset vị thế sau khi đóng lệnh
+        if (ExitFlag)
+        {
+            Pos = 0;
+            CooldownTimer = CooldownBars;
+        }
+    }
+
+    // === MỞ VỊ THẾ MỚI KHI ĐANG FLAT ===
+    if (Pos == 0 AND CooldownTimer == 0)
+    {
+        if (RawShortSignal[i] == 1)
+        {
+            Pos = -1;
+            EntryPrice = Close[i] - SlippagePoints;
+            Short[i] = 1;
+            ShortPrice[i] = EntryPrice;
+            EntryBar = i;
+
+            // Xác định tên Setup Short kích hoạt
+            if (UTAD_Short_Timing[i])        CurrentSetup = "UTAD BullTrap";
+            else if (Supply_Short_Timing[i]) CurrentSetup = "Supply Retest";
+            else if (SOW_Short_Timing[i])     CurrentSetup = "SOW Pullback";
+            else if (LPSY_Short_Timing[i])    CurrentSetup = "LPSY Retest";
+            else                             CurrentSetup = "Wyckoff Short";
+
+            // Tính ATR khung lớn cho Short
+            if (UTAD_Short_Timing[i]) TradeATR = HTF_15m_ATR_1m[i];
+            else TradeATR = HTF_5m_ATR_1m[i];
+            if (TradeATR <= 0) TradeATR = ATR_1m[i] * 2.0;
+
+            InitialSL   = EntryPrice + SL_ATR_Mult * TradeATR;
+            TrailingSL  = InitialSL;
+            HardSL      = EntryPrice + Hard_SL_Mult * TradeATR;
+            TakeProfit  = IIf(EnableFixedTP, EntryPrice - TP_ATR_Mult * TradeATR, Null);
+
+            PlotSL[i]        = TrailingSL;
+            PlotHardSL[i]    = HardSL;
+            PlotTP[i]        = TakeProfit;
+            PlotEntryLine[i] = EntryPrice;
+            PosRibbon[i]     = colorDarkRed;
+            PlotEntryDot[i]  = EntryPrice;
+            PlotInitSLDot[i] = InitialSL;
+
+            // ĐÁNH DẤU NHÃN TEXT ENTRY SHORT NGAY TRÊN ĐẦU CÂY NẾN
+            if (TradeLabelMode != "Tắt Nhãn Text (Chỉ Hiện Mũi Tên)")
+            {
+                if (TradeLabelMode == "Ngắn Gọn (Khuyên Dùng)")
+                {
+                    LabelText = StrFormat("BÁN SHORT @ %g\n%s", EntryPrice, CurrentSetup);
+                }
+                else
+                {
+                    tpStr = WriteIf(EnableFixedTP, NumToStr(TakeProfit, 1.1), "Thả Lãi Trôi");
+                    LabelText = StrFormat("ENTRY SHORT @%g\nSetup: %s\nSL: %g | TP: %s", EntryPrice, CurrentSetup, TrailingSL, tpStr);
+                }
+                PlotText(LabelText, i, High[i], colorWhite, ColorRGB(190, 30, 30), -36);
+            }
+        }
+        else if (RawBuySignal[i] == 1)
+        {
+            Pos = 1;
+            EntryPrice = Close[i] + SlippagePoints;
+            Buy[i] = 1;
+            BuyPrice[i] = EntryPrice;
+            EntryBar = i;
+
+            // Xác định tên Setup Long kích hoạt
+            if (Spring_Timing[i])            CurrentSetup = "Spring Test";
+            else if (Demand_Timing[i])       CurrentSetup = "Demand Retest";
+            else if (LPS_Timing[i])          CurrentSetup = "LPS Reclaim";
+            else if (SOS_Timing[i])          CurrentSetup = "SOS Pullback";
+            else                             CurrentSetup = "Wyckoff Long";
+
+            // Tính ATR khung lớn cho Long
+            if (Spring_Timing[i]) TradeATR = HTF_15m_ATR_1m[i];
+            else TradeATR = HTF_5m_ATR_1m[i];
+            if (TradeATR <= 0) TradeATR = ATR_1m[i] * 2.0;
+
+            InitialSL   = EntryPrice - SL_ATR_Mult * TradeATR;
+            TrailingSL  = InitialSL;
+            HardSL      = EntryPrice - Hard_SL_Mult * TradeATR;
+            TakeProfit  = IIf(EnableFixedTP, EntryPrice + TP_ATR_Mult * TradeATR, Null);
+
+            PlotSL[i]        = TrailingSL;
+            PlotHardSL[i]    = HardSL;
+            PlotTP[i]        = TakeProfit;
+            PlotEntryLine[i] = EntryPrice;
+            PosRibbon[i]     = colorDarkGreen;
+            PlotEntryDot[i]  = EntryPrice;
+            PlotInitSLDot[i] = InitialSL;
+
+            // ĐÁNH DẤU NHÃN TEXT ENTRY LONG NGAY DƯỚI ĐÁY CÂY NẾN
+            if (TradeLabelMode != "Tắt Nhãn Text (Chỉ Hiện Mũi Tên)")
+            {
+                if (TradeLabelMode == "Ngắn Gọn (Khuyên Dùng)")
+                {
+                    LabelText = StrFormat("MUA LONG @ %g\n%s", EntryPrice, CurrentSetup);
+                }
+                else
+                {
+                    tpStr = WriteIf(EnableFixedTP, NumToStr(TakeProfit, 1.1), "Thả Lãi Trôi");
+                    LabelText = StrFormat("ENTRY LONG @%g\nSetup: %s\nSL: %g | TP: %s", EntryPrice, CurrentSetup, TrailingSL, tpStr);
+                }
+                PlotText(LabelText, i, Low[i], colorWhite, ColorRGB(0, 140, 50), 36);
+            }
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
+// 6. GIAO DIỆN BIỂU ĐỒ CHUYÊN NGHIỆP (PLOTTING & HUD DASHBOARD)
+//------------------------------------------------------------------------------
+_SECTION_BEGIN("Price & Indicators");
+SetChartOptions(0, chartShowDates | chartShowArrows | chartWrapTitle);
+GraphXSpace = 10; // Đệm lề 10% giúp các mũi tên, hình khối và nhãn text không bao giờ bị khuất mép trên/dưới
+
+// 1. Nến giá XANH - ĐỎ chuẩn mực, tươi sáng, sắc nét
+if (CandleStyleOption == "Nến Đặc Ruột Xanh/Đỏ Hiện Đại")
+{
+    CandleColor = IIf(Close >= Open, ColorRGB(0, 204, 102), ColorRGB(235, 60, 60));
+    // Nổi bật viền nến tại bar phát tín hiệu Entry
+    CandleColor = IIf(Buy, colorBrightGreen, IIf(Short, colorRed, CandleColor));
+    SetBarFillColor(IIf(Close >= Open, ColorRGB(0, 180, 80), ColorRGB(210, 35, 35)));
+    Plot(Close, "VN30F1M", CandleColor, styleCandle | styleNoTitle);
+}
+else if (CandleStyleOption == "Nến Rỗng (Hollow)")
+{
+    CandleColor = IIf(Close >= Open, ColorRGB(0, 204, 102), ColorRGB(235, 60, 60));
+    SetBarFillColor(IIf(Close >= Open, colorDefault, ColorRGB(210, 35, 35)));
+    Plot(Close, "VN30F1M", CandleColor, styleCandle | styleNoTitle);
+}
+else
+{
+    CandleColor = IIf(Close >= Open, colorGreen, colorRed);
+    Plot(Close, "VN30F1M", CandleColor, styleCandle | styleNoTitle);
+}
+
+// 2. Khối lượng giao dịch (Volume) kèm Volume MA20 ở đáy biểu đồ
+if (ShowVolume)
+{
+    VolBarColor = IIf(Close >= Open, ColorRGB(0, 180, 80), ColorRGB(220, 45, 45));
+    maxVol = LastValue(Highest(Volume));
+    if (maxVol <= 0) maxVol = 1;
+    MaxVolScale = maxVol / VolHeightPct;
+    Plot(Volume, "Volume", VolBarColor, styleHistogram | styleOwnScale | styleNoLabel, 0, MaxVolScale);
+    Plot(MA(Volume, 20), "Vol MA20", colorGold, styleLine | styleOwnScale | styleNoLabel | styleThick, 0, MaxVolScale);
+}
+
+// 3. Hệ thống Đường Trung Bình MA (Nét liền) & Bollinger Bands & VWAP
+Plot(MA(Close, 10),  "MA10",  colorBlue,              styleLine);
+Plot(MA(Close, 20),  "MA20",  colorRed,               styleLine);
+Plot(MA(Close, 50),  "MA50",  colorYellow,            styleLine);
+Plot(MA(Close, 100), "MA100", colorGreen,             styleLine);
+Plot(MA(Close, 150), "MA150", colorWhite,             styleLine);
+Plot(MA(Close, 200), "MA200", ColorRGB(180, 50, 230), styleLine);
+
+// Bollinger Bands (20, 2)
+BB_Top = BBandTop(Close, 20, 2);
+BB_Bot = BBandBot(Close, 20, 2);
+Plot(BB_Top, "BB Top(20,2)", ColorRGB(120, 150, 190), styleLine);
+Plot(BB_Bot, "BB Bot(20,2)", ColorRGB(120, 150, 190), styleLine);
+
+// VWAP nội ngày
+Plot(VWAP_1m, "VWAP", ColorRGB(220, 120, 255), styleDashed | styleThick);
+
+// 4. Vẽ đường Quản trị Rủi ro (SL & TP & Entry Level)
+if (ShowSLTPBands)
+{
+    Plot(PlotSL, "Trailing Stop Loss", colorRed, styleDots | styleThick);
+    Plot(PlotHardSL, "Emergency Hard SL", colorDarkRed, styleLine | styleThick);
+    if (EnableFixedTP)
+    {
+        Plot(PlotTP, "Take Profit Target", colorBrightGreen, styleDots | styleThick);
+    }
+}
+
+if (ShowEntryLine)
+{
+    Plot(PlotEntryLine, "Entry Price Level", colorYellow, styleDashed | styleThick);
+}
+
+// 5. ĐÁNH DẤU CÁC MŨI TÊN & BIỂU TƯỢNG ENTRY / EXIT RÕ RÀNG
+// Mũi tên Entry to rõ nét (1 mũi tên duy nhất, không vẽ đè tam giác tránh nhầm lẫn double tín hiệu)
+PlotShapes(IIf(Buy, shapeUpArrow, shapeNone), ColorRGB(0, 220, 80), 0, Low, -18);
+PlotShapes(IIf(Short, shapeDownArrow, shapeNone), ColorRGB(240, 40, 40), 0, High, -18);
+
+// Điểm chấm tròn đặc tại mức giá khớp Entry (Xanh cho Buy, Đỏ cho Short)
+PlotShapes(IIf(Buy, shapeSmallCircle, shapeNone), ColorRGB(0, 220, 80), 0, PlotEntryDot, 0);
+PlotShapes(IIf(Short, shapeSmallCircle, shapeNone), ColorRGB(240, 40, 40), 0, PlotEntryDot, 0);
+
+// Vòng tròn đỏ rỗng đánh dấu mức Stop Loss ban đầu (InitialSL) tại nến Entry
+PlotShapes(IIf(Buy OR Short, shapeHollowCircle, shapeNone), colorRed, 0, PlotInitSLDot, 0);
+
+// Biểu tượng Exit rõ ràng
+PlotShapes(IIf(Sell, shapeDownArrow, shapeNone), colorOrange, 0, High, -18);
+PlotShapes(IIf(Cover, shapeUpArrow, shapeNone), colorSkyblue, 0, Low, -18);
+
+// Điểm chấm tròn nhỏ tại mức giá thoát lệnh Exit (Cam cho Sell, Xanh dương cho Cover)
+PlotShapes(IIf(Sell, shapeSmallCircle, shapeNone), colorOrange, 0, PlotExitDot, 0);
+PlotShapes(IIf(Cover, shapeSmallCircle, shapeNone), colorSkyblue, 0, PlotExitDot, 0);
+
+// Ngôi sao vàng khi Chốt Lời Thành Công (Take Profit)
+PlotShapes(IIf(IsTP_Exit AND Sell, shapeStar, shapeNone), colorYellow, 0, High, -34);
+PlotShapes(IIf(IsTP_Exit AND Cover, shapeStar, shapeNone), colorYellow, 0, Low, -34);
+
+// Hình vuông rỗng cảnh báo khi kích hoạt Emergency Hard SL
+PlotShapes(IIf(IsHardSL_Exit AND Sell, shapeHollowSquare, shapeNone), colorRed, 0, High, -34);
+PlotShapes(IIf(IsHardSL_Exit AND Cover, shapeHollowSquare, shapeNone), colorRed, 0, Low, -34);
+
+// 6. Dải màu trạng thái vị thế (Ribbon) ở đáy chart
+if (ShowPositionRibbon)
+{
+    Plot(2.5, "Vị Thế", PosRibbon, styleOwnScale | styleArea | styleNoLabel, -0.5, 100);
+}
+_SECTION_END();
+
+// === DASHBOARD HIỂN THỊ THÔNG TIN TRỰC QUAN (HUD TITLE) ===
+_SECTION_BEGIN("Title Dashboard");
+// Trích xuất giá trị vô hướng (scalar) tại cây nến đang chọn trên biểu đồ để tránh lỗi array C0000005
+dtNum  = SelectedValue(DateTime());
+dtStr  = DateTimeToStr(dtNum);
+curC   = SelectedValue(Close);
+curO   = SelectedValue(Open);
+curH   = SelectedValue(High);
+curL   = SelectedValue(Low);
+curV   = SelectedValue(Volume);
+curVMA = SelectedValue(MA(Volume, 20));
+curPos = SelectedValue(Pos);
+curEntry = SelectedValue(PlotEntryLine);
+curSL    = SelectedValue(PlotSL);
+curHardSL= SelectedValue(PlotHardSL);
+curTP    = SelectedValue(PlotTP);
+curHTF_Up   = SelectedValue(HTF_15m_TrendOK_1m);
+curHTF_Down = SelectedValue(HTF_15m_TrendDownOK_1m);
+curHTF_Rev  = SelectedValue(HTF_15m_Reversal_1m);
+curSZ  = SelectedValue(SupplyZone_1m);
+curDZ  = SelectedValue(DemandZone_1m);
+curUTAD= SelectedValue(UTAD_1m);
+curSOW = SelectedValue(SOW_1m);
+
+curUnrealizedPts = 0;
+if (curPos == 1) curUnrealizedPts = curC - curEntry;
+else if (curPos == -1) curUnrealizedPts = curEntry - curC;
+
+if (ForceExitNow OR StaticVarGetText("Wyckoff_Last_Action") == "FLAT")
+{
+    curPos = 0;
+    curUnrealizedPts = 0;
+}
+
+curPosStr = "FLAT (TIỀN MẶT CHỜ TÍN HIỆU)";
+curPosColor = colorLightGrey;
+if (curPos == 1) { curPosStr = "LONG (ĐANG GIỮ MUA)"; curPosColor = colorGreen; }
+else if (curPos == -1) { curPosStr = "SHORT (ĐANG GIỮ BÁN)"; curPosColor = colorRed; }
+
+curUnrealColor = colorBrightGreen;
+if (curUnrealizedPts < 0) curUnrealColor = colorRed;
+
+pnlSummaryStr = "";
+if (curPos != 0)
+{
+    pnlSummaryStr = StrFormat(" | Lãi/Lỗ: %+.1f điểm (%+d VND)", curUnrealizedPts, curUnrealizedPts * PointValue);
+}
+
+volRatio = 0;
+if (curVMA > 0) volRatio = (curV / curVMA) * 100;
+volColor = colorWhite;
+volStatus = "Bình thường";
+if (volRatio >= 150) { volColor = colorYellow; volStatus = "ĐỘT BIẾN RẤT CAO"; }
+else if (volRatio >= 120) { volColor = colorBrightGreen; volStatus = "Cao (Tích cực)"; }
+else if (volRatio <= 70) { volColor = colorLightGrey; volStatus = "Thấp (Cạn kiệt)"; }
+
+lastBarTimeStr = DateTimeToStr(LastValue(DateTime()));
+dataStatusStr = EncodeColor(colorBrightGreen) + "● NẾN CUỐI: " + lastBarTimeStr;
+
+Title = StrFormat("{{NAME}} - {{INTERVAL}} | %s | Giá: %g (O:%g, H:%g, L:%g) | ",
+                  dtStr, curC, curO, curH, curL) +
+        EncodeColor(volColor) + StrFormat("Vol: %g [MA20: %g, %.0f%% - %s] | ", curV, curVMA, volRatio, volStatus) +
+        dataStatusStr + "\n" +
+        EncodeColor(colorYellow) + "════════════════════ VN30F1M WYCKOFF MTF ENGINE ════════════════════\n" +
+        EncodeColor(colorWhite) + "Trạng thái vị thế: " + EncodeColor(curPosColor) + curPosStr + 
+        EncodeColor(curUnrealColor) + pnlSummaryStr + "\n" +
+        EncodeColor(colorWhite) + StrFormat("Giá Entry: %g | Trailing SL: %g | Hard SL: %g | Take Profit: ", curEntry, curSL, curHardSL) +
+        EncodeColor(colorBrightGreen) + WriteIf(EnableFixedTP, NumToStr(curTP, 1.2), "Thả Lãi Trôi (Trailing SL 1.5x)") + "\n" +
+        EncodeColor(colorAqua) + StrFormat("Khung 15m: TrendUp=%g | TrendDown=%g | 15m Reversal=%g\n",
+                                           curHTF_Up, curHTF_Down, curHTF_Rev) +
+        EncodeColor(colorOrange) + StrFormat("Khung 5m: SupplyZone=%g | DemandZone=%g | UTAD=%g | SOW=%g | Setup: %s\n",
+                                             curSZ, curDZ, curUTAD, curSOW, CurrentSetup) +
+        EncodeColor(colorYellow) + "════════════════════════════════════════════════════════════════════";
+_SECTION_END();
+
+//------------------------------------------------------------------------------
+// 7. BỘ LỌC TÍN HIỆU QUÉT TỰ ĐỘNG (AMIBROKER EXPLORATION SCANNER)
+//------------------------------------------------------------------------------
+Filter = Buy OR Short OR Sell OR Cover;
+
+AddColumn(DateTime(), "Thời Gian", formatDateTime);
+AddTextColumn(WriteIf(Buy, "VÀO LONG", WriteIf(Short, "VÀO SHORT", WriteIf(Sell, "ĐÓNG LONG", "ĐÓNG SHORT"))), 
+              "Hành Động", 1.0, colorWhite, IIf(Buy, colorDarkGreen, IIf(Short, colorDarkRed, colorDarkBlue)));
+AddColumn(Close, "Giá Đóng Cửa", 1.2);
+AddColumn(IIf(Buy, BuyPrice, IIf(Short, ShortPrice, IIf(Sell, SellPrice, CoverPrice))), "Giá Khớp", 1.2);
+AddColumn(TrailingSL, "Trailing SL", 1.2, colorRed);
+AddColumn(HardSL, "Hard SL", 1.2, colorDarkRed);
+AddTextColumn(WriteIf(EnableFixedTP, NumToStr(TakeProfit, 1.2), "Thả Lãi Trôi"), "Take Profit", 1.2, colorGreen);
+AddTextColumn(WriteIf(UTAD_Short_Timing, "UTAD Bull Trap", 
+              WriteIf(Supply_Short_Timing, "Supply Retest", 
+              WriteIf(SOW_Short_Timing, "SOW Weak Pullback", 
+              WriteIf(LPSY_Short_Timing, "LPSY Retest", 
+              WriteIf(Spring_Timing, "Spring Test Long",
+              WriteIf(Demand_Timing, "Demand Retest Long",
+              WriteIf(LPS_Timing, "LPS Reclaim Long",
+              WriteIf(SOS_Timing, "SOS Pullback Long", "-")))))))), "Setup Kích Hoạt", 1.0, colorYellow);
+
+//------------------------------------------------------------------------------
+// 8. TỰ ĐỘNG ĐẨY LỆNH REALTIME (AMI X DIRECT & PYTHON WEBHOOK BRIDGE)
+//------------------------------------------------------------------------------
+
+// 1. Hàm gửi lệnh trực tiếp sang Ami X (REST API GET)
+function SendAmiXDirectOrder(sideVal, priceVal)
+{
+    local url, priceStr, xmlHttp, sentOk;
+    sentOk = False;
+
+    // Xác định mức giá gửi: Luôn đảm bảo không bao giờ bị lỗi NaN
+    if (AmiX_Price_Mode == "MTL (Khớp Ngay Thị Trường)" OR IsNull(priceVal) OR priceVal == 0)
+        priceStr = "MTL";
+    else
+        priceStr = NumToStr(priceVal, 1.1);
+
+    url = AmiX_Host + "/trade?side=" + sideVal + 
+          "&symbol=" + Webhook_Symbol + 
+          "&price=" + priceStr + 
+          "&volume=" + NumToStr(Webhook_Volume, 1.0);
+
+    if (AmiX_Account != "")
+        url = url + "&account=" + AmiX_Account;
+    if (AmiX_LoanID != "")
+        url = url + "&loan=" + AmiX_LoanID;
+
+    xmlHttp = CreateObject("MSXML2.ServerXMLHTTP.6.0");
+    if (!IsNull(xmlHttp))
+    {
+        xmlHttp.open("GET", url, False);
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlHttp.send();
+        sentOk = (xmlHttp.status == 200 OR xmlHttp.status == 201 OR xmlHttp.status == 202);
+        _TRACE("[AMIX DIRECT] " + sideVal + " @ " + priceStr + " | Status: " + NumToStr(xmlHttp.status, 1.0) + " | URL: " + url);
+    }
+    return sentOk;
+}
+
+// 2. Hàm đóng toàn bộ vị thế và hủy lệnh chờ trên Ami X
+function SendAmiXCloseAllDeals()
+{
+    local urlClose, urlCancel, xmlHttp, res, curTick, lastCloseTick;
+    res = False;
+    
+    // Khóa Cooldown chống spam: Không cho phép gửi lệnh đóng deal dồn dập trong vòng 10 giây
+    curTick = GetPerformanceCounter(0);
+    lastCloseTick = Nz(StaticVarGet("Wyckoff_Last_Close_Tick"), 0);
+    
+    if (lastCloseTick > 0 AND (curTick - lastCloseTick) < 10000 AND curTick >= lastCloseTick)
+    {
+        _TRACE("[AMIX DIRECT] COOLDOWN ACTIVE: SKIP DUPLICATE CLOSE CALL");
+        res = True;
+    }
+    else
+    {
+        urlClose  = AmiX_Host + "/closedeals?all_account=false";
+        urlCancel = AmiX_Host + "/closeorders?all_account=true";
+
+        xmlHttp = CreateObject("MSXML2.ServerXMLHTTP.6.0");
+        if (!IsNull(xmlHttp))
+        {
+            // Gửi lệnh đóng toàn bộ deals
+            xmlHttp.open("GET", urlClose, False);
+            xmlHttp.send();
+            
+            // Hủy các lệnh chờ còn treo trong sổ lệnh
+            xmlHttp.open("GET", urlCancel, False);
+            xmlHttp.send();
+            
+            StaticVarSet("Wyckoff_Last_Close_Tick", curTick);
+            res = True;
+            _TRACE("[AMIX DIRECT] CLOSE ALL DEALS & CANCEL ORDERS EXECUTED");
+        }
+    }
+    return res;
+}
+
+// 3. Hàm gửi tín hiệu Webhook sang Python Realtime Engine (Port 8000)
+function SendSignalToPython(actionName, priceVal, setupName, slVal, hardSLVal, trailSLVal, isLogOnly)
+{
+    local xmlHttp, jsonPayload, result, logOnlyStr;
+    result = False;
+    logOnlyStr = WriteIf(isLogOnly, "true", "false");
+    
+    // Đóng gói JSON payload chuẩn gửi sang Python Engine
+    jsonPayload = StrFormat(
+        "{\"symbol\":\"%s\",\"action\":\"%s\",\"price\":%.1f,\"setup\":\"%s\",\"bar_time\":\"%s\",\"sl\":%.1f,\"hard_sl\":%.1f,\"trailing_sl\":%.1f,\"volume\":%g,\"log_only\":%s}",
+        Webhook_Symbol, actionName, priceVal, setupName, DateTimeToStr(LastValue(DateTime())), slVal, hardSLVal, trailSLVal, Webhook_Volume, logOnlyStr
+    );
+    
+    xmlHttp = CreateObject("MSXML2.ServerXMLHTTP.6.0");
+    if (!IsNull(xmlHttp))
+    {
+        xmlHttp.open("POST", Python_Webhook_URL, False);
+        xmlHttp.setRequestHeader("Content-Type", "application/json");
+        xmlHttp.send(jsonPayload);
+        result = True;
+        _TRACE("[PYTHON BRIDGE] " + actionName + " SENT @ " + NumToStr(priceVal, 1.1) + " | LogOnly: " + logOnlyStr);
+    }
+    return result;
+}
+
+// ------------------------------------------------------------------------------
+// XỬ LÝ CÁC NÚT BẤM TƯƠNG TÁC (TRIGGERS TRONG PARAMETERS)
+// ------------------------------------------------------------------------------
+
+// A. Nút bấm Reset Đồng Bộ Vị Thế về 0 (FLAT) khi bạn đã đóng deal bằng tay ngoài app Entrade
+if (AmiX_ResetSyncBtn)
+{
+    StaticVarSet("Wyckoff_Live_Position", 0);
+    StaticVarSetText("Wyckoff_Last_BarTime", "");
+    StaticVarSetText("Wyckoff_Last_Action", "FLAT");
+    StaticVarSetText("PyBridge_Last_Action", "FLAT");
+    StaticVarSet("Wyckoff_Last_Close_Tick", GetPerformanceCounter(0));
+    _TRACE("[AMIX SYNC] >>> ĐÃ ĐỒNG BỘ: RESET VỊ THẾ AMIBROKER VỀ 0 (FLAT) <<<");
+}
+
+// B. Nút bấm Đóng Hết Deals Khẩn Cấp trên Ami X
+if (AmiX_CloseDealsBtn)
+{
+    SendAmiXCloseAllDeals();
+    SendSignalToPython("SELL", LastValue(Close), "Emergency Close", 0, 0, 0, False);
+    StaticVarSet("Wyckoff_Live_Position", 0);
+    StaticVarSetText("Wyckoff_Last_BarTime", "");
+    StaticVarSetText("Wyckoff_Last_Action", "FLAT");
+    StaticVarSetText("PyBridge_Last_Action", "FLAT");
+    _TRACE("[AMIX EMERGENCY] >>> ĐÃ GỬI LỆNH ĐÓNG TOÀN BỘ DEALS KHẨN CẤP <<<");
+}
+
+// C. Nút Test Bắn Thử Lệnh sang AmiX
+if (AmiX_TestPing)
+{
+    SendAmiXDirectOrder("NB", LastValue(Close));
+    _TRACE("[AMIX TEST] BẮN THỬ LỆNH TEST MUA NB SANG AMIX");
+}
+
+// D. Nút Test Ping sang Python Webhook
+if (Python_TestPing)
+{
+    SendSignalToPython("PING_TEST", LastValue(Close), "Manual Ping Test", 0, 0, 0, False);
+    _TRACE("[PYTHON TEST] MANUAL PING TEST SENT");
+}
+
+// E. Xử lý ForceExitNow (Đóng lệnh ngay): Chỉ kích hoạt 1 lần duy nhất khi người dùng gạt bật
+if (ForceExitNow)
+{
+    if (Nz(StaticVarGet("Wyckoff_ForceExit_Executed"), 0) == 0)
+    {
+        SendAmiXCloseAllDeals();
+        SendSignalToPython("EXIT", LastValue(Close), "Force Exit Now", 0, 0, 0, False);
+        StaticVarSet("Wyckoff_Live_Position", 0);
+        StaticVarSetText("Wyckoff_Last_Action", "FLAT");
+        StaticVarSet("Wyckoff_ForceExit_Executed", 1);
+        _TRACE("[AUTOTRADE] FORCE EXIT EXECUTED ONCE");
+    }
+}
+else
+{
+    StaticVarSet("Wyckoff_ForceExit_Executed", 0);
+}
+
+// ------------------------------------------------------------------------------
+// ĐIỀU PHỐI VÀ ĐẨY LỆNH THỜI GIAN THỰC (REALTIME BAR EXECUTION - CHỐNG DOUBLE LỆNH)
+// ------------------------------------------------------------------------------
+isAmiXDirectEnabled   = (AutoTradeMode == "1. Đẩy Trực Tiếp Sang Ami X (Port 7979)" OR AutoTradeMode == "3. AmiX Đặt Lệnh + Python Giám Sát (Không Double Lệnh)");
+isPythonEngineEnabled = (AutoTradeMode == "2. Đẩy Sang Python Webhook (Port 8000)");
+isDualMonitorMode     = (AutoTradeMode == "3. AmiX Đặt Lệnh + Python Giám Sát (Không Double Lệnh)");
+
+if (AutoTradeMode != "Tắt Đẩy Lệnh" AND (Status("action") == actionIndicator OR Status("redrawaction")))
+{
+    lastIdx         = BarCount - 1;
+    curBarTime      = DateTimeToStr(LastValue(DateTime()));
+    lastSentBarTime = StaticVarGetText("Wyckoff_Last_BarTime");
+    lastSentAction  = StaticVarGetText("Wyckoff_Last_Action");
+    currentPos      = Nz(StaticVarGet("Wyckoff_Live_Position"), 0);
+
+    // 1. TÍN HIỆU VÀO LONG (BUY)
+    // Chống double: Chỉ mở Long khi đang Flat hoặc Short, và cây nến này chưa từng mở vị thế
+    if (Buy[lastIdx] AND (curBarTime != lastSentBarTime) AND (currentPos <= 0))
+    {
+        orderSent = False;
+        if (isAmiXDirectEnabled)
+            orderSent = SendAmiXDirectOrder("NB", BuyPrice[lastIdx]) OR orderSent;
+        if (isPythonEngineEnabled)
+            orderSent = SendSignalToPython("BUY", BuyPrice[lastIdx], CurrentSetup, InitialSL, HardSL, TrailingSL, False) OR orderSent;
+        else if (isDualMonitorMode)
+            SendSignalToPython("BUY", BuyPrice[lastIdx], CurrentSetup, InitialSL, HardSL, TrailingSL, True); // Gửi sang Python chỉ để ghi nhận, không đặt trùng lệnh
+
+        if (orderSent OR isDualMonitorMode)
+        {
+            StaticVarSet("Wyckoff_Live_Position", 1);
+            StaticVarSetText("Wyckoff_Last_BarTime", curBarTime);
+            StaticVarSetText("Wyckoff_Last_Action", "BUY");
+            StaticVarSetText("PyBridge_Last_BarTime", curBarTime);
+            StaticVarSetText("PyBridge_Last_Action", "BUY");
+            _TRACE("[AUTOTRADE] BUY EXECUTED @ " + NumToStr(BuyPrice[lastIdx], 1.1) + " | Time: " + curBarTime);
+        }
+    }
+    // 2. TÍN HIỆU VÀO SHORT (SHORT)
+    // Chống double: Chỉ mở Short khi đang Flat hoặc Long, và cây nến này chưa từng mở vị thế
+    else if (Short[lastIdx] AND (curBarTime != lastSentBarTime) AND (currentPos >= 0))
+    {
+        orderSent = False;
+        if (isAmiXDirectEnabled)
+            orderSent = SendAmiXDirectOrder("NS", ShortPrice[lastIdx]) OR orderSent;
+        if (isPythonEngineEnabled)
+            orderSent = SendSignalToPython("SHORT", ShortPrice[lastIdx], CurrentSetup, InitialSL, HardSL, TrailingSL, False) OR orderSent;
+        else if (isDualMonitorMode)
+            SendSignalToPython("SHORT", ShortPrice[lastIdx], CurrentSetup, InitialSL, HardSL, TrailingSL, True); // Gửi sang Python chỉ để ghi nhận, không đặt trùng lệnh
+
+        if (orderSent OR isDualMonitorMode)
+        {
+            StaticVarSet("Wyckoff_Live_Position", -1);
+            StaticVarSetText("Wyckoff_Last_BarTime", curBarTime);
+            StaticVarSetText("Wyckoff_Last_Action", "SHORT");
+            StaticVarSetText("PyBridge_Last_BarTime", curBarTime);
+            StaticVarSetText("PyBridge_Last_Action", "SHORT");
+            _TRACE("[AUTOTRADE] SHORT EXECUTED @ " + NumToStr(ShortPrice[lastIdx], 1.1) + " | Time: " + curBarTime);
+        }
+    }
+    // 3. TÍN HIỆU THOÁT LONG (SELL)
+    // Chống double: Chỉ thoát khi ĐANG CÓ VỊ THẾ LONG (currentPos == 1) và chưa gửi lệnh Sell/Flat
+    else if (Sell[lastIdx] AND (currentPos == 1) AND (lastSentAction != "SELL") AND (lastSentAction != "FLAT"))
+    {
+        orderSent = False;
+        if (isAmiXDirectEnabled)
+            orderSent = SendAmiXCloseAllDeals() OR orderSent;
+        if (isPythonEngineEnabled)
+            orderSent = SendSignalToPython("SELL", SellPrice[lastIdx], "Exit Long", 0, 0, 0, False) OR orderSent;
+        else if (isDualMonitorMode)
+            SendSignalToPython("SELL", SellPrice[lastIdx], "Exit Long", 0, 0, 0, True);
+
+        if (orderSent OR isDualMonitorMode)
+        {
+            StaticVarSet("Wyckoff_Live_Position", 0);
+            StaticVarSetText("Wyckoff_Last_BarTime", curBarTime);
+            StaticVarSetText("Wyckoff_Last_Action", "SELL");
+            StaticVarSetText("PyBridge_Last_BarTime", curBarTime);
+            StaticVarSetText("PyBridge_Last_Action", "SELL");
+            _TRACE("[AUTOTRADE] SELL EXIT EXECUTED @ " + NumToStr(SellPrice[lastIdx], 1.1) + " | Time: " + curBarTime);
+        }
+    }
+    // 4. TÍN HIỆU THOÁT SHORT (COVER)
+    // Chống double: Chỉ thoát khi ĐANG CÓ VỊ THẾ SHORT (currentPos == -1) và chưa gửi lệnh Cover/Flat
+    else if (Cover[lastIdx] AND (currentPos == -1) AND (lastSentAction != "COVER") AND (lastSentAction != "FLAT"))
+    {
+        orderSent = False;
+        if (isAmiXDirectEnabled)
+            orderSent = SendAmiXCloseAllDeals() OR orderSent;
+        if (isPythonEngineEnabled)
+            orderSent = SendSignalToPython("COVER", CoverPrice[lastIdx], "Exit Short", 0, 0, 0, False) OR orderSent;
+        else if (isDualMonitorMode)
+            SendSignalToPython("COVER", CoverPrice[lastIdx], "Exit Short", 0, 0, 0, True);
+
+        if (orderSent OR isDualMonitorMode)
+        {
+            StaticVarSet("Wyckoff_Live_Position", 0);
+            StaticVarSetText("Wyckoff_Last_BarTime", curBarTime);
+            StaticVarSetText("Wyckoff_Last_Action", "COVER");
+            StaticVarSetText("PyBridge_Last_BarTime", curBarTime);
+            StaticVarSetText("PyBridge_Last_Action", "COVER");
+            _TRACE("[AUTOTRADE] COVER EXIT EXECUTED @ " + NumToStr(CoverPrice[lastIdx], 1.1) + " | Time: " + curBarTime);
+        }
+    }
+}

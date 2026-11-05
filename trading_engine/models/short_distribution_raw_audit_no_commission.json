@@ -1,0 +1,121 @@
+{
+  "execution": "raw Short state machine only; completed 5m Distribution -> UTAD -> Test -> LPSY/SOW, 15m downtrend and optional 1m pullback/reject; no ML; commission=0 research mode with slippage and active ATR exits",
+  "results": [
+    {
+      "setup": "LPSY_IMMEDIATE",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -59132.30773376199,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "setup": "SOW_IMMEDIATE",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1139710.8421971097,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1093728.5103075283,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "setup": "LPSY_1M_REJECT",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1019088.0648540314,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "setup": "SOW_1M_REJECT",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1090134.5751246253,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -315911.963350527,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    }
+  ]
+}

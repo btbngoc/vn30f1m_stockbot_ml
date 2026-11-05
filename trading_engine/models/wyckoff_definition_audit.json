@@ -1,0 +1,37 @@
+{
+  "current_definitions": {
+    "SOS": "close > previous 24-bar high AND volume >= 1.20 \u00d7 20-bar volume average",
+    "TEST": "after any prior Spring: low stays within 20% of current range width above Spring low, volume <= 70% of Spring volume, close in upper half"
+  },
+  "diagnostics": {
+    "SOS": {
+      "events": 3430,
+      "by_year": {
+        "2024": 410,
+        "2025": 427,
+        "2026": 179
+      },
+      "median_volume_ratio": 1.7978281096354967,
+      "pct_close_upper_65": 0.810204081632653,
+      "pct_range_slope_under_1_5_atr": 0.5253644314868805
+    },
+    "TEST": {
+      "events": 2519,
+      "by_year": {
+        "2024": 377,
+        "2025": 304,
+        "2026": 183
+      },
+      "median_volume_ratio": 0.80953504838329,
+      "pct_close_upper_65": 0.7098054783644303,
+      "pct_range_slope_under_1_5_atr": 0.49583167923779276,
+      "median_bars_since_spring": 41.0,
+      "pct_within_6_bars_of_spring": 0.35093290988487497,
+      "pct_more_than_24_bars_after_spring": 0.5490273918221517
+    }
+  },
+  "conclusion": [
+    "Current SOS does not require a flat accumulation range, a close near the high, or a minimum spread/effort confirmation.",
+    "Current Test state never expires after Spring, so a later low-volume bar can be called a Test long after the original Spring."
+  ]
+}

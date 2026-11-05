@@ -1,0 +1,152 @@
+{
+  "split": {
+    "train": "entry/exit before 2025-01-01",
+    "validation": "2025-01-01 through 2025-12-31",
+    "test": "2026-01-01 onward"
+  },
+  "selected_threshold": 0.45,
+  "selection_rule": "maximum validation net PnL; profit factor breaks ties; minimum 20 trades",
+  "validation_thresholds": [
+    {
+      "threshold": 0.32,
+      "rows": 36132,
+      "positive_rate": 0.5483228163400864,
+      "selected_rate": 0.9233089781910772,
+      "accuracy": 0.5795693568028341,
+      "precision": 0.569257516261503,
+      "recall": 0.9585604684029881,
+      "f1": 0.7143098941191959,
+      "roc_auc": 0.6077673219562911,
+      "backtest": {
+        "trades": 188,
+        "net_pnl": -6659999.999997663,
+        "gross_profit": 47214642.857144184,
+        "gross_loss": 53874642.85714186,
+        "profit_factor": 0.8763796909492683,
+        "win_rate": 0.4734042553191489,
+        "max_drawdown": 11728928.571427802
+      }
+    },
+    {
+      "threshold": 0.35,
+      "rows": 36132,
+      "positive_rate": 0.5483228163400864,
+      "selected_rate": 0.8881600797077382,
+      "accuracy": 0.5885364773607882,
+      "precision": 0.5770465239475242,
+      "recall": 0.9346860488592772,
+      "f1": 0.713561836502707,
+      "roc_auc": 0.6077673219562911,
+      "backtest": {
+        "trades": 180,
+        "net_pnl": -9201785.71428355,
+        "gross_profit": 44344642.85714416,
+        "gross_loss": 53546428.57142771,
+        "profit_factor": 0.8281531381311655,
+        "win_rate": 0.4777777777777778,
+        "max_drawdown": 14225357.1428562
+      }
+    },
+    {
+      "threshold": 0.38,
+      "rows": 36132,
+      "positive_rate": 0.5483228163400864,
+      "selected_rate": 0.8486383261374959,
+      "accuracy": 0.5924665116793978,
+      "precision": 0.5829501353422691,
+      "recall": 0.902230971128609,
+      "f1": 0.70827142149579,
+      "roc_auc": 0.6077673219562911,
+      "backtest": {
+        "trades": 162,
+        "net_pnl": -4273214.285712274,
+        "gross_profit": 44146785.71428695,
+        "gross_loss": 48419999.99999923,
+        "profit_factor": 0.9117469168584811,
+        "win_rate": 0.5123456790123457,
+        "max_drawdown": 11519999.999999136
+      }
+    },
+    {
+      "threshold": 0.4,
+      "rows": 36132,
+      "positive_rate": 0.5483228163400864,
+      "selected_rate": 0.8182497509133179,
+      "accuracy": 0.5942931473486106,
+      "precision": 0.5871469643159141,
+      "recall": 0.8761861498081971,
+      "f1": 0.7031208862425826,
+      "roc_auc": 0.6077673219562911,
+      "backtest": {
+        "trades": 146,
+        "net_pnl": -2623928.5714267734,
+        "gross_profit": 42262500.000001095,
+        "gross_loss": 44886428.571427874,
+        "profit_factor": 0.9415429417100691,
+        "win_rate": 0.5,
+        "max_drawdown": 9349999.999999031
+      }
+    },
+    {
+      "threshold": 0.45,
+      "rows": 36132,
+      "positive_rate": 0.5483228163400864,
+      "selected_rate": 0.7144913096424222,
+      "accuracy": 0.5935458873021144,
+      "precision": 0.5992795165788658,
+      "recall": 0.7808903694730467,
+      "f1": 0.6781362321381608,
+      "roc_auc": 0.6077673219562911,
+      "backtest": {
+        "trades": 105,
+        "net_pnl": 8235000.000001331,
+        "gross_profit": 34545357.1428579,
+        "gross_loss": 26310357.142856564,
+        "profit_factor": 1.3129946110304775,
+        "win_rate": 0.5142857142857142,
+        "max_drawdown": 5553928.571428519
+      }
+    },
+    {
+      "threshold": 0.5,
+      "rows": 36132,
+      "positive_rate": 0.5483228163400864,
+      "selected_rate": 0.5628805490977526,
+      "accuracy": 0.5845787667441603,
+      "precision": 0.6180548726521782,
+      "recall": 0.6344639612356148,
+      "f1": 0.6261519302615193,
+      "roc_auc": 0.6077673219562911,
+      "backtest": {
+        "trades": 78,
+        "net_pnl": 5904642.857143957,
+        "gross_profit": 24304642.857143432,
+        "gross_loss": 18399999.99999947,
+        "profit_factor": 1.3209045031056592,
+        "win_rate": 0.5,
+        "max_drawdown": 6613214.285713903
+      }
+    }
+  ],
+  "test": {
+    "classification": {
+      "rows": 27708,
+      "positive_rate": 0.5133174534430489,
+      "selected_rate": 0.7344449256532409,
+      "accuracy": 0.5647827342283817,
+      "precision": 0.5531695331695332,
+      "recall": 0.7914645292835548,
+      "f1": 0.6512018048766378,
+      "roc_auc": 0.5898313663724575
+    },
+    "backtest": {
+      "trades": 120,
+      "net_pnl": 4208928.57142994,
+      "gross_profit": 37043214.28571495,
+      "gross_loss": 32834285.714285012,
+      "profit_factor": 1.128186999651976,
+      "win_rate": 0.4583333333333333,
+      "max_drawdown": 5675357.142856787
+    }
+  }
+}

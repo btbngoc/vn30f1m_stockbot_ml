@@ -1,0 +1,125 @@
+{
+  "execution": "raw LPSY timing comparison only; no ML; completed 5m LPSY and 15m downtrend are unchanged; commission=0 research mode with slippage and active ATR exits",
+  "timing_definitions": {
+    "BREAK_RETEST_FAIL": "after LPSY is actionable, close below its source 5m low within 20m, then within 10m a bearish 1m bar must retest that low and close back below it",
+    "BREAK_CONFIRM": "after LPSY is actionable, close below its source 5m low within 20m, then the immediate next 1m candle must be bearish, remain below that low and close at/below the break close; a close reclaiming the LPSY low cancels the setup"
+  },
+  "results": [
+    {
+      "setup": "LPSY_IMMEDIATE",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -59132.30773376199,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "setup": "LPSY_1M_REJECT",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1019088.0648540314,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "setup": "LPSY_BREAK_RETEST_FAIL",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "setup": "LPSY_BREAK_CONFIRM",
+      "years": [
+        {
+          "period": "2024",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2025",
+          "raw_events": 0,
+          "trades": 0,
+          "net_pnl": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        },
+        {
+          "period": "2026",
+          "raw_events": 1,
+          "trades": 1,
+          "net_pnl": -1019088.0648540314,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      ]
+    }
+  ]
+}

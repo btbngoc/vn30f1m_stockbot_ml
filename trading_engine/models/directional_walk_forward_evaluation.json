@@ -1,0 +1,131 @@
+{
+  "selection_rule": "Per-direction threshold; NO_TRADE unless validation has >=20 trades, positive PnL and PF > 1.",
+  "results": [
+    {
+      "direction": "long",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "TRADE",
+          "selected_threshold": 0.4,
+          "validation": {
+            "trades": 11,
+            "net_pnl": 1095705.358899272,
+            "profit_factor": 1.3016169606234878,
+            "win_rate": 0.36363636363636365
+          },
+          "test": {
+            "trades": 10,
+            "net_pnl": 6314744.006687874,
+            "profit_factor": 2.933452443806379,
+            "win_rate": 0.5
+          }
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "TRADE",
+          "selected_threshold": 0.4,
+          "validation": {
+            "trades": 9,
+            "net_pnl": 5534486.977033247,
+            "profit_factor": 3.5477688816075896,
+            "win_rate": 0.4444444444444444
+          },
+          "test": {
+            "trades": 11,
+            "net_pnl": 3357284.8641736982,
+            "profit_factor": 1.8775508573024524,
+            "win_rate": 0.45454545454545453
+          }
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.45,
+          "validation": {
+            "trades": 8,
+            "net_pnl": 4655459.413895324,
+            "profit_factor": 2.9943781266357354,
+            "win_rate": 0.625
+          },
+          "test": {
+            "trades": 4,
+            "net_pnl": -809776.0307814952,
+            "profit_factor": 0.21803932663275788,
+            "win_rate": 0.5
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 3,
+        "profitable_folds": 2,
+        "pf_above_one_folds": 2,
+        "total_test_trades": 25,
+        "aggregate_test_net_pnl": 8862252.840080077
+      }
+    },
+    {
+      "direction": "short",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "TRADE",
+          "selected_threshold": 0.4,
+          "validation": {
+            "trades": 32,
+            "net_pnl": 952138.0569481609,
+            "profit_factor": 1.1780272403579475,
+            "win_rate": 0.3125
+          },
+          "test": {
+            "trades": 22,
+            "net_pnl": 3648245.2629514686,
+            "profit_factor": 2.635758575547761,
+            "win_rate": 0.5909090909090909
+          }
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "TRADE",
+          "selected_threshold": 0.32,
+          "validation": {
+            "trades": 80,
+            "net_pnl": 10076449.554202829,
+            "profit_factor": 1.8592789355067938,
+            "win_rate": 0.4375
+          },
+          "test": {
+            "trades": 145,
+            "net_pnl": 1496984.4210439995,
+            "profit_factor": 1.0618096425156427,
+            "win_rate": 0.3448275862068966
+          }
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.4,
+          "validation": {
+            "trades": 34,
+            "net_pnl": 3326313.650346901,
+            "profit_factor": 1.657919466887896,
+            "win_rate": 0.4411764705882353
+          },
+          "test": {
+            "trades": 58,
+            "net_pnl": 1490240.8997519615,
+            "profit_factor": 1.1714823971211992,
+            "win_rate": 0.3275862068965517
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 3,
+        "profitable_folds": 3,
+        "pf_above_one_folds": 3,
+        "total_test_trades": 225,
+        "aggregate_test_net_pnl": 6635470.58374743
+      }
+    }
+  ]
+}

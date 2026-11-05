@@ -8,18 +8,30 @@ import numpy as np
 from .logging_config import logger
 
 
-def load_trades():
-    """Load backtest trades CSV and parse dates."""
-    project_root = Path(__file__).resolve().parents[1]
-    trades_path = project_root / "trading_engine" / "data" / "backtest_trades.csv"
+from pathlib import Path
+
+import pandas as pd
+
+
+def load_trades() -> pd.DataFrame:
+    trades_path = Path(__file__).resolve().parent / "data" / "backtest_trades.csv"
+
     if not trades_path.exists():
-        logger.error("Backtest trades not found at %s", trades_path)
-        raise FileNotFoundError(f"Backtest trades not found at {trades_path}")
-    df = pd.read_csv(trades_path)
-    # Ensure datetime columns are proper
-    for col in ["Entry Date", "Exit Date"]:
-        if col in df.columns:
-            df[col] = pd.to_datetime(df[col])
+        print(f"Trade file not found: {trades_path}")
+        return pd.DataFrame()
+
+    if trades_path.stat().st_size == 0:
+        print("Backtest produced no trades. Analysis skipped.")
+        return pd.DataFrame()
+
+    try:
+        df = pd.read_csv(trades_path)
+    except pd.errors.EmptyDataError:
+        print("Trade file is empty. Analysis skipped.")
+        return pd.DataFrame()
+    for column in ("Entry Date", "Exit Date"):
+        if column in df.columns:
+            df[column] = pd.to_datetime(df[column], errors="raise")
     return df
 
 
@@ -182,6 +194,9 @@ def save_outputs(summary: dict, rolling_win: list, rolling_dd: list):
 def main():
     logger.info("Starting analysis of backtest trades")
     trades_df = load_trades()
+    if trades_df.empty:
+        print("No trades available for analysis.")
+        return
     summary, rolling_win, rolling_dd = compute_metrics(trades_df)
     save_outputs(summary, rolling_win, rolling_dd)
     logger.info("Analysis completed")

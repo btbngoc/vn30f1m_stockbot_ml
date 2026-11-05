@@ -1,0 +1,224 @@
+{
+  "execution": "diagnostic audit only for raw BREAKDOWN_WEAK_TEST trades; no entry, ML, model, dataset, fee, or exit-rule change",
+  "all_trades": {
+    "trades": 140,
+    "net_pnl": -19477810.333002314,
+    "profit_factor": 0.7632825090569791,
+    "win_rate": 0.3,
+    "mean_r": -0.16719282946764596,
+    "median_r": -1.0481798020825193
+  },
+  "win_vs_loss": [
+    {
+      "outcome": "LOSS",
+      "trades": 98,
+      "net_pnl": -82282936.74205403,
+      "profit_factor": 0.0,
+      "win_rate": 0.0,
+      "mean_r": -1.0324256051390248,
+      "median_r": -1.081368973692455,
+      "mean_test_rvol_1m": 1.4524260162612324,
+      "mean_room_to_day_low_atr": 0.9840995516512915
+    },
+    {
+      "outcome": "WIN",
+      "trades": 42,
+      "net_pnl": 62805126.4090517,
+      "profit_factor": null,
+      "win_rate": 1.0,
+      "mean_r": 1.8516836470989044,
+      "median_r": 1.898573089643008,
+      "mean_test_rvol_1m": 1.1507242804240951,
+      "mean_room_to_day_low_atr": 1.1575830237225717
+    }
+  ],
+  "exit_reasons": [
+    {
+      "value": "SL",
+      "trades": 99,
+      "net_pnl": -81798811.34705697,
+      "profit_factor": 0.005883666944395935,
+      "win_rate": 0.010101010101010102,
+      "mean_r": -1.0171651373275394
+    },
+    {
+      "value": "TP",
+      "trades": 41,
+      "net_pnl": 62321001.01405465,
+      "profit_factor": null,
+      "win_rate": 1.0,
+      "mean_r": 1.8851793285355116
+    }
+  ],
+  "context_groups": {
+    "market_regime": [
+      {
+        "value": "HIGH_VOL",
+        "trades": 39,
+        "net_pnl": 4124002.9852681337,
+        "profit_factor": 1.2027494836742878,
+        "win_rate": 0.41025641025641024,
+        "mean_r": 0.14035633170744574
+      },
+      {
+        "value": "RANGE",
+        "trades": 5,
+        "net_pnl": 2620328.515401035,
+        "profit_factor": 2.2869831952542614,
+        "win_rate": 0.6,
+        "mean_r": 0.6449431242215165
+      },
+      {
+        "value": "TREND_DOWN",
+        "trades": 96,
+        "net_pnl": -26222141.833671495,
+        "profit_factor": 0.5622823806675448,
+        "win_rate": 0.23958333333333334,
+        "mean_r": -0.33443342378300417
+      }
+    ],
+    "transition_down_15m": [
+      {
+        "value": "0",
+        "trades": 25,
+        "net_pnl": 496672.38818046777,
+        "profit_factor": 1.0363932523529023,
+        "win_rate": 0.36,
+        "mean_r": 0.03175785484259798
+      },
+      {
+        "value": "1",
+        "trades": 115,
+        "net_pnl": -19974482.72118279,
+        "profit_factor": 0.708977643353904,
+        "win_rate": 0.28695652173913044,
+        "mean_r": -0.2104429782307425
+      }
+    ],
+    "slow_downtrend_15m": [
+      {
+        "value": "0",
+        "trades": 78,
+        "net_pnl": -3814571.5600634855,
+        "profit_factor": 0.911775500554972,
+        "win_rate": 0.3333333333333333,
+        "mean_r": -0.05942612001453121
+      },
+      {
+        "value": "1",
+        "trades": 62,
+        "net_pnl": -15663238.77293884,
+        "profit_factor": 0.5988499586527057,
+        "win_rate": 0.25806451612903225,
+        "mean_r": -0.3027703026505968
+      }
+    ],
+    "below_vwap": [
+      {
+        "value": "True",
+        "trades": 140,
+        "net_pnl": -19477810.333002314,
+        "profit_factor": 0.7632825090569791,
+        "win_rate": 0.3,
+        "mean_r": -0.16719282946764596
+      }
+    ],
+    "bearish_ema": [
+      {
+        "value": "True",
+        "trades": 140,
+        "net_pnl": -19477810.333002314,
+        "profit_factor": 0.7632825090569791,
+        "win_rate": 0.3,
+        "mean_r": -0.16719282946764596
+      }
+    ],
+    "session": [
+      {
+        "value": "CLOSE",
+        "trades": 33,
+        "net_pnl": -359214.33166753384,
+        "profit_factor": 0.980413183824415,
+        "win_rate": 0.36363636363636365,
+        "mean_r": -0.01942886471687589
+      },
+      {
+        "value": "LUNCH_EDGE",
+        "trades": 54,
+        "net_pnl": -22301594.73115391,
+        "profit_factor": 0.402014240982995,
+        "win_rate": 0.18518518518518517,
+        "mean_r": -0.5064456571179571
+      },
+      {
+        "value": "MID_SESSION",
+        "trades": 31,
+        "net_pnl": 2293687.1837447262,
+        "profit_factor": 1.1482497488838235,
+        "win_rate": 0.3870967741935484,
+        "mean_r": 0.10249876015346795
+      },
+      {
+        "value": "OPEN",
+        "trades": 22,
+        "net_pnl": 889311.546074396,
+        "profit_factor": 1.0795659537248776,
+        "win_rate": 0.36363636363636365,
+        "mean_r": 0.06385274226357505
+      }
+    ],
+    "room_to_day_low": [
+      {
+        "value": "<=1_ATR",
+        "trades": 84,
+        "net_pnl": -22062324.86490093,
+        "profit_factor": 0.5811119485789308,
+        "win_rate": 0.23809523809523808,
+        "mean_r": -0.31933257160676415
+      },
+      {
+        "value": "1_to_3_ATR",
+        "trades": 50,
+        "net_pnl": 4114348.2951162355,
+        "profit_factor": 1.1565007725479164,
+        "win_rate": 0.42,
+        "mean_r": 0.11339129369550195
+      },
+      {
+        "value": ">3_ATR",
+        "trades": 6,
+        "net_pnl": -1529833.76321763,
+        "profit_factor": 0.5398325957680268,
+        "win_rate": 0.16666666666666666,
+        "mean_r": -0.375437465879557
+      }
+    ],
+    "entry_rvol": [
+      {
+        "value": "LOW",
+        "trades": 40,
+        "net_pnl": -3641438.2980590644,
+        "profit_factor": 0.8419976279477579,
+        "win_rate": 0.325,
+        "mean_r": -0.07225242839304856
+      },
+      {
+        "value": "NORMAL",
+        "trades": 34,
+        "net_pnl": -3110411.9553994783,
+        "profit_factor": 0.8445665694630629,
+        "win_rate": 0.35294117647058826,
+        "mean_r": -0.09006196378810767
+      },
+      {
+        "value": "HIGH",
+        "trades": 66,
+        "net_pnl": -12725960.079543779,
+        "profit_factor": 0.6755649793361784,
+        "win_rate": 0.25757575757575757,
+        "mean_r": -0.2644665488023156
+      }
+    ]
+  },
+  "details_csv": "D:\\VN30F1M stock bot\\trading_engine\\models\\short_breakdown_weak_test_context_audit_no_commission.csv"
+}

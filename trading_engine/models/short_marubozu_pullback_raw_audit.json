@@ -1,0 +1,41 @@
+{
+  "execution": "commission=0; completed 5m bearish marubozu (body >=80%, close near low) with volume > previous 20 completed 5m average; 2-10 bars later green pullback volume <=75% marubozu and below its high; Short on next actionable 1m bar",
+  "stage_counts": {
+    "marubozu_down_volume_gt_ma20": 3950,
+    "low_volume_pullbacks": 1873
+  },
+  "all_history": {
+    "entry_events": 1873,
+    "trades": 1849,
+    "net_pnl": -99931487.57582198,
+    "profit_factor": 0.6662048599023651,
+    "win_rate": 0.30665224445646294
+  },
+  "years": [
+    {
+      "period": "2024",
+      "entry_events": 207,
+      "trades": 202,
+      "net_pnl": -38213100.04167688,
+      "profit_factor": 0.6688546815783011,
+      "win_rate": 0.297029702970297
+    },
+    {
+      "period": "2025",
+      "entry_events": 155,
+      "trades": 154,
+      "net_pnl": -18792745.651547216,
+      "profit_factor": 0.778186618297173,
+      "win_rate": 0.2857142857142857
+    },
+    {
+      "period": "2026",
+      "entry_events": 102,
+      "trades": 102,
+      "net_pnl": -11887615.285714129,
+      "profit_factor": 0.7868464532513954,
+      "win_rate": 0.3137254901960784
+    }
+  ],
+  "trades_csv": "D:\\VN30F1M stock bot\\trading_engine\\models\\short_marubozu_pullback_raw_trades.csv"
+}

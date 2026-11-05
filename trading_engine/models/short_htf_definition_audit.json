@@ -1,0 +1,35 @@
+{
+  "purpose": "definition audit only; no changes to entry, model, backtest or paper trade",
+  "definition": "FollowThroughDown means price reached one ATR below UTAD close before reclaiming UTAD high in the next 60 minutes; ReclaimedUTADHigh is the reverse",
+  "cases": 390,
+  "outcomes_60m": {
+    "FollowThroughDown": 185,
+    "NoResolution60m": 9,
+    "ReclaimedUTADHigh": 196
+  },
+  "by_15m_downtrend_at_action": {
+    "false": {
+      "FollowThroughDown": 142,
+      "NoResolution60m": 7,
+      "ReclaimedUTADHigh": 148
+    },
+    "true": {
+      "FollowThroughDown": 43,
+      "NoResolution60m": 2,
+      "ReclaimedUTADHigh": 48
+    }
+  },
+  "by_lpsy_within_90m": {
+    "false": {
+      "FollowThroughDown": 150,
+      "NoResolution60m": 6,
+      "ReclaimedUTADHigh": 182
+    },
+    "true": {
+      "FollowThroughDown": 35,
+      "NoResolution60m": 3,
+      "ReclaimedUTADHigh": 14
+    }
+  },
+  "cases_csv": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_htf_definition_cases.csv"
+}

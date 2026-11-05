@@ -1,0 +1,83 @@
+{
+  "selection_rule": "For each Long regime setup: choose threshold by validation PnL; PF breaks ties; NO_TRADE unless >=20 validation trades, positive PnL and PF > 1.",
+  "results": [
+    {
+      "setup": "LONG_RANGE",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.55,
+          "validation": {
+            "trades": 24,
+            "net_pnl": 3103637.3246048656,
+            "gross_profit": 15624869.459967144,
+            "gross_loss": 12521232.13536228,
+            "profit_factor": 1.247869961282773,
+            "win_rate": 0.5416666666666666,
+            "max_drawdown": 4949756.963321179
+          },
+          "test": {
+            "trades": 10,
+            "net_pnl": -3422631.9248702703,
+            "gross_profit": 3786314.0388071947,
+            "gross_loss": 7208945.963677466,
+            "profit_factor": 0.5252243612151727,
+            "win_rate": 0.3,
+            "max_drawdown": 3540961.282951957
+          }
+        }
+      ],
+      "summary": {
+        "test_folds": 3,
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 10,
+        "aggregate_test_net_pnl": -3422631.9248702703,
+        "aggregate_test_profit_factor": 0.5252243612151727,
+        "worst_test_drawdown": 3540961.282951957
+      }
+    },
+    {
+      "setup": "LONG_HIGH_VOL",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "NO_TRADE",
+          "test": null
+        }
+      ],
+      "summary": {
+        "test_folds": 3,
+        "trade_folds": 0,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 0,
+        "aggregate_test_net_pnl": 0,
+        "aggregate_test_profit_factor": null,
+        "worst_test_drawdown": 0.0
+      }
+    }
+  ]
+}

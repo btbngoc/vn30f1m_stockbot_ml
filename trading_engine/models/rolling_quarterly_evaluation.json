@@ -1,0 +1,179 @@
+{
+  "selection_rule": "NO_TRADE unless validation has >=20 trades, positive net PnL and PF > 1",
+  "acceptance_rule": "A candidate needs PF > 1 and positive PnL in a majority of TRADE test folds, with enough cumulative OOS trades.",
+  "results": [
+    {
+      "candidate": "xgboost_h50",
+      "horizon": 50,
+      "folds": [
+        {
+          "fold": "validation 2023Q4 / test 2024Q1",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2024Q1 / test 2024Q2",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2024Q2 / test 2024Q3",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2024Q3 / test 2024Q4",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2024Q4 / test 2025Q1",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2025Q1 / test 2025Q2",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2025Q2 / test 2025Q3",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2025Q3 / test 2025Q4",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2025Q4 / test 2026Q1",
+          "status": "TRADE",
+          "selected_threshold": 0.5,
+          "validation": {
+            "threshold": 0.5,
+            "rows": 10486,
+            "positive_rate": 0.22077055121113867,
+            "selected_rate": 0.00781995041007057,
+            "accuracy": 0.7782757962998283,
+            "precision": 0.43902439024390244,
+            "recall": 0.015550755939524838,
+            "f1": 0.030037546933667083,
+            "roc_auc": 0.5405519388090367,
+            "backtest": {
+              "trades": 25,
+              "net_pnl": 879029.7694101847,
+              "gross_profit": 13419566.320715804,
+              "gross_loss": 12540536.551305618,
+              "profit_factor": 1.0700950685653612,
+              "win_rate": 0.4,
+              "max_drawdown": 6972184.055769103
+            }
+          },
+          "test": {
+            "classification": {
+              "rows": 8178,
+              "positive_rate": 0.20445096600635854,
+              "selected_rate": 0.005013450721447787,
+              "accuracy": 0.7942039618488628,
+              "precision": 0.36585365853658536,
+              "recall": 0.008971291866028708,
+              "f1": 0.017513134851138354,
+              "roc_auc": 0.5320077197787247
+            },
+            "backtest": {
+              "trades": 12,
+              "net_pnl": -2277325.4293600344,
+              "gross_profit": 5709212.9597758865,
+              "gross_loss": 7986538.389135921,
+              "profit_factor": 0.7148545066210565,
+              "win_rate": 0.3333333333333333,
+              "max_drawdown": 4002955.1370687205
+            }
+          }
+        },
+        {
+          "fold": "validation 2026Q1 / test 2026Q2",
+          "status": "NO_TRADE",
+          "test": null
+        }
+      ],
+      "summary": {
+        "quarterly_test_folds": 10,
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 12,
+        "aggregate_test_net_pnl": -2277325.4293600344,
+        "aggregate_test_profit_factor": 0.7148545066210565,
+        "worst_test_drawdown": 4002955.1370687205
+      }
+    },
+    {
+      "candidate": "catboost_h100",
+      "horizon": 100,
+      "folds": [
+        {
+          "fold": "validation 2023Q4 / test 2024Q1",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2024Q1 / test 2024Q2",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2024Q2 / test 2024Q3",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2024Q3 / test 2024Q4",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2024Q4 / test 2025Q1",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2025Q1 / test 2025Q2",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2025Q2 / test 2025Q3",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2025Q3 / test 2025Q4",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2025Q4 / test 2026Q1",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "validation 2026Q1 / test 2026Q2",
+          "status": "NO_TRADE",
+          "test": null
+        }
+      ],
+      "summary": {
+        "quarterly_test_folds": 10,
+        "trade_folds": 0,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 0,
+        "aggregate_test_net_pnl": 0,
+        "aggregate_test_profit_factor": null,
+        "worst_test_drawdown": 0.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "execution": "commission=0; same failed-reclaim entry, SL=1ATR and TP=3ATR; no breakeven",
+  "stage_counts": {
+    "large_bearish_marubozus": 4309,
+    "failed_reclaims": 886
+  },
+  "all_history": {
+    "entry_events": 886,
+    "trades": 882,
+    "net_pnl": -73734942.82405221,
+    "profit_factor": 0.7719922396993997,
+    "win_rate": 0.2891156462585034
+  },
+  "years": [
+    {
+      "period": "2024",
+      "entry_events": 85,
+      "trades": 85,
+      "net_pnl": -33879572.32134302,
+      "profit_factor": 0.3680638133789836,
+      "win_rate": 0.21176470588235294
+    },
+    {
+      "period": "2025",
+      "entry_events": 73,
+      "trades": 73,
+      "net_pnl": -383202.3373863866,
+      "profit_factor": 0.9911168461587783,
+      "win_rate": 0.3150684931506849
+    },
+    {
+      "period": "2026",
+      "entry_events": 39,
+      "trades": 39,
+      "net_pnl": -4572605.048805053,
+      "profit_factor": 0.7996582192148665,
+      "win_rate": 0.2564102564102564
+    }
+  ]
+}

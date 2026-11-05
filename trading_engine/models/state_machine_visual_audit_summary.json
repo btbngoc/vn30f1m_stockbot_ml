@@ -1,0 +1,15 @@
+{
+  "execution": "raw LPS/SOS only; no ML; commission=0 research mode with slippage and active ATR exits",
+  "sl_trades": 7,
+  "by_category": {
+    "ImmediateFailure": 5,
+    "PullbackOrStopSizing": 1,
+    "SpringBreak": 1
+  },
+  "by_setup": {
+    "LPS": 5,
+    "SOS": 2
+  },
+  "index_csv": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\state_machine_visual_audit\\sl_trade_index.csv",
+  "chart_directory": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\state_machine_visual_audit"
+}

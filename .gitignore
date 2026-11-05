@@ -1,0 +1,53 @@
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# Large data and cache files
+*.parquet
+*.tmp*
+catboost_info/
+
+# Large visualizer charts
+*.html
+
+
+# Local market data
+/data/*.csv
+/backtest_trades.csv
+/ml_dataset_debug.csv
+trading_engine/data/*.csv
+
+# Generated ML datasets and model artifacts
+*.pkl
+*.parquet
+*.tmp*
+
+# Runtime state
+trading_engine/data/*.json
+
+# Backtest and research outputs
+/results/
+trading_engine/models/*.csv
+
+# Logs
+/logs/
+*.log
+
+# Local secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+
+# Serialized ML models
+*.pkl

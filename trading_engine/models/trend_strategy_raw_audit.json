@@ -1,0 +1,125 @@
+{
+  "execution": "event-based TrendStrategy entries; EMA/ADX + breakout/pullback confirmation; one entry per EMA trend; 15-bar post-exit cooldown; active ATR exits, slippage and commissions",
+  "results": [
+    {
+      "period": "all_history",
+      "combined": {
+        "raw_candidates": 3278,
+        "trades": 2277,
+        "net_pnl": -265985356.79718533,
+        "profit_factor": 0.1779040681104813,
+        "win_rate": 0.19148001756697408,
+        "avg_pnl": -116813.94677083238,
+        "max_drawdown": 263431948.46362102
+      },
+      "long_only": {
+        "raw_candidates": 3278,
+        "trades": 2277,
+        "net_pnl": -265985356.79718533,
+        "profit_factor": 0.1779040681104813,
+        "win_rate": 0.19148001756697408,
+        "avg_pnl": -116813.94677083238,
+        "max_drawdown": 263431948.46362102
+      },
+      "short_only": {
+        "raw_candidates": 0,
+        "trades": 0,
+        "net_pnl": 0.0,
+        "profit_factor": 0.0,
+        "win_rate": 0.0,
+        "avg_pnl": 0.0,
+        "max_drawdown": 0.0
+      }
+    },
+    {
+      "period": "2024",
+      "combined": {
+        "raw_candidates": 434,
+        "trades": 294,
+        "net_pnl": -99028877.63976426,
+        "profit_factor": 0.143739847038733,
+        "win_rate": 0.17006802721088435,
+        "avg_pnl": -336832.91714205535,
+        "max_drawdown": 97137386.06017776
+      },
+      "long_only": {
+        "raw_candidates": 434,
+        "trades": 294,
+        "net_pnl": -99028877.63976426,
+        "profit_factor": 0.143739847038733,
+        "win_rate": 0.17006802721088435,
+        "avg_pnl": -336832.91714205535,
+        "max_drawdown": 97137386.06017776
+      },
+      "short_only": {
+        "raw_candidates": 0,
+        "trades": 0,
+        "net_pnl": 0.0,
+        "profit_factor": 0.0,
+        "win_rate": 0.0,
+        "avg_pnl": 0.0,
+        "max_drawdown": 0.0
+      }
+    },
+    {
+      "period": "2025",
+      "combined": {
+        "raw_candidates": 532,
+        "trades": 356,
+        "net_pnl": -99341688.63270377,
+        "profit_factor": 0.2126528121151846,
+        "win_rate": 0.2640449438202247,
+        "avg_pnl": -279049.6871705162,
+        "max_drawdown": 99837859.89543349
+      },
+      "long_only": {
+        "raw_candidates": 532,
+        "trades": 356,
+        "net_pnl": -99341688.63270377,
+        "profit_factor": 0.2126528121151846,
+        "win_rate": 0.2640449438202247,
+        "avg_pnl": -279049.6871705162,
+        "max_drawdown": 99837859.89543349
+      },
+      "short_only": {
+        "raw_candidates": 0,
+        "trades": 0,
+        "net_pnl": 0.0,
+        "profit_factor": 0.0,
+        "win_rate": 0.0,
+        "avg_pnl": 0.0,
+        "max_drawdown": 0.0
+      }
+    },
+    {
+      "period": "2026",
+      "combined": {
+        "raw_candidates": 172,
+        "trades": 114,
+        "net_pnl": -44015526.48170863,
+        "profit_factor": 0.3515748564591722,
+        "win_rate": 0.2543859649122807,
+        "avg_pnl": -386101.1094886722,
+        "max_drawdown": 42663734.47720336
+      },
+      "long_only": {
+        "raw_candidates": 172,
+        "trades": 114,
+        "net_pnl": -44015526.48170863,
+        "profit_factor": 0.3515748564591722,
+        "win_rate": 0.2543859649122807,
+        "avg_pnl": -386101.1094886722,
+        "max_drawdown": 42663734.47720336
+      },
+      "short_only": {
+        "raw_candidates": 0,
+        "trades": 0,
+        "net_pnl": 0.0,
+        "profit_factor": 0.0,
+        "win_rate": 0.0,
+        "avg_pnl": 0.0,
+        "max_drawdown": 0.0
+      }
+    }
+  ]
+}

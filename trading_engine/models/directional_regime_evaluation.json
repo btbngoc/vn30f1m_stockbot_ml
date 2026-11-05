@@ -1,0 +1,45 @@
+{
+  "selection_rule": "Separate Long/Short models; NO_TRADE unless 2025 validation has >=20 trades, positive PnL and PF > 1.",
+  "results": [
+    {
+      "direction": "long",
+      "status": "TRADE",
+      "selected_threshold": 0.5,
+      "validation": {
+        "trades": 64,
+        "net_pnl": 3918626.4970886083,
+        "profit_factor": 1.1168936664330447,
+        "win_rate": 0.484375
+      },
+      "test": {
+        "trades": 30,
+        "net_pnl": 14819947.352991657,
+        "profit_factor": 2.0937258851225065,
+        "win_rate": 0.6
+      },
+      "regime_distribution": {
+        "HIGH_VOL": {
+          "count": 869,
+          "mean": 0.2428
+        },
+        "RANGE": {
+          "count": 3665,
+          "mean": 0.194
+        },
+        "TREND_DOWN": {
+          "count": 21,
+          "mean": 0.2381
+        },
+        "TREND_UP": {
+          "count": 4693,
+          "mean": 0.1922
+        }
+      }
+    },
+    {
+      "direction": "short",
+      "status": "NO_TRADE",
+      "test": null
+    }
+  ]
+}

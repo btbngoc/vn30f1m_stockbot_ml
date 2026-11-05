@@ -1,0 +1,333 @@
+{
+  "execution": "pre-registered raw Short candidates; each quarter selects only from prior-quarter results; no ML; commission=0 research mode with slippage and active ATR exits",
+  "selection_rule": "maximum cumulative net PnL before the test quarter; minimum 3 prior trades, prior PnL > 0 and PF > 1",
+  "quarterly_oos": [
+    {
+      "quarter": "2018Q1",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2018Q2",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2018Q3",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2018Q4",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q1",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q2",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q3",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q4",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2020Q1",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2020Q2",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2020Q3",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2020Q4",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2021Q1",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2021Q2",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2021Q3",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2021Q4",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q1",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q2",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q3",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q4",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q1",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q2",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q3",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q4",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2024Q1",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2024Q2",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2024Q3",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2024Q4",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2025Q1",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2025Q2",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2025Q3",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2025Q4",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2026Q1",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2026Q2",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2026Q3",
+      "selected_setup": null,
+      "selection_reason": "no prior setup passed min 3 trades + PnL > 0 + PF > 1; no OOS trade",
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    }
+  ],
+  "summary": {
+    "quarters_total": 35,
+    "quarters_selected": 0,
+    "quarters_with_trades": 0,
+    "quarters_positive_pnl": 0,
+    "aggregate": {
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "execution": "fixed transition-gated LPSY break-confirm entry; only exit rule changes; no ML or paper-trade changes; commission=0 research mode with slippage",
+  "breakeven_rule": "after a completed candle reaches +1 initial R MFE, stop is moved to entry for the next candle; no same-candle look-ahead",
+  "baseline": {
+    "trades": 5,
+    "net_pnl": -1717555.2841844365,
+    "profit_factor": 0.5225555827870028,
+    "win_rate": 0.2
+  },
+  "breakeven_after_1r": {
+    "trades": 5,
+    "net_pnl": -647249.928516385,
+    "profit_factor": 0.7438751730070398,
+    "win_rate": 0.2
+  },
+  "trade_csv": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_transition_breakeven_trades_no_commission.csv"
+}

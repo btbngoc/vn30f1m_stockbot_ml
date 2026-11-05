@@ -1,0 +1,30 @@
+{
+  "execution": "raw event-based TrendStrategy with current active backtest exits, fees, slippage and 15-bar cooldown",
+  "r_multiple": "Net PnL divided by initial ATR stop risk, including fees.",
+  "results": [
+    {
+      "period": "all_history",
+      "trades": 0,
+      "by_exit_reason": {},
+      "by_entry_setup": {}
+    },
+    {
+      "period": "2024",
+      "trades": 0,
+      "by_exit_reason": {},
+      "by_entry_setup": {}
+    },
+    {
+      "period": "2025",
+      "trades": 0,
+      "by_exit_reason": {},
+      "by_entry_setup": {}
+    },
+    {
+      "period": "2026",
+      "trades": 0,
+      "by_exit_reason": {},
+      "by_entry_setup": {}
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "execution": "commission=0; completed 5m bearish marubozu body >=80% range and range >=1 ATR; 2-20 bars later pullback high breaks marubozu high but close returns below it and closes weak; Short next actionable 1m",
+  "stage_counts": {
+    "large_bearish_marubozus": 4309,
+    "failed_reclaims": 886
+  },
+  "all_history": {
+    "entry_events": 886,
+    "trades": 884,
+    "net_pnl": -78649023.79436465,
+    "profit_factor": 0.7015159682348673,
+    "win_rate": 0.30995475113122173
+  },
+  "years": [
+    {
+      "period": "2024",
+      "entry_events": 85,
+      "trades": 85,
+      "net_pnl": -32298311.98043637,
+      "profit_factor": 0.4113477552012044,
+      "win_rate": 0.21176470588235294
+    },
+    {
+      "period": "2025",
+      "entry_events": 73,
+      "trades": 73,
+      "net_pnl": 491942.4743801326,
+      "profit_factor": 1.0116587661802416,
+      "win_rate": 0.3424657534246575
+    },
+    {
+      "period": "2026",
+      "entry_events": 39,
+      "trades": 39,
+      "net_pnl": -3259480.3221795917,
+      "profit_factor": 0.8575079829081194,
+      "win_rate": 0.3076923076923077
+    }
+  ],
+  "trades_csv": "D:\\VN30F1M stock bot\\trading_engine\\models\\short_marubozu_failed_reclaim_raw_trades.csv"
+}

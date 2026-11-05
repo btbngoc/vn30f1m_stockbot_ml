@@ -1,0 +1,83 @@
+{
+  "method": "pre-registered four candidate gates; develop 2018-2022; select once on 2023; untouched test folds 2024, 2025, 2026",
+  "commission_assumption_vnd_per_contract_per_side": 5000.0,
+  "selection_rule": "train >=30 trades and PF>1; validation >=5 trades and PF>1; select highest validation net PnL, then PF",
+  "development": [
+    {
+      "candidate": "BASELINE",
+      "train_2018_2022": {
+        "events": 103,
+        "trades": 102,
+        "net_pnl": -31276785.169217568,
+        "profit_factor": 0.5534969550092167,
+        "win_rate": 0.28431372549019607
+      },
+      "validation_2023": {
+        "events": 10,
+        "trades": 10,
+        "net_pnl": -3135632.3459486924,
+        "profit_factor": 0.6125282292351835,
+        "win_rate": 0.3
+      },
+      "eligible": false
+    },
+    {
+      "candidate": "NO_LUNCH",
+      "train_2018_2022": {
+        "events": 63,
+        "trades": 63,
+        "net_pnl": -10037477.21068961,
+        "profit_factor": 0.7728479316076308,
+        "win_rate": 0.3492063492063492
+      },
+      "validation_2023": {
+        "events": 7,
+        "trades": 7,
+        "net_pnl": -2787777.958250381,
+        "profit_factor": 0.5468392995549018,
+        "win_rate": 0.2857142857142857
+      },
+      "eligible": false
+    },
+    {
+      "candidate": "ROOM_1_TO_3_ATR",
+      "train_2018_2022": {
+        "events": 37,
+        "trades": 37,
+        "net_pnl": -6864126.877744023,
+        "profit_factor": 0.7463024623194773,
+        "win_rate": 0.3783783783783784
+      },
+      "validation_2023": {
+        "events": 3,
+        "trades": 3,
+        "net_pnl": -910745.9264135102,
+        "profit_factor": 0.6362229427574022,
+        "win_rate": 0.3333333333333333
+      },
+      "eligible": false
+    },
+    {
+      "candidate": "NO_LUNCH_ROOM_1_TO_3_ATR",
+      "train_2018_2022": {
+        "events": 19,
+        "trades": 19,
+        "net_pnl": 2892377.578791266,
+        "profit_factor": 1.2443512167701676,
+        "win_rate": 0.47368421052631576
+      },
+      "validation_2023": {
+        "events": 2,
+        "trades": 2,
+        "net_pnl": -2503582.6429431653,
+        "profit_factor": 0.0,
+        "win_rate": 0.0
+      },
+      "eligible": false
+    }
+  ],
+  "selected_candidate": null,
+  "test_folds": [],
+  "test_pf_above_one_folds": 0,
+  "selected_trades_csv": null
+}

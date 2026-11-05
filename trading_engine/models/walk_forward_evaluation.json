@@ -1,0 +1,164 @@
+{
+  "selection_rule": "maximum validation net PnL; profit factor breaks ties; minimum 20 trades",
+  "folds": [
+    {
+      "fold": "2018-2022 / 2023 / 2024",
+      "rows": {
+        "train": 179808,
+        "validation": 34850,
+        "test": 34923
+      },
+      "selected_threshold": 0.55,
+      "validation_selected": {
+        "threshold": 0.55,
+        "rows": 34850,
+        "positive_rate": 0.4969010043041607,
+        "selected_rate": 0.3608034433285509,
+        "accuracy": 0.5735150645624103,
+        "precision": 0.5975823127087642,
+        "recall": 0.43390887567130565,
+        "f1": 0.5027600281021043,
+        "roc_auc": 0.6053260949009044,
+        "backtest": {
+          "trades": 28,
+          "net_pnl": 1816071.428571795,
+          "gross_profit": 5863214.285714516,
+          "gross_loss": 4047142.857142722,
+          "profit_factor": 1.4487292622662544,
+          "win_rate": 0.6071428571428571,
+          "max_drawdown": 1957499.9999999546
+        }
+      },
+      "test": {
+        "classification": {
+          "rows": 34923,
+          "positive_rate": 0.4807719840792601,
+          "selected_rate": 0.37551184033445006,
+          "accuracy": 0.5743206482833663,
+          "precision": 0.5733567180112856,
+          "recall": 0.44782608695652176,
+          "f1": 0.5028758694489032,
+          "roc_auc": 0.6085349459606368
+        },
+        "backtest": {
+          "trades": 32,
+          "net_pnl": 3609642.857143345,
+          "gross_profit": 6465000.0000002915,
+          "gross_loss": 2855357.142856946,
+          "profit_factor": 2.2641651031897516,
+          "win_rate": 0.5625,
+          "max_drawdown": 913928.5714285369
+        }
+      }
+    },
+    {
+      "fold": "2018-2023 / 2024 / 2025",
+      "rows": {
+        "train": 214658,
+        "validation": 34923,
+        "test": 36132
+      },
+      "selected_threshold": 0.5,
+      "validation_selected": {
+        "threshold": 0.5,
+        "rows": 34923,
+        "positive_rate": 0.4807719840792601,
+        "selected_rate": 0.5196861667096183,
+        "accuracy": 0.5798470921742118,
+        "precision": 0.5583227726045512,
+        "recall": 0.6035139964264443,
+        "f1": 0.5800394974097713,
+        "roc_auc": 0.6099681208667069,
+        "backtest": {
+          "trades": 53,
+          "net_pnl": 10667857.142857937,
+          "gross_profit": 14891428.571429096,
+          "gross_loss": 4223571.428571159,
+          "profit_factor": 3.525790630813811,
+          "win_rate": 0.6037735849056604,
+          "max_drawdown": 913928.5714285374
+        }
+      },
+      "test": {
+        "classification": {
+          "rows": 36132,
+          "positive_rate": 0.5483228163400864,
+          "selected_rate": 0.5800952064651832,
+          "accuracy": 0.5838038303996458,
+          "precision": 0.6138835877862595,
+          "recall": 0.6494548758328286,
+          "f1": 0.631168448935544,
+          "roc_auc": 0.6033624572822769
+        },
+        "backtest": {
+          "trades": 76,
+          "net_pnl": 13108571.428572481,
+          "gross_profit": 31701071.428572066,
+          "gross_loss": 18592499.999999586,
+          "profit_factor": 1.7050461975835833,
+          "win_rate": 0.5263157894736842,
+          "max_drawdown": 3381071.428571058
+        }
+      }
+    },
+    {
+      "fold": "2018-2024 / 2025 / 2026",
+      "rows": {
+        "train": 249592,
+        "validation": 36132,
+        "test": 27708
+      },
+      "selected_threshold": 0.55,
+      "validation_selected": {
+        "threshold": 0.55,
+        "rows": 36132,
+        "positive_rate": 0.5483228163400864,
+        "selected_rate": 0.3879386693235913,
+        "accuracy": 0.5543285730100742,
+        "precision": 0.6323036313048441,
+        "recall": 0.4473551383000202,
+        "f1": 0.5239882940672205,
+        "roc_auc": 0.6077673219562911,
+        "backtest": {
+          "trades": 39,
+          "net_pnl": 9935714.285714908,
+          "gross_profit": 16247142.85714324,
+          "gross_loss": 6311428.5714283325,
+          "profit_factor": 2.5742417383432996,
+          "win_rate": 0.6410256410256411,
+          "max_drawdown": 1743571.428571263
+        }
+      },
+      "test": {
+        "classification": {
+          "rows": 27708,
+          "positive_rate": 0.5133174534430489,
+          "selected_rate": 0.41670275732640394,
+          "accuracy": 0.5530171791540349,
+          "precision": 0.5795946648189849,
+          "recall": 0.47050551922941714,
+          "f1": 0.5193837556754239,
+          "roc_auc": 0.5898313663724575
+        },
+        "backtest": {
+          "trades": 45,
+          "net_pnl": -578214.2857136694,
+          "gross_profit": 12855357.142857503,
+          "gross_loss": 13433571.42857117,
+          "profit_factor": 0.9569575158186234,
+          "win_rate": 0.5333333333333333,
+          "max_drawdown": 6581785.7142855115
+        }
+      }
+    }
+  ],
+  "summary": {
+    "test_folds": 3,
+    "profitable_test_folds": 2,
+    "pf_above_one_test_folds": 2,
+    "total_test_trades": 153,
+    "aggregate_test_net_pnl": 16140000.000002157,
+    "aggregate_test_profit_factor": 1.4627104066839414,
+    "worst_test_drawdown": 6581785.7142855115
+  }
+}

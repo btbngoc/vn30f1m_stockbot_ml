@@ -1,0 +1,735 @@
+{
+  "label_definition": "one-contract realized net PnL > 0 after active-backtest slippage, fees, dynamic ATR trailing stop, and time limit",
+  "selection_rule": "NO_TRADE unless validation has >=20 trades, positive net PnL and PF > 1",
+  "results": [
+    {
+      "horizon": 20,
+      "execution_max_holding_bars": 20,
+      "model": "xgboost",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.5,
+          "validation": {
+            "threshold": 0.5,
+            "rows": 37019,
+            "positive_rate": 0.25022285853210513,
+            "selected_rate": 0.006267052054350469,
+            "accuracy": 0.7491828520489479,
+            "precision": 0.4525862068965517,
+            "recall": 0.01133542049012199,
+            "f1": 0.022116903633491312,
+            "roc_auc": 0.5829613104788156,
+            "backtest": {
+              "trades": 95,
+              "net_pnl": 60254719.72997777,
+              "gross_profit": 142336988.37511197,
+              "gross_loss": 82082268.6451342,
+              "profit_factor": 1.7340771731161166,
+              "win_rate": 0.4421052631578947,
+              "max_drawdown": 24238509.970626824
+            }
+          },
+          "test": {
+            "classification": {
+              "rows": 19820,
+              "positive_rate": 0.2505549949545913,
+              "selected_rate": 0.004086781029263371,
+              "accuracy": 0.7480827447023208,
+              "precision": 0.3333333333333333,
+              "recall": 0.005436971405557793,
+              "f1": 0.010699425401228452,
+              "roc_auc": 0.5269044529053115
+            },
+            "backtest": {
+              "trades": 42,
+              "net_pnl": -11931432.510076225,
+              "gross_profit": 14739972.7847449,
+              "gross_loss": 26671405.294821125,
+              "profit_factor": 0.552650774183504,
+              "win_rate": 0.2857142857142857,
+              "max_drawdown": 13565112.504620053
+            }
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 42,
+        "net_pnl": -11931432.510076225,
+        "worst_drawdown": 13565112.504620053
+      }
+    },
+    {
+      "horizon": 20,
+      "execution_max_holding_bars": 20,
+      "model": "lightgbm",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.55,
+          "validation": {
+            "threshold": 0.55,
+            "rows": 37019,
+            "positive_rate": 0.25022285853210513,
+            "selected_rate": 0.002080012966314595,
+            "accuracy": 0.7496420756908615,
+            "precision": 0.4675324675324675,
+            "recall": 0.00388642988232754,
+            "f1": 0.007708779443254818,
+            "roc_auc": 0.5809980763880342,
+            "backtest": {
+              "trades": 31,
+              "net_pnl": 42339587.128116235,
+              "gross_profit": 69995493.4374965,
+              "gross_loss": 27655906.309380256,
+              "profit_factor": 2.5309419497764067,
+              "win_rate": 0.3548387096774194,
+              "max_drawdown": 15628475.102334253
+            }
+          },
+          "test": {
+            "classification": {
+              "rows": 19820,
+              "positive_rate": 0.2505549949545913,
+              "selected_rate": 0.0007063572149344097,
+              "accuracy": 0.7491422805247225,
+              "precision": 0.2857142857142857,
+              "recall": 0.0008054772452678212,
+              "f1": 0.001606425702811245,
+              "roc_auc": 0.5307445550980002
+            },
+            "backtest": {
+              "trades": 7,
+              "net_pnl": -1851695.0100149459,
+              "gross_profit": 3259179.733860019,
+              "gross_loss": 5110874.743874965,
+              "profit_factor": 0.6376950907994612,
+              "win_rate": 0.2857142857142857,
+              "max_drawdown": 3465112.147805621
+            }
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 7,
+        "net_pnl": -1851695.0100149459,
+        "worst_drawdown": 3465112.147805621
+      }
+    },
+    {
+      "horizon": 20,
+      "execution_max_holding_bars": 20,
+      "model": "catboost",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.55,
+          "validation": {
+            "threshold": 0.55,
+            "rows": 37019,
+            "positive_rate": 0.25022285853210513,
+            "selected_rate": 0.0009454604392339069,
+            "accuracy": 0.7500742861773684,
+            "precision": 0.6571428571428571,
+            "recall": 0.002482996869264817,
+            "f1": 0.004947300494730049,
+            "roc_auc": 0.5873635961577359,
+            "backtest": {
+              "trades": 20,
+              "net_pnl": 178882396.8592291,
+              "gross_profit": 201173038.6576579,
+              "gross_loss": 22290641.79842882,
+              "profit_factor": 9.024999839701241,
+              "win_rate": 0.6,
+              "max_drawdown": 5677439.353136003
+            }
+          },
+          "test": {
+            "classification": {
+              "rows": 19820,
+              "positive_rate": 0.2505549949545913,
+              "selected_rate": 0.00035317860746720485,
+              "accuracy": 0.7493945509586276,
+              "precision": 0.42857142857142855,
+              "recall": 0.0006041079339508659,
+              "f1": 0.0012065151819827067,
+              "roc_auc": 0.5357355288616422
+            },
+            "backtest": {
+              "trades": 5,
+              "net_pnl": -1285843.5025752806,
+              "gross_profit": 2032682.4882340408,
+              "gross_loss": 3318525.9908093214,
+              "profit_factor": 0.6125257098674435,
+              "win_rate": 0.4,
+              "max_drawdown": 2209371.917640583
+            }
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 5,
+        "net_pnl": -1285843.5025752806,
+        "worst_drawdown": 2209371.917640583
+      }
+    },
+    {
+      "horizon": 20,
+      "execution_max_holding_bars": 20,
+      "model": "logistic_regression",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "NO_TRADE",
+          "test": null
+        }
+      ],
+      "summary": {
+        "trade_folds": 0,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 0,
+        "net_pnl": 0,
+        "worst_drawdown": 0.0
+      }
+    },
+    {
+      "horizon": 50,
+      "execution_max_holding_bars": 50,
+      "model": "xgboost",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.6,
+          "validation": {
+            "threshold": 0.6,
+            "rows": 37019,
+            "positive_rate": 0.24925038493746454,
+            "selected_rate": 0.0012696183041141036,
+            "accuracy": 0.7507766282179421,
+            "precision": 0.5106382978723404,
+            "recall": 0.002601062100357646,
+            "f1": 0.005175760189777874,
+            "roc_auc": 0.5821774734158264,
+            "backtest": {
+              "trades": 25,
+              "net_pnl": 115309757.08599484,
+              "gross_profit": 142640732.12328717,
+              "gross_loss": 27330975.037292324,
+              "profit_factor": 5.219013662288229,
+              "win_rate": 0.48,
+              "max_drawdown": 10123310.933197007
+            }
+          },
+          "test": {
+            "classification": {
+              "rows": 19802,
+              "positive_rate": 0.2485102514897485,
+              "selected_rate": 0.0001514998485001515,
+              "accuracy": 0.7514392485607514,
+              "precision": 0.3333333333333333,
+              "recall": 0.000203210729526519,
+              "f1": 0.00040617384240454913,
+              "roc_auc": 0.5278759415224494
+            },
+            "backtest": {
+              "trades": 3,
+              "net_pnl": -331722.1197392064,
+              "gross_profit": 1544100.4154213807,
+              "gross_loss": 1875822.5351605872,
+              "profit_factor": 0.8231591136574078,
+              "win_rate": 0.3333333333333333,
+              "max_drawdown": 1875822.5351605872
+            }
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 3,
+        "net_pnl": -331722.1197392064,
+        "worst_drawdown": 1875822.5351605872
+      }
+    },
+    {
+      "horizon": 50,
+      "execution_max_holding_bars": 50,
+      "model": "lightgbm",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.5,
+          "validation": {
+            "threshold": 0.5,
+            "rows": 37019,
+            "positive_rate": 0.24925038493746454,
+            "selected_rate": 0.004403144331289338,
+            "accuracy": 0.7500742861773684,
+            "precision": 0.4233128834355828,
+            "recall": 0.0074780535385282326,
+            "f1": 0.014696485623003195,
+            "roc_auc": 0.5794863559823773,
+            "backtest": {
+              "trades": 59,
+              "net_pnl": 77022292.59667566,
+              "gross_profit": 134821772.98541436,
+              "gross_loss": 57799480.388738684,
+              "profit_factor": 2.332577595484444,
+              "win_rate": 0.3898305084745763,
+              "max_drawdown": 13646164.403031461
+            }
+          },
+          "test": {
+            "classification": {
+              "rows": 19802,
+              "positive_rate": 0.2485102514897485,
+              "selected_rate": 0.002120997879002121,
+              "accuracy": 0.7502777497222503,
+              "precision": 0.21428571428571427,
+              "recall": 0.001828896565738671,
+              "f1": 0.0036268386056820473,
+              "roc_auc": 0.5260051901831069
+            },
+            "backtest": {
+              "trades": 16,
+              "net_pnl": -1454193.118035887,
+              "gross_profit": 6680962.997917787,
+              "gross_loss": 8135156.115953673,
+              "profit_factor": 0.821245825241866,
+              "win_rate": 0.375,
+              "max_drawdown": 3767564.7123640645
+            }
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 16,
+        "net_pnl": -1454193.118035887,
+        "worst_drawdown": 3767564.7123640645
+      }
+    },
+    {
+      "horizon": 50,
+      "execution_max_holding_bars": 50,
+      "model": "catboost",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.55,
+          "validation": {
+            "threshold": 0.55,
+            "rows": 37019,
+            "positive_rate": 0.24925038493746454,
+            "selected_rate": 0.0011615656824873713,
+            "accuracy": 0.7513709176368891,
+            "precision": 0.7674418604651163,
+            "recall": 0.0035764603879917633,
+            "f1": 0.007119741100323625,
+            "roc_auc": 0.5870023818423803,
+            "backtest": {
+              "trades": 21,
+              "net_pnl": 155482037.18929613,
+              "gross_profit": 166381288.9982354,
+              "gross_loss": 10899251.80893929,
+              "profit_factor": 15.265386277411602,
+              "win_rate": 0.7142857142857143,
+              "max_drawdown": 3326438.2173345387
+            }
+          },
+          "test": {
+            "classification": {
+              "rows": 19802,
+              "positive_rate": 0.2485102514897485,
+              "selected_rate": 0.000302999697000303,
+              "accuracy": 0.7512877487122512,
+              "precision": 0.16666666666666666,
+              "recall": 0.000203210729526519,
+              "f1": 0.00040592652729855896,
+              "roc_auc": 0.5350882905624205
+            },
+            "backtest": {
+              "trades": 5,
+              "net_pnl": -3266239.196240958,
+              "gross_profit": 1544100.4154213807,
+              "gross_loss": 4810339.6116623385,
+              "profit_factor": 0.3209961333453079,
+              "win_rate": 0.2,
+              "max_drawdown": 2453124.5116334045
+            }
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 5,
+        "net_pnl": -3266239.196240958,
+        "worst_drawdown": 2453124.5116334045
+      }
+    },
+    {
+      "horizon": 50,
+      "execution_max_holding_bars": 50,
+      "model": "logistic_regression",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "NO_TRADE",
+          "test": null
+        }
+      ],
+      "summary": {
+        "trade_folds": 0,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 0,
+        "net_pnl": 0,
+        "worst_drawdown": 0.0
+      }
+    },
+    {
+      "horizon": 100,
+      "execution_max_holding_bars": 100,
+      "model": "xgboost",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.6,
+          "validation": {
+            "threshold": 0.6,
+            "rows": 37019,
+            "positive_rate": 0.25016883222129177,
+            "selected_rate": 0.0012696183041141036,
+            "accuracy": 0.7498581809341149,
+            "precision": 0.5106382978723404,
+            "recall": 0.0025915127955944283,
+            "f1": 0.005156854318865492,
+            "roc_auc": 0.580558683341334,
+            "backtest": {
+              "trades": 25,
+              "net_pnl": 115309757.08599484,
+              "gross_profit": 142640732.12328717,
+              "gross_loss": 27330975.037292324,
+              "profit_factor": 5.219013662288229,
+              "win_rate": 0.48,
+              "max_drawdown": 10123310.933197007
+            }
+          },
+          "test": {
+            "classification": {
+              "rows": 19779,
+              "positive_rate": 0.24879923150816521,
+              "selected_rate": 0.00015167602002123465,
+              "accuracy": 0.7511502098184943,
+              "precision": 0.3333333333333333,
+              "recall": 0.000203210729526519,
+              "f1": 0.00040617384240454913,
+              "roc_auc": 0.5275456123838353
+            },
+            "backtest": {
+              "trades": 3,
+              "net_pnl": -331722.1197392064,
+              "gross_profit": 1544100.4154213807,
+              "gross_loss": 1875822.5351605872,
+              "profit_factor": 0.8231591136574078,
+              "win_rate": 0.3333333333333333,
+              "max_drawdown": 1875822.5351605872
+            }
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 3,
+        "net_pnl": -331722.1197392064,
+        "worst_drawdown": 1875822.5351605872
+      }
+    },
+    {
+      "horizon": 100,
+      "execution_max_holding_bars": 100,
+      "model": "lightgbm",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.5,
+          "validation": {
+            "threshold": 0.5,
+            "rows": 37019,
+            "positive_rate": 0.25016883222129177,
+            "selected_rate": 0.004403144331289338,
+            "accuracy": 0.7495880493800481,
+            "precision": 0.4723926380368098,
+            "recall": 0.008314436885865457,
+            "f1": 0.01634125636672326,
+            "roc_auc": 0.5792014468237245,
+            "backtest": {
+              "trades": 59,
+              "net_pnl": 77022292.59667566,
+              "gross_profit": 134821772.98541436,
+              "gross_loss": 57799480.388738684,
+              "profit_factor": 2.332577595484444,
+              "win_rate": 0.3898305084745763,
+              "max_drawdown": 13646164.403031461
+            }
+          },
+          "test": {
+            "classification": {
+              "rows": 19779,
+              "positive_rate": 0.24879923150816521,
+              "selected_rate": 0.002123464280297285,
+              "accuracy": 0.7499873603316649,
+              "precision": 0.21428571428571427,
+              "recall": 0.001828896565738671,
+              "f1": 0.0036268386056820473,
+              "roc_auc": 0.5257028611627588
+            },
+            "backtest": {
+              "trades": 16,
+              "net_pnl": -1454193.118035887,
+              "gross_profit": 6680962.997917787,
+              "gross_loss": 8135156.115953673,
+              "profit_factor": 0.821245825241866,
+              "win_rate": 0.375,
+              "max_drawdown": 3767564.7123640645
+            }
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 16,
+        "net_pnl": -1454193.118035887,
+        "worst_drawdown": 3767564.7123640645
+      }
+    },
+    {
+      "horizon": 100,
+      "execution_max_holding_bars": 100,
+      "model": "catboost",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "TRADE",
+          "selected_threshold": 0.55,
+          "validation": {
+            "threshold": 0.55,
+            "rows": 37019,
+            "positive_rate": 0.25016883222129177,
+            "selected_rate": 0.0011615656824873713,
+            "accuracy": 0.750452470353062,
+            "precision": 0.7674418604651163,
+            "recall": 0.0035633300939423387,
+            "f1": 0.007093723129836629,
+            "roc_auc": 0.5843688636338227,
+            "backtest": {
+              "trades": 21,
+              "net_pnl": 155482037.18929613,
+              "gross_profit": 166381288.9982354,
+              "gross_loss": 10899251.80893929,
+              "profit_factor": 15.265386277411602,
+              "win_rate": 0.7142857142857143,
+              "max_drawdown": 3326438.2173345387
+            }
+          },
+          "test": {
+            "classification": {
+              "rows": 19779,
+              "positive_rate": 0.24879923150816521,
+              "selected_rate": 0.0003033520400424693,
+              "accuracy": 0.7509985337984731,
+              "precision": 0.16666666666666666,
+              "recall": 0.000203210729526519,
+              "f1": 0.00040592652729855896,
+              "roc_auc": 0.5347420595523691
+            },
+            "backtest": {
+              "trades": 5,
+              "net_pnl": -3266239.196240958,
+              "gross_profit": 1544100.4154213807,
+              "gross_loss": 4810339.6116623385,
+              "profit_factor": 0.3209961333453079,
+              "win_rate": 0.2,
+              "max_drawdown": 2453124.5116334045
+            }
+          }
+        }
+      ],
+      "summary": {
+        "trade_folds": 1,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 5,
+        "net_pnl": -3266239.196240958,
+        "worst_drawdown": 2453124.5116334045
+      }
+    },
+    {
+      "horizon": 100,
+      "execution_max_holding_bars": 100,
+      "model": "logistic_regression",
+      "folds": [
+        {
+          "fold": "2018-2022 / 2023 / 2024",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2023 / 2024 / 2025",
+          "status": "NO_TRADE",
+          "test": null
+        },
+        {
+          "fold": "2018-2024 / 2025 / 2026",
+          "status": "NO_TRADE",
+          "test": null
+        }
+      ],
+      "summary": {
+        "trade_folds": 0,
+        "pf_above_one_folds": 0,
+        "profitable_folds": 0,
+        "total_test_trades": 0,
+        "net_pnl": 0,
+        "worst_drawdown": 0.0
+      }
+    }
+  ]
+}

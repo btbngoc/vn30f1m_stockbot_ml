@@ -1,0 +1,42 @@
+{
+  "execution": "commission=0; prior completed 30-bar 5m zone mean >= prior SMA20 + 1 ATR; bearish marubozu volume > prior 20 completed 5m volume average; 2-10 bar green weak-volume pullback below marubozu high; Short next actionable 1m bar",
+  "stage_counts": {
+    "premium_30_bar_zones": 1055,
+    "premium_zone_marubozus": 420,
+    "weak_pullbacks": 239
+  },
+  "all_history": {
+    "entry_events": 239,
+    "trades": 238,
+    "net_pnl": -21672285.628324978,
+    "profit_factor": 0.8255681927910341,
+    "win_rate": 0.3319327731092437
+  },
+  "years": [
+    {
+      "period": "2024",
+      "entry_events": 19,
+      "trades": 19,
+      "net_pnl": 13260265.652739644,
+      "profit_factor": 2.9270726227309884,
+      "win_rate": 0.631578947368421
+    },
+    {
+      "period": "2025",
+      "entry_events": 13,
+      "trades": 13,
+      "net_pnl": -1400983.5922238156,
+      "profit_factor": 0.780946130976948,
+      "win_rate": 0.3076923076923077
+    },
+    {
+      "period": "2026",
+      "entry_events": 8,
+      "trades": 8,
+      "net_pnl": -2913737.696564476,
+      "profit_factor": 0.3745157429580482,
+      "win_rate": 0.25
+    }
+  ],
+  "trades_csv": "D:\\VN30F1M stock bot\\trading_engine\\models\\short_premium_zone_sma_marubozu_pullback_raw_trades.csv"
+}

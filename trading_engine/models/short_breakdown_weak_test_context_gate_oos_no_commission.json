@@ -1,0 +1,49 @@
+{
+  "execution": "pre-specified raw Short gate: completed 5m BREAKDOWN_WEAK_TEST + not LunchSession + 1-3 ATR room to current day low; no ML or other filters; commission=0 research mode with slippage and active ATR exits",
+  "all_history": {
+    "selected_events": 27,
+    "trades": 27,
+    "net_pnl": 7910423.948371874,
+    "profit_factor": 1.5270478103216851,
+    "win_rate": 0.48148148148148145
+  },
+  "years": [
+    {
+      "period": "2024",
+      "raw_events": 10,
+      "lunch_rejected": 1,
+      "room_rejected": 7,
+      "selected_events": 2,
+      "trades": 2,
+      "net_pnl": 902424.0934503725,
+      "profit_factor": 1.9804566274132562,
+      "win_rate": 0.5
+    },
+    {
+      "period": "2025",
+      "raw_events": 8,
+      "lunch_rejected": 4,
+      "room_rejected": 2,
+      "selected_events": 2,
+      "trades": 2,
+      "net_pnl": 3666257.2361358115,
+      "profit_factor": null,
+      "win_rate": 1.0
+    },
+    {
+      "period": "2026",
+      "raw_events": 10,
+      "lunch_rejected": 7,
+      "room_rejected": 1,
+      "selected_events": 2,
+      "trades": 2,
+      "net_pnl": 872876.0433321896,
+      "profit_factor": 1.8999376533758139,
+      "win_rate": 0.5
+    }
+  ],
+  "decision_rule": "keep only if PF > 1 in at least 2 of the 3 independent annual folds",
+  "pf_above_one_folds": 2,
+  "passes_oos_rule": true,
+  "trades_csv": "D:\\VN30F1M stock bot\\trading_engine\\models\\short_breakdown_weak_test_context_gate_trades_no_commission.csv"
+}

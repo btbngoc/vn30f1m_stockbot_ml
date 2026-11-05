@@ -1,0 +1,657 @@
+{
+  "configuration": "test6 + lps6 + pullback-reclaim",
+  "gate": "MarketRegime != RANGE AND ADX >= 25 AND TrendScore > 0",
+  "execution": "raw strategy only; no ML; commission=0 research mode with slippage and corrected non-lookahead trailing stop",
+  "summaries": {
+    "baseline": {
+      "trades": 23,
+      "net_pnl": 9160172.67467854,
+      "profit_factor": 1.8620748978440747,
+      "win_rate": 0.5217391304347826,
+      "quarters_with_trades": 17,
+      "positive_quarters": 10,
+      "events": 33
+    },
+    "trend_gate": {
+      "trades": 1,
+      "net_pnl": -369272.35261573514,
+      "profit_factor": 0.0,
+      "win_rate": 0.0,
+      "quarters_with_trades": 1,
+      "positive_quarters": 0,
+      "events": 1
+    }
+  },
+  "quarterly_results": [
+    {
+      "quarter": "2018Q1",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2018Q1",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2018Q2",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2018Q2",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2018Q3",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2018Q3",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2018Q4",
+      "variant": "baseline",
+      "raw_events": 1,
+      "trades": 1,
+      "net_pnl": -1415229.7998827293,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2018Q4",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q1",
+      "variant": "baseline",
+      "raw_events": 2,
+      "trades": 1,
+      "net_pnl": -609653.9430112557,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q1",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q2",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q2",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q3",
+      "variant": "baseline",
+      "raw_events": 1,
+      "trades": 1,
+      "net_pnl": -1246407.4899058233,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q3",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q4",
+      "variant": "baseline",
+      "raw_events": 2,
+      "trades": 1,
+      "net_pnl": -762994.7012072535,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2019Q4",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2020Q1",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2020Q1",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2020Q2",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2020Q2",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2020Q3",
+      "variant": "baseline",
+      "raw_events": 1,
+      "trades": 1,
+      "net_pnl": 1863402.2930980222,
+      "profit_factor": null,
+      "win_rate": 1.0
+    },
+    {
+      "quarter": "2020Q3",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2020Q4",
+      "variant": "baseline",
+      "raw_events": 2,
+      "trades": 1,
+      "net_pnl": 1744238.658271479,
+      "profit_factor": null,
+      "win_rate": 1.0
+    },
+    {
+      "quarter": "2020Q4",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2021Q1",
+      "variant": "baseline",
+      "raw_events": 1,
+      "trades": 1,
+      "net_pnl": -1128333.9278412994,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2021Q1",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2021Q2",
+      "variant": "baseline",
+      "raw_events": 6,
+      "trades": 3,
+      "net_pnl": 2492425.881012673,
+      "profit_factor": 3.3715820573862416,
+      "win_rate": 0.6666666666666666
+    },
+    {
+      "quarter": "2021Q2",
+      "variant": "trend_gate",
+      "raw_events": 1,
+      "trades": 1,
+      "net_pnl": -369272.35261573514,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2021Q3",
+      "variant": "baseline",
+      "raw_events": 2,
+      "trades": 1,
+      "net_pnl": 1765754.0597901517,
+      "profit_factor": null,
+      "win_rate": 1.0
+    },
+    {
+      "quarter": "2021Q3",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2021Q4",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2021Q4",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q1",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q1",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q2",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q2",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q3",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q3",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q4",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2022Q4",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q1",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q1",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q2",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q2",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q3",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q3",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q4",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2023Q4",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2024Q1",
+      "variant": "baseline",
+      "raw_events": 2,
+      "trades": 2,
+      "net_pnl": -2284073.358107526,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2024Q1",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2024Q2",
+      "variant": "baseline",
+      "raw_events": 1,
+      "trades": 1,
+      "net_pnl": 1782038.4394049142,
+      "profit_factor": null,
+      "win_rate": 1.0
+    },
+    {
+      "quarter": "2024Q2",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2024Q3",
+      "variant": "baseline",
+      "raw_events": 3,
+      "trades": 2,
+      "net_pnl": 742819.0070876781,
+      "profit_factor": 1.7243842494044035,
+      "win_rate": 0.5
+    },
+    {
+      "quarter": "2024Q3",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2024Q4",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2024Q4",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2025Q1",
+      "variant": "baseline",
+      "raw_events": 2,
+      "trades": 1,
+      "net_pnl": 1770366.281726956,
+      "profit_factor": null,
+      "win_rate": 1.0
+    },
+    {
+      "quarter": "2025Q1",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2025Q2",
+      "variant": "baseline",
+      "raw_events": 1,
+      "trades": 1,
+      "net_pnl": 1738583.5611334187,
+      "profit_factor": null,
+      "win_rate": 1.0
+    },
+    {
+      "quarter": "2025Q2",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2025Q3",
+      "variant": "baseline",
+      "raw_events": 2,
+      "trades": 2,
+      "net_pnl": 1608524.2285257436,
+      "profit_factor": 13.367618657385156,
+      "win_rate": 0.5
+    },
+    {
+      "quarter": "2025Q3",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2025Q4",
+      "variant": "baseline",
+      "raw_events": 3,
+      "trades": 2,
+      "net_pnl": -838659.2690503903,
+      "profit_factor": 0.13768822806044553,
+      "win_rate": 0.5
+    },
+    {
+      "quarter": "2025Q4",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2026Q1",
+      "variant": "baseline",
+      "raw_events": 1,
+      "trades": 1,
+      "net_pnl": 1937372.753633781,
+      "profit_factor": null,
+      "win_rate": 1.0
+    },
+    {
+      "quarter": "2026Q1",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2026Q2",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2026Q2",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2026Q3",
+      "variant": "baseline",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "quarter": "2026Q3",
+      "variant": "trend_gate",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    }
+  ]
+}

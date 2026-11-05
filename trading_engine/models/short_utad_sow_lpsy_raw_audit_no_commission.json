@@ -1,0 +1,44 @@
+{
+  "execution": "strict completed 5m UTAD -> failed Test -> SOW -> LPSY, 15m slow downtrend hard gate, entry on first actionable 1m bar; raw only; no ML; commission=0 research mode with slippage and active ATR exits",
+  "soft_evidence": "MA, BB, VSA/No-Demand, RVOL and VWAP are recorded as ShortRuleScore diagnostics only; no score or ML threshold is used to select trades",
+  "stage_counts": {
+    "sequence_test": 167,
+    "sequence_sow": 18,
+    "sequence_lpsy": 9,
+    "entry_events": 4
+  },
+  "all_history": {
+    "trades": 4,
+    "net_pnl": -4237719.31420805,
+    "profit_factor": 0.0,
+    "win_rate": 0.0
+  },
+  "years": [
+    {
+      "period": "2024",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "period": "2025",
+      "raw_events": 1,
+      "trades": 1,
+      "net_pnl": -1172308.4186540747,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "period": "2026",
+      "raw_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    }
+  ],
+  "mean_rule_score_at_entry": 65.0,
+  "trades_csv": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_utad_sow_lpsy_raw_trades_no_commission.csv"
+}

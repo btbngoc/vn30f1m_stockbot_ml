@@ -1,0 +1,13 @@
+{
+  "purpose": "behavior audit only; no rule changes, backtest, ML, or paper-trade changes",
+  "lpsy_events": 7,
+  "outcomes": {
+    "NoRetest_60m": 2,
+    "NoBreakWithin20m": 2,
+    "RetestFail_31_60m": 1,
+    "RetestReclaim_0_60m": 1
+  },
+  "median_extension_after_break_atr": 3.5686231403165576,
+  "index_csv": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_lpsy_break_audit\\broken_lpsy_cases.csv",
+  "chart_directory": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_lpsy_break_audit"
+}

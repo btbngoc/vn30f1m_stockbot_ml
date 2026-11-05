@@ -1,0 +1,147 @@
+{
+  "manifest_version": "2.6.0",
+  "frozen_at": "2026-10-21T23:20:00+07:00",
+  "decision": "LAYER_2_PERMANENTLY_REMOVED",
+  "rationale": "Layer 2 (ML filter) evaluated across 22 historical configurations. Under pre-registered protocol with Block Bootstrap by Day, 1000-draw Monte Carlo, and realistic friction (0.3-0.5 pt slip + 30k fee), Layer 2 failed all acceptance criteria: pooled expectancy remained negative (-0.24 to -1.20 pt/trade), 0/12 folds beat random filtering P95, and 2026 Short AUC collapsed below 0.50.",
+  "active_trading_layer": "LAYER_1_PURE_RULES_ONLY",
+  "signal_specification": {
+    "active_signal_set": "NATIVE_STRATEGY_SIGNAL",
+    "description": "Native Wyckoff StrategySignal (8 setups: 4 Long, 4 Short) defined in trading_engine/strategy/trend.py without external post-hoc short regime filter. Pooled historical trade count (2024-01-01 to 2026-10-20): exactly 591 trades.",
+    "setups": {
+      "long": ["WYCKOFF_SPRING_TEST_LONG", "DEMAND_ZONE_RETEST", "LPS_SUPPORT_RECLAIM", "SOS_BREAKOUT_PULLBACK"],
+      "short": ["UTAD_UPTHRUST_REJECTION", "SUPPLY_ZONE_RETEST", "LPSY_RESISTANCE_RETEST", "SOW_WEAK_PULLBACK_SHORT"]
+    }
+  },
+  "execution_mode": "DRY_RUN_PAPER_TRADING_ONLY",
+  "real_money_authorized": false,
+  "live_gate_criteria": {
+    "purpose": "Operational integrity and execution verification only; not statistical proof of small alpha edge.",
+    "standard_error_note": "With trade std dev ~8.5 pts, proving 0.5 pt edge requires ~1,200 trades (>5 years). Paper trade is an operational run-check (API latency, actual broker slippage, order routing).",
+    "evaluation_metric": "Lower bound of Block Bootstrap 95% CI of Expectancy > 0 points at actual broker friction."
+  },
+  "margin_and_holding_policy": {
+    "overnight_holding_policy": "ALLOWED_BY_DEFAULT (Strategy does not force intraday flat in frozen baseline; positions held overnight until Stop Loss, Take Profit, or Reversal signal occurs. H-01 flat_before_atc evaluated as quarantined hypothesis and tracked in parallel journal paper_trade_journal_h01.csv).",
+    "minimum_initial_margin_rate": "17% (Under VSDC Decision No. 13/QĐ-VSDC). At VN30F1M index 1,850 - 1,900 points, contract notional is 185M - 190M VND, requiring minimum cash margin of ~31.5M - 32.3M VND per contract (~25M - 35M VND at DNSE depending on leverage package).",
+    "point_multiplier": 100000.0
+  },
+  "exchange_and_broker_regulatory_framework": {
+    "hnx_derivative_trading_rules": "Quy chế niêm yết và giao dịch chứng khoán phái sinh (Quyết định số 651/QĐ-SGDHN). Phiên định kỳ đóng cửa ATC (14:30 - 14:45) chỉ tiếp nhận lệnh ATC và LO; cấm sửa/hủy lệnh; từ chối mọi lệnh thị trường (MTL, MAK, MOK). Toàn bộ lệnh khớp tại một mức giá duy nhất lúc 14:45:00.",
+    "dnse_conditional_order_rules": "Quy chế Lệnh Điều Kiện của DNSE / Entrade X: 'Lệnh điều kiện trên phái sinh chỉ được hệ thống theo dõi và kích hoạt trong các phiên giao dịch liên tục.' Trong phiên ATC (14:30 - 14:45), hệ thống DNSE không kích hoạt lệnh dừng lỗ (Stop Loss). Nếu vị thế không đóng trước 14:30, lệnh dừng lỗ hoàn toàn vô hiệu trong phiên ATC."
+  },
+  "risk_parameters": {
+    "stop_loss_architecture": "Two-tier dynamic volatility-based stops: Tier 1 Soft SL (1.0 * HTF_5m_ATR conditional on HTF 15m reversal) + Tier 2 Emergency Hard SL (2.5 * HTF_5m_ATR unconditional).",
+    "nominal_hard_stop_points": 6.7,
+    "atr_dependence_note": "Stop distances are dynamic and proportional to market volatility (HTF_5m_ATR). The 6.7 points figure is the median nominal stop (2.5 * 1.0 * median HTF_5m_ATR ~2.7). In high-volatility regimes (ATR > 4.0 pts), nominal hard stop distance expands beyond 10.0 points (max observed 28.19 pts). In low-volatility regimes (ATR < 2.0 pts), stop distance narrows to ~5.0 points.",
+    "observed_tail_risk_591_trades_2024_2026": {
+      "nominal_execution": {
+        "max_loss": {"points": 28.19, "vnd": 2818571},
+        "p99_loss": {"points": 16.26, "vnd": 1626071},
+        "p95_loss": {"points": 9.84, "vnd": 1014107}
+      },
+      "gap_aware_execution": {
+        "max_loss": {"points": 80.10, "vnd": 8009999},
+        "p99_loss": {"points": 19.74, "vnd": 1974286},
+        "p95_loss": {"points": 10.87, "vnd": 1116964}
+      },
+      "flat_before_atc_execution": {
+        "max_loss": {"points": 28.19, "vnd": 2818571},
+        "p99_loss": {"points": 14.93, "vnd": 1493321},
+        "p95_loss": {"points": 9.42, "vnd": 942107}
+      }
+    }
+  },
+  "gap_aware_backtest_matrix_591_trades": {
+    "slippage_0_1_pt": {
+      "2024": {"trades": 193, "base_pts": 0.27, "base_vnd_m": 5.28, "base_pf": 1.21, "gap_pts": 0.08, "gap_vnd_m": 1.47, "gap_pf": 1.05, "drag_pts": -0.20, "drag_vnd_m": -3.81},
+      "2025": {"trades": 202, "base_pts": -0.11, "base_vnd_m": -2.30, "base_pf": 0.96, "gap_pts": -0.69, "gap_vnd_m": -13.99, "gap_pf": 0.80, "drag_pts": -0.58, "drag_vnd_m": -11.69},
+      "2026": {"trades": 197, "base_pts": 0.96, "base_vnd_m": 18.91, "base_pf": 1.35, "gap_pts": 0.45, "gap_vnd_m": 8.96, "gap_pf": 1.15, "drag_pts": -0.51, "drag_vnd_m": -9.95},
+      "pooled": {"trades": 591, "base_pts": 0.38, "base_vnd_m": 22.23, "base_pf": 1.16, "gap_pts": -0.05, "gap_vnd_m": -3.22, "gap_pf": 0.98, "drag_pts": -0.43, "drag_vnd_m": -25.45}
+    },
+    "slippage_0_3_pt": {
+      "2024": {"trades": 195, "base_pts": -0.14, "base_vnd_m": -2.73, "base_pf": 0.91, "gap_pts": -0.32, "gap_vnd_m": -6.19, "gap_pf": 0.81, "drag_pts": -0.18, "drag_vnd_m": -3.46},
+      "2025": {"trades": 201, "base_pts": -0.64, "base_vnd_m": -12.96, "base_pf": 0.80, "gap_pts": -1.20, "gap_vnd_m": -24.07, "gap_pf": 0.68, "drag_pts": -0.55, "drag_vnd_m": -11.11},
+      "2026": {"trades": 196, "base_pts": 0.61, "base_vnd_m": 12.04, "base_pf": 1.21, "gap_pts": 0.10, "gap_vnd_m": 1.89, "gap_pf": 1.03, "drag_pts": -0.52, "drag_vnd_m": -10.15},
+      "pooled": {"trades": 591, "base_pts": -0.06, "base_vnd_m": -3.26, "base_pf": 0.98, "gap_pts": -0.47, "gap_vnd_m": -27.98, "gap_pf": 0.84, "drag_pts": -0.42, "drag_vnd_m": -24.72}
+    },
+    "slippage_0_5_pt": {
+      "2024": {"trades": 195, "base_pts": -0.62, "base_vnd_m": -12.11, "base_pf": 0.66, "gap_pts": -0.77, "gap_vnd_m": -15.10, "gap_pf": 0.61, "drag_pts": -0.15, "drag_vnd_m": -2.99},
+      "2025": {"trades": 200, "base_pts": -1.08, "base_vnd_m": -21.61, "base_pf": 0.69, "gap_pts": -1.63, "gap_vnd_m": -32.60, "gap_pf": 0.59, "drag_pts": -0.55, "drag_vnd_m": -10.99},
+      "2026": {"trades": 196, "base_pts": 0.34, "base_vnd_m": 6.75, "base_pf": 1.11, "gap_pts": -0.18, "gap_vnd_m": -3.62, "gap_pf": 0.95, "drag_pts": -0.53, "drag_vnd_m": -10.37},
+      "pooled": {"trades": 590, "base_pts": -0.45, "base_vnd_m": -26.55, "base_pf": 0.84, "gap_pts": -0.86, "gap_vnd_m": -50.90, "gap_pf": 0.73, "drag_pts": -0.41, "drag_vnd_m": -24.35}
+    }
+  },
+  "h01_flat_before_atc_audit_matrix": {
+    "status": "MEASURED_DESCRIPTIVE_NOT_VALIDATED",
+    "description": "Intraday flat before ATC at 14:25:00 open price +/- slippage. No entries opened >= 14:25. Tested across slippages 0.1, 0.3, 0.5 pt on 2024-2026 data.",
+    "pooled_findings": {
+      "tail_risk_reduction": "Eliminates catastrophic ATC gap loss (max loss drops from 80.10 to 28.19 pts; P99 loss drops from 19.74 to 14.93 pts at 0.1 slip).",
+      "expectancy_drag": "Kills overnight continuation gains on winning trends. Pooled expectancy changes by -0.25 pt [-0.80, +0.33] at 0.1 slip; -0.19 pt [-0.72, +0.37] at 0.3 slip; -0.14 pt [-0.67, +0.43] at 0.5 slip.",
+      "statistical_conclusion": "95% CI crosses zero across all slippage levels. No evidence of net positive expectancy improvement on historical data. Remains quarantined for forward paper testing."
+    }
+  },
+  "search_budget_and_tested_setups_registry": {
+    "total_tested_setups_or_hypotheses": 25,
+    "breakdown": {
+      "layer_2_ml_configurations": 22,
+      "h01_flat_before_atc_tail_risk_rule": 1,
+      "h04_pullback_15m_trend_candidate_setup": 1,
+      "h05_opening_range_break_candidate_setup": 1
+    },
+    "protocol_enforcement": "Strict historical freeze on 2018-2026 foundation. Zero parameter optimization allowed after viewing results. All candidate setups quarantined in parallel shadow journal (paper_trade_journal_shadow.csv) without touching frozen Layer 1 baseline."
+  },
+  "candidate_shadow_setups_evaluation_matrix_2018_2026": {
+    "protocol": "Single one-shot evaluation on 2018-2026 (529k bars), gap-aware execution, 0.3 & 0.5 pt slippage + 30k fee, Block Bootstrap by Day (5-day blocks, 2000 draws, 95% CI), Matched Random Null Baseline (same hour & direction distribution, 100 MC draws).",
+    "setups": {
+      "PULLBACK_15M_TREND": {
+        "status": "QUARANTINED_SHADOW_TRACKING_ONLY",
+        "description": "Enters when HTF_15m_TrendOK=1 (Long) or TrendDownOK=1 (Short) and 5m candle closes in trend direction after touching 5m EMA20. Exits via standard ATR stops and trailing.",
+        "slippage_0_3_pt": {
+          "trades": 2906, "gross_margin_pts": 0.41, "net_exp_pts": -0.46, "net_pnl_vnd_m": -134.78,
+          "profit_factor": 0.82, "win_rate_pct": 42.0, "max_loss_pts": 45.70, "p99_loss_pts": 17.19,
+          "block_bootstrap_95_ci": [-0.71, -0.20], "random_null_exp_pts": -0.52, "alpha_vs_random_pts": 0.056, "p_value": 0.300
+        },
+        "slippage_0_5_pt": {
+          "trades": 2951, "gross_margin_pts": 0.41, "net_exp_pts": -0.87, "net_pnl_vnd_m": -257.13,
+          "profit_factor": 0.70, "win_rate_pct": 37.2, "max_loss_pts": 46.10, "p99_loss_pts": 17.55,
+          "block_bootstrap_95_ci": [-1.11, -0.61], "random_null_exp_pts": -0.92, "alpha_vs_random_pts": 0.051, "p_value": 0.320
+        },
+        "finding": "Gross edge (+0.41 pt) is wholly consumed by friction (0.9-1.3 pt round-trip). Alpha vs random baseline is statistically indistinguishable from zero (p=0.30)."
+      },
+      "OPENING_RANGE_BREAK": {
+        "status": "QUARANTINED_SHADOW_TRACKING_ONLY",
+        "description": "Opening range 09:00-09:15; after 09:15 enters on breakout with RVOL >= 1.2. Fixed stop 4.0 points, trailing stop.",
+        "first_breakout_of_day": {
+          "slippage_0_3_pt": {
+            "trades": 2182, "gross_margin_pts": 0.53, "net_exp_pts": -0.36, "net_pnl_vnd_m": -78.34,
+            "profit_factor": 0.80, "win_rate_pct": 31.9, "max_loss_pts": 5.10, "p99_loss_pts": 4.60,
+            "block_bootstrap_95_ci": [-0.56, -0.17], "random_null_exp_pts": -0.68, "alpha_vs_random_pts": 0.318, "p_value": 0.000
+          },
+          "slippage_0_5_pt": {
+            "trades": 2182, "gross_margin_pts": 0.53, "net_exp_pts": -0.78, "net_pnl_vnd_m": -170.46,
+            "profit_factor": 0.62, "win_rate_pct": 27.7, "max_loss_pts": 5.30, "p99_loss_pts": 4.80,
+            "block_bootstrap_95_ci": [-0.98, -0.59], "random_null_exp_pts": -1.08, "alpha_vs_random_pts": 0.300, "p_value": 0.000
+          },
+          "finding": "Shows statistically significant positive directional edge over random baseline (+0.32 pt alpha, p < 0.001) and strictly caps tail risk (Max Loss 5.10 pts). However, gross margin (+0.53 pt) remains below round-trip friction, rendering net expectancy negative without friction reduction."
+        }
+      }
+    }
+  },
+  "historical_data_status": {
+    "2018_2026": "FULLY_EXHAUSTED_RESEARCHER_SNOOPED",
+    "uncontaminated_oos_start_date": "2026-10-20"
+  },
+  "frozen_code_hashes": {
+    "trading_engine/strategy/trend.py": "fa7055fee7b201aa97c802936c8f15cef6ab443c71404af9ebeb9f1416fb333f",
+    "trading_engine/backtest/engine.py": "cd28b4c6a4d2f06636739ae6c83563f9ce2f95254a47259b0288ad0fe81e2656",
+    "trading_engine/backtest/config.py": "6a2869d5899ee8858db95cc30933e31726f95482607ff07b7e9964d650e5abc4",
+    "trading_engine/paper_trade.py": "a3bb45ca14533d824dd730a93cff477433652e22e786e048219de3c9acba661c",
+    "trading_engine/shadow_paper.py": "e3999184d9147cca07f83713a123e47132a8430af75c46179750714afeed9ab3",
+    "trading_engine/data/indicators.py": "f260e13503aae246de998e9130e87720bc448e5a238a8c642c372897c46d8bc9",
+    "run_pipeline.py": "0c2a1b19666c6d80ba3778503be972b536de53ae2e3c1e3615f770dce6f904b9"
+  },
+  "frozen_historical_data_hashes_at_freeze_cutoff": {
+    "historical_cutoff_date": "2026-10-20 14:45:00",
+    "historical_cutoff_row_count": 529609,
+    "raw_csv_sha256_at_cutoff": "70fcd43523f426ee8459cb4913285ce78ca519944ea4e7d17282566a72fd4e18"
+  }
+}

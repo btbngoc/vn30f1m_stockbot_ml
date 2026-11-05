@@ -1,0 +1,50 @@
+{
+  "execution": "completed 5m narrow range -> high-volume bearish breakdown -> low-volume, weak-closing test; raw Short entry on the first actionable 1m bar; no trend gate, score or ML; commission=0 research mode with slippage and active ATR exits",
+  "definition": {
+    "narrow_range": "24 completed 5m bars, width 2-5 ATR, flat EMA20",
+    "breakdown": "close below range by 0.1 ATR, weak close, >=0.8 ATR spread, volume >=1.30x 20-bar average",
+    "weak_test": "2-6 completed 5m bars later, retests lower range area, remains below range, weak close, volume <=75% of breakdown volume"
+  },
+  "all_history": {
+    "narrow_range_breakdowns": 664,
+    "weak_tests": 47,
+    "entry_events": 47,
+    "trades": 47,
+    "net_pnl": -3605516.349601658,
+    "profit_factor": 0.8784035724147881,
+    "win_rate": 0.3404255319148936
+  },
+  "years": [
+    {
+      "period": "2024",
+      "narrow_range_breakdowns": 57,
+      "weak_tests": 3,
+      "entry_events": 3,
+      "trades": 3,
+      "net_pnl": 418795.43480133655,
+      "profit_factor": 1.298278698404083,
+      "win_rate": 0.3333333333333333
+    },
+    {
+      "period": "2025",
+      "narrow_range_breakdowns": 70,
+      "weak_tests": 1,
+      "entry_events": 1,
+      "trades": 1,
+      "net_pnl": 1827607.2418525473,
+      "profit_factor": null,
+      "win_rate": 1.0
+    },
+    {
+      "period": "2026",
+      "narrow_range_breakdowns": 55,
+      "weak_tests": 4,
+      "entry_events": 4,
+      "trades": 4,
+      "net_pnl": 1568436.6244613784,
+      "profit_factor": 1.841705756825557,
+      "win_rate": 0.5
+    }
+  ],
+  "trades_csv": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_narrow_range_weak_test_raw_trades_no_commission.csv"
+}

@@ -1,0 +1,515 @@
+{
+  "execution": "commission=0; SMA V4 raw/volume/1m confirmation benchmark",
+  "results": [
+    {
+      "setup": "LIQUIDITY_SWEEP",
+      "layer": "RAW",
+      "events": 9282,
+      "all_history": {
+        "trades": 6161,
+        "net_pnl": -159992217.11094907,
+        "profit_factor": 0.7280392965185897,
+        "win_rate": 0.2934588540821295
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 818,
+          "net_pnl": -12313102.757856473,
+          "profit_factor": 0.6933281783094203,
+          "win_rate": 0.2860635696821516
+        },
+        {
+          "period": "2025",
+          "trades": 873,
+          "net_pnl": -19670671.653958786,
+          "profit_factor": 0.7538351949464073,
+          "win_rate": 0.284077892325315
+        },
+        {
+          "period": "2026",
+          "trades": 463,
+          "net_pnl": -1778895.260039053,
+          "profit_factor": 0.9628448794738628,
+          "win_rate": 0.34557235421166305
+        }
+      ]
+    },
+    {
+      "setup": "LIQUIDITY_SWEEP",
+      "layer": "VOLUME",
+      "events": 4642,
+      "all_history": {
+        "trades": 3659,
+        "net_pnl": -128479917.89733607,
+        "profit_factor": 0.6703439148857256,
+        "win_rate": 0.28996993714129543
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 519,
+          "net_pnl": -6008299.110706935,
+          "profit_factor": 0.7562289950351068,
+          "win_rate": 0.29865125240847784
+        },
+        {
+          "period": "2025",
+          "trades": 566,
+          "net_pnl": -12915855.384616498,
+          "profit_factor": 0.7453558086754118,
+          "win_rate": 0.26855123674911663
+        },
+        {
+          "period": "2026",
+          "trades": 325,
+          "net_pnl": -2329890.040017289,
+          "profit_factor": 0.9275696121201581,
+          "win_rate": 0.3353846153846154
+        }
+      ]
+    },
+    {
+      "setup": "LIQUIDITY_SWEEP",
+      "layer": "CONFIRM",
+      "events": 3664,
+      "all_history": {
+        "trades": 3211,
+        "net_pnl": -132685327.86217467,
+        "profit_factor": 0.6373401045983009,
+        "win_rate": 0.27654936156960447
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 450,
+          "net_pnl": -6751989.578107964,
+          "profit_factor": 0.7055547708183195,
+          "win_rate": 0.29555555555555557
+        },
+        {
+          "period": "2025",
+          "trades": 464,
+          "net_pnl": -12653079.475184951,
+          "profit_factor": 0.7174356821640433,
+          "win_rate": 0.2521551724137931
+        },
+        {
+          "period": "2026",
+          "trades": 232,
+          "net_pnl": -4469312.800082208,
+          "profit_factor": 0.8317226075065154,
+          "win_rate": 0.3146551724137931
+        }
+      ]
+    },
+    {
+      "setup": "UPTHRUST",
+      "layer": "RAW",
+      "events": 392,
+      "all_history": {
+        "trades": 381,
+        "net_pnl": -61595773.983007595,
+        "profit_factor": 0.6052736253441773,
+        "win_rate": 0.2782152230971129
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 51,
+          "net_pnl": -6664811.004282045,
+          "profit_factor": 0.6259726517907854,
+          "win_rate": 0.27450980392156865
+        },
+        {
+          "period": "2025",
+          "trades": 58,
+          "net_pnl": -6258898.3126952825,
+          "profit_factor": 0.6028319818553698,
+          "win_rate": 0.27586206896551724
+        },
+        {
+          "period": "2026",
+          "trades": 28,
+          "net_pnl": -3916481.6267101974,
+          "profit_factor": 0.44125157347274807,
+          "win_rate": 0.17857142857142858
+        }
+      ]
+    },
+    {
+      "setup": "UPTHRUST",
+      "layer": "VOLUME",
+      "events": 170,
+      "all_history": {
+        "trades": 142,
+        "net_pnl": -34190794.12934595,
+        "profit_factor": 0.5831434127361358,
+        "win_rate": 0.2535211267605634
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 14,
+          "net_pnl": -4063916.007135527,
+          "profit_factor": 0.46810637664202276,
+          "win_rate": 0.21428571428571427
+        },
+        {
+          "period": "2025",
+          "trades": 25,
+          "net_pnl": -2038273.754689863,
+          "profit_factor": 0.8235836917232883,
+          "win_rate": 0.32
+        },
+        {
+          "period": "2026",
+          "trades": 13,
+          "net_pnl": -2334328.2609255537,
+          "profit_factor": 0.5899051346916606,
+          "win_rate": 0.23076923076923078
+        }
+      ]
+    },
+    {
+      "setup": "UPTHRUST",
+      "layer": "CONFIRM",
+      "events": 360,
+      "all_history": {
+        "trades": 280,
+        "net_pnl": -63760123.010039136,
+        "profit_factor": 0.4997421967781874,
+        "win_rate": 0.24285714285714285
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 36,
+          "net_pnl": -8099720.219619212,
+          "profit_factor": 0.37105128123750136,
+          "win_rate": 0.19444444444444445
+        },
+        {
+          "period": "2025",
+          "trades": 35,
+          "net_pnl": -3220129.814604888,
+          "profit_factor": 0.6018303583883745,
+          "win_rate": 0.2571428571428571
+        },
+        {
+          "period": "2026",
+          "trades": 18,
+          "net_pnl": -1019522.2083533733,
+          "profit_factor": 0.7069986474252832,
+          "win_rate": 0.2777777777777778
+        }
+      ]
+    },
+    {
+      "setup": "FAILED_BREAKOUT",
+      "layer": "RAW",
+      "events": 10049,
+      "all_history": {
+        "trades": 6680,
+        "net_pnl": -162215937.06105334,
+        "profit_factor": 0.7537179875446212,
+        "win_rate": 0.2974550898203593
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 852,
+          "net_pnl": -11377941.254188908,
+          "profit_factor": 0.7272433317001067,
+          "win_rate": 0.29225352112676056
+        },
+        {
+          "period": "2025",
+          "trades": 927,
+          "net_pnl": -22626269.846095152,
+          "profit_factor": 0.7395502770388516,
+          "win_rate": 0.2826321467098166
+        },
+        {
+          "period": "2026",
+          "trades": 511,
+          "net_pnl": -2295756.1347916666,
+          "profit_factor": 0.9577726282933552,
+          "win_rate": 0.3385518590998043
+        }
+      ]
+    },
+    {
+      "setup": "FAILED_BREAKOUT",
+      "layer": "VOLUME",
+      "events": 4897,
+      "all_history": {
+        "trades": 3864,
+        "net_pnl": -125264629.52340922,
+        "profit_factor": 0.6961717908507468,
+        "win_rate": 0.2939958592132505
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 531,
+          "net_pnl": -5485746.899437595,
+          "profit_factor": 0.7809664371852051,
+          "win_rate": 0.3032015065913371
+        },
+        {
+          "period": "2025",
+          "trades": 590,
+          "net_pnl": -12586776.126030508,
+          "profit_factor": 0.7646067406917919,
+          "win_rate": 0.2745762711864407
+        },
+        {
+          "period": "2026",
+          "trades": 353,
+          "net_pnl": 1289304.133646101,
+          "profit_factor": 1.0370109261282747,
+          "win_rate": 0.34560906515580736
+        }
+      ]
+    },
+    {
+      "setup": "FAILED_BREAKOUT",
+      "layer": "CONFIRM",
+      "events": 3966,
+      "all_history": {
+        "trades": 3482,
+        "net_pnl": -132806420.06948817,
+        "profit_factor": 0.6812373200437252,
+        "win_rate": 0.28259620907524413
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 466,
+          "net_pnl": -6995346.985008064,
+          "profit_factor": 0.7070268216332258,
+          "win_rate": 0.2982832618025751
+        },
+        {
+          "period": "2025",
+          "trades": 497,
+          "net_pnl": -14086623.16162852,
+          "profit_factor": 0.711631239505754,
+          "win_rate": 0.2535211267605634
+        },
+        {
+          "period": "2026",
+          "trades": 260,
+          "net_pnl": -4141768.366323298,
+          "profit_factor": 0.8624791038253935,
+          "win_rate": 0.3153846153846154
+        }
+      ]
+    },
+    {
+      "setup": "VWAP_REJECT",
+      "layer": "RAW",
+      "events": 20120,
+      "all_history": {
+        "trades": 8870,
+        "net_pnl": -190199910.02459314,
+        "profit_factor": 0.7424950110944715,
+        "win_rate": 0.2811724915445321
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 1083,
+          "net_pnl": -18816580.464358047,
+          "profit_factor": 0.6665318240198893,
+          "win_rate": 0.26869806094182824
+        },
+        {
+          "period": "2025",
+          "trades": 1007,
+          "net_pnl": -10496655.620583715,
+          "profit_factor": 0.8846959591937701,
+          "win_rate": 0.30784508440913605
+        },
+        {
+          "period": "2026",
+          "trades": 558,
+          "net_pnl": 2753570.3021777873,
+          "profit_factor": 1.0445568489797483,
+          "win_rate": 0.3207885304659498
+        }
+      ]
+    },
+    {
+      "setup": "VWAP_REJECT",
+      "layer": "VOLUME",
+      "events": 4268,
+      "all_history": {
+        "trades": 3696,
+        "net_pnl": -139889139.61497253,
+        "profit_factor": 0.648220592660323,
+        "win_rate": 0.2719155844155844
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 459,
+          "net_pnl": -7997852.228929241,
+          "profit_factor": 0.6547509713208463,
+          "win_rate": 0.2679738562091503
+        },
+        {
+          "period": "2025",
+          "trades": 460,
+          "net_pnl": -8618967.635220451,
+          "profit_factor": 0.7962128507463905,
+          "win_rate": 0.2956521739130435
+        },
+        {
+          "period": "2026",
+          "trades": 284,
+          "net_pnl": -903339.0936705692,
+          "profit_factor": 0.9718111575908903,
+          "win_rate": 0.31690140845070425
+        }
+      ]
+    },
+    {
+      "setup": "VWAP_REJECT",
+      "layer": "CONFIRM",
+      "events": 7832,
+      "all_history": {
+        "trades": 5546,
+        "net_pnl": -149583084.82411566,
+        "profit_factor": 0.6955802498048417,
+        "win_rate": 0.2825459790840245
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 687,
+          "net_pnl": -11725812.878792819,
+          "profit_factor": 0.6760552316914719,
+          "win_rate": 0.28093158660844253
+        },
+        {
+          "period": "2025",
+          "trades": 632,
+          "net_pnl": -7003207.83798288,
+          "profit_factor": 0.8759419713402614,
+          "win_rate": 0.28955696202531644
+        },
+        {
+          "period": "2026",
+          "trades": 367,
+          "net_pnl": 2213264.538608293,
+          "profit_factor": 1.0546393701454946,
+          "win_rate": 0.329700272479564
+        }
+      ]
+    },
+    {
+      "setup": "TREND_CONTINUATION",
+      "layer": "RAW",
+      "events": 13491,
+      "all_history": {
+        "trades": 6565,
+        "net_pnl": -155503397.0180309,
+        "profit_factor": 0.772246974306391,
+        "win_rate": 0.29261233815689264
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 769,
+          "net_pnl": -8607683.60947204,
+          "profit_factor": 0.7708926779036851,
+          "win_rate": 0.2886866059817945
+        },
+        {
+          "period": "2025",
+          "trades": 720,
+          "net_pnl": -10801409.432275387,
+          "profit_factor": 0.8406329530791088,
+          "win_rate": 0.29444444444444445
+        },
+        {
+          "period": "2026",
+          "trades": 471,
+          "net_pnl": -8321048.606403565,
+          "profit_factor": 0.8406531189821844,
+          "win_rate": 0.28874734607218683
+        }
+      ]
+    },
+    {
+      "setup": "TREND_CONTINUATION",
+      "layer": "VOLUME",
+      "events": 2495,
+      "all_history": {
+        "trades": 2207,
+        "net_pnl": -112707644.46016236,
+        "profit_factor": 0.6547339430340293,
+        "win_rate": 0.29361123697326685
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 250,
+          "net_pnl": -1853014.1924481993,
+          "profit_factor": 0.8510814996617114,
+          "win_rate": 0.308
+        },
+        {
+          "period": "2025",
+          "trades": 232,
+          "net_pnl": -5380093.423025505,
+          "profit_factor": 0.7362335549082638,
+          "win_rate": 0.27586206896551724
+        },
+        {
+          "period": "2026",
+          "trades": 179,
+          "net_pnl": -7434503.208732804,
+          "profit_factor": 0.6426561850603626,
+          "win_rate": 0.2569832402234637
+        }
+      ]
+    },
+    {
+      "setup": "TREND_CONTINUATION",
+      "layer": "CONFIRM",
+      "events": 5416,
+      "all_history": {
+        "trades": 4002,
+        "net_pnl": -126549785.16208112,
+        "profit_factor": 0.7730858076234799,
+        "win_rate": 0.2993503248375812
+      },
+      "years": [
+        {
+          "period": "2024",
+          "trades": 476,
+          "net_pnl": -5492113.581424474,
+          "profit_factor": 0.7707378918637451,
+          "win_rate": 0.3004201680672269
+        },
+        {
+          "period": "2025",
+          "trades": 433,
+          "net_pnl": -8624891.223857276,
+          "profit_factor": 0.7997403875188039,
+          "win_rate": 0.28868360277136257
+        },
+        {
+          "period": "2026",
+          "trades": 287,
+          "net_pnl": -5665813.848905692,
+          "profit_factor": 0.8238191137249115,
+          "win_rate": 0.2682926829268293
+        }
+      ]
+    }
+  ]
+}

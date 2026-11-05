@@ -1,0 +1,11 @@
+{
+  "purpose": "visual definition audit only; no parameter tuning, backtest, ML, or paper-trade changes",
+  "candidates": 7,
+  "sequence_complete": 6,
+  "utad_breaks_and_rejects": 6,
+  "tests_low_volume": 6,
+  "lpsy_in_supply_zone": 5,
+  "lpsy_mid_range": 1,
+  "index_csv": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_lpsy_definition_audit\\lpsy_candidates.csv",
+  "chart_directory": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_lpsy_definition_audit"
+}

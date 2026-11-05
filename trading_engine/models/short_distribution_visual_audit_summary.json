@@ -1,0 +1,16 @@
+{
+  "execution": "raw Short LPSY/SOW only; no ML; commission=0 research mode with slippage and active ATR exits",
+  "sl_trades": 14,
+  "by_category": {
+    "ImmediateFailure": 11,
+    "PullbackOrStopSizing": 3
+  },
+  "by_setup": {
+    "LPSY_1M_REJECT": 2,
+    "LPSY_IMMEDIATE": 7,
+    "SOW_1M_REJECT": 2,
+    "SOW_IMMEDIATE": 3
+  },
+  "index_csv": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_distribution_visual_audit\\sl_trade_index.csv",
+  "chart_directory": "C:\\Users\\hp\\Downloads\\VN30F1M stock bot\\trading_engine\\models\\short_distribution_visual_audit"
+}

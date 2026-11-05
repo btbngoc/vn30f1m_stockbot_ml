@@ -1,0 +1,270 @@
+{
+  "ablation": [
+    {
+      "fold": "Fold 2024",
+      "C1_Layer1_Only": {
+        "trades": 193,
+        "pf": 1.21,
+        "pnl": 5276071.0
+      },
+      "C2_Layer1_XGBoost_WF": {
+        "trades": 33,
+        "pf": 2.36,
+        "pnl": 3892857.0
+      },
+      "C2b_Layer1_XGBoost_Gated": {
+        "trades": 32,
+        "pf": 2.26,
+        "pnl": 3609643.0
+      },
+      "C3_Random_Filter": {
+        "trades": 33,
+        "pf": 1.51,
+        "pnl": 2961619.0
+      },
+      "C4_XGBoost_Only": {
+        "trades": 476,
+        "pf": 1.33,
+        "pnl": 24972857.0
+      }
+    },
+    {
+      "fold": "Fold 2025",
+      "C1_Layer1_Only": {
+        "trades": 202,
+        "pf": 0.96,
+        "pnl": -2302857.0
+      },
+      "C2_Layer1_XGBoost_WF": {
+        "trades": 43,
+        "pf": 2.01,
+        "pnl": 9792500.0
+      },
+      "C2b_Layer1_XGBoost_Gated": {
+        "trades": 42,
+        "pf": 2.18,
+        "pnl": 10548571.0
+      },
+      "C3_Random_Filter": {
+        "trades": 43,
+        "pf": 1.18,
+        "pnl": 2549619.0
+      },
+      "C4_XGBoost_Only": {
+        "trades": 459,
+        "pf": 1.64,
+        "pnl": 80285000.0
+      }
+    },
+    {
+      "fold": "Fold 2026",
+      "C1_Layer1_Only": {
+        "trades": 196,
+        "pf": 1.37,
+        "pnl": 19622500.0
+      },
+      "C2_Layer1_XGBoost_WF": {
+        "trades": 46,
+        "pf": 1.1,
+        "pnl": 1424643.0
+      },
+      "C2b_Layer1_XGBoost_Gated": {
+        "trades": 43,
+        "pf": 0.96,
+        "pnl": -517857.0
+      },
+      "C3_Random_Filter": {
+        "trades": 46,
+        "pf": 1.07,
+        "pnl": 1221667.0
+      },
+      "C4_XGBoost_Only": {
+        "trades": 356,
+        "pf": 1.04,
+        "pnl": 5323571.0
+      }
+    }
+  ],
+  "true_oos_stress": [
+    {
+      "slippage": 0.1,
+      "total_trades": 117,
+      "win_rate": 55.56,
+      "aggregate_pf": 1.542,
+      "aggregate_pnl": 13640357.0,
+      "by_year": {
+        "2024": {
+          "trades": 32,
+          "pf": 2.26,
+          "pnl": 3609643.0
+        },
+        "2025": {
+          "trades": 42,
+          "pf": 2.18,
+          "pnl": 10548571.0
+        },
+        "2026": {
+          "trades": 43,
+          "pf": 0.96,
+          "pnl": -517857.0
+        }
+      },
+      "by_direction": {
+        "LONG": {
+          "trades": 59,
+          "pf": 1.67,
+          "pnl": 7635000.0
+        },
+        "SHORT": {
+          "trades": 58,
+          "pf": 1.44,
+          "pnl": 6005357.0
+        }
+      }
+    },
+    {
+      "slippage": 0.3,
+      "total_trades": 117,
+      "win_rate": 52.99,
+      "aggregate_pf": 1.422,
+      "aggregate_pnl": 11418571.0,
+      "by_year": {
+        "2024": {
+          "trades": 32,
+          "pf": 1.73,
+          "pnl": 2429643.0
+        },
+        "2025": {
+          "trades": 42,
+          "pf": 2.19,
+          "pnl": 11284643.0
+        },
+        "2026": {
+          "trades": 43,
+          "pf": 0.84,
+          "pnl": -2295714.0
+        }
+      },
+      "by_direction": {
+        "LONG": {
+          "trades": 59,
+          "pf": 1.62,
+          "pnl": 7731071.0
+        },
+        "SHORT": {
+          "trades": 58,
+          "pf": 1.25,
+          "pnl": 3687500.0
+        }
+      }
+    },
+    {
+      "slippage": 0.5,
+      "total_trades": 117,
+      "win_rate": 48.72,
+      "aggregate_pf": 1.272,
+      "aggregate_pnl": 7893214.0,
+      "by_year": {
+        "2024": {
+          "trades": 32,
+          "pf": 1.19,
+          "pnl": 801429.0
+        },
+        "2025": {
+          "trades": 42,
+          "pf": 2.02,
+          "pnl": 10217143.0
+        },
+        "2026": {
+          "trades": 43,
+          "pf": 0.79,
+          "pnl": -3125357.0
+        }
+      },
+      "by_direction": {
+        "LONG": {
+          "trades": 59,
+          "pf": 1.47,
+          "pnl": 6271429.0
+        },
+        "SHORT": {
+          "trades": 58,
+          "pf": 1.1,
+          "pnl": 1621786.0
+        }
+      }
+    },
+    {
+      "slippage": 0.7,
+      "total_trades": 117,
+      "win_rate": 41.03,
+      "aggregate_pf": 1.055,
+      "aggregate_pnl": 1793929.0,
+      "by_year": {
+        "2024": {
+          "trades": 32,
+          "pf": 0.91,
+          "pnl": -467500.0
+        },
+        "2025": {
+          "trades": 42,
+          "pf": 1.74,
+          "pnl": 8203929.0
+        },
+        "2026": {
+          "trades": 43,
+          "pf": 0.64,
+          "pnl": -5942500.0
+        }
+      },
+      "by_direction": {
+        "LONG": {
+          "trades": 59,
+          "pf": 1.24,
+          "pnl": 3566071.0
+        },
+        "SHORT": {
+          "trades": 58,
+          "pf": 0.9,
+          "pnl": -1772143.0
+        }
+      }
+    },
+    {
+      "slippage": 1.0,
+      "total_trades": 116,
+      "win_rate": 35.34,
+      "aggregate_pf": 0.912,
+      "aggregate_pnl": -3120357.0,
+      "by_year": {
+        "2024": {
+          "trades": 32,
+          "pf": 0.64,
+          "pnl": -2297857.0
+        },
+        "2025": {
+          "trades": 42,
+          "pf": 1.43,
+          "pnl": 5440357.0
+        },
+        "2026": {
+          "trades": 42,
+          "pf": 0.62,
+          "pnl": -6262857.0
+        }
+      },
+      "by_direction": {
+        "LONG": {
+          "trades": 59,
+          "pf": 1.03,
+          "pnl": 486071.0
+        },
+        "SHORT": {
+          "trades": 57,
+          "pf": 0.81,
+          "pnl": -3606429.0
+        }
+      }
+    }
+  ]
+}

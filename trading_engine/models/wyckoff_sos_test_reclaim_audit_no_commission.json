@@ -1,0 +1,70 @@
+{
+  "execution": "commission=0 research mode; 0.10-point slippage and current ATR exits retained",
+  "definition": "completed 5m SOS/Test in a refined accumulation/demand context, followed by a 1m EMA20 pullback and EMA10 reclaim within 15 minutes",
+  "results": [
+    {
+      "setup": "TEST_RECLAIM",
+      "years": [
+        {
+          "period": "2024",
+          "htf_events": 94,
+          "timed_entries": 200,
+          "trades": 73,
+          "net_pnl": -32689589.2797721,
+          "profit_factor": 0.3124727329737874,
+          "win_rate": 0.1917808219178082
+        },
+        {
+          "period": "2025",
+          "htf_events": 88,
+          "timed_entries": 182,
+          "trades": 67,
+          "net_pnl": -19887479.006087642,
+          "profit_factor": 0.4794694161724055,
+          "win_rate": 0.2537313432835821
+        },
+        {
+          "period": "2026",
+          "htf_events": 27,
+          "timed_entries": 63,
+          "trades": 19,
+          "net_pnl": -7116394.846819777,
+          "profit_factor": 0.4498895022865335,
+          "win_rate": 0.21052631578947367
+        }
+      ]
+    },
+    {
+      "setup": "SOS_RECLAIM",
+      "years": [
+        {
+          "period": "2024",
+          "htf_events": 101,
+          "timed_entries": 53,
+          "trades": 33,
+          "net_pnl": -13746799.746294457,
+          "profit_factor": 0.42136502375348556,
+          "win_rate": 0.21212121212121213
+        },
+        {
+          "period": "2025",
+          "htf_events": 122,
+          "timed_entries": 91,
+          "trades": 54,
+          "net_pnl": -2436150.738453876,
+          "profit_factor": 0.9160772233162424,
+          "win_rate": 0.35185185185185186
+        },
+        {
+          "period": "2026",
+          "htf_events": 44,
+          "timed_entries": 30,
+          "trades": 17,
+          "net_pnl": -10651651.086917013,
+          "profit_factor": 0.0923773723319292,
+          "win_rate": 0.17647058823529413
+        }
+      ]
+    }
+  ]
+}

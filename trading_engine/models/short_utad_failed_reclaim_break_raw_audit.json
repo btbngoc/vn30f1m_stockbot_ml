@@ -1,0 +1,42 @@
+{
+  "execution": "commission=0; completed 5m Distribution -> UTAD -> failed reclaim; Short only when following 1m closes below failed-reclaim low",
+  "stage_counts": {
+    "utad_events": 392,
+    "failed_reclaims": 12,
+    "one_minute_breaks": 8
+  },
+  "all_history": {
+    "entry_events": 8,
+    "trades": 6,
+    "net_pnl": -661857.8454971275,
+    "profit_factor": 0.8370389715790869,
+    "win_rate": 0.3333333333333333
+  },
+  "years": [
+    {
+      "period": "2024",
+      "entry_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    },
+    {
+      "period": "2025",
+      "entry_events": 5,
+      "trades": 4,
+      "net_pnl": -1178384.5187176215,
+      "profit_factor": 0.5939033115109522,
+      "win_rate": 0.25
+    },
+    {
+      "period": "2026",
+      "entry_events": 0,
+      "trades": 0,
+      "net_pnl": 0.0,
+      "profit_factor": 0.0,
+      "win_rate": 0.0
+    }
+  ],
+  "trades_csv": "D:\\VN30F1M stock bot\\trading_engine\\models\\short_utad_failed_reclaim_break_raw_trades.csv"
+}
