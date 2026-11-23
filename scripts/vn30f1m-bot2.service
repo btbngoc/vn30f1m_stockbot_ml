@@ -24,7 +24,7 @@ KillMode=mixed
 
 LimitNOFILE=65535
 
-# --- FILESYSTEM ISOLATION (ZERO TOUCH BOT 1) ---
+# --- FILESYSTEM SANDBOX & ISOLATION (ZERO TOUCH BOT 1) ---
 ProtectSystem=strict
 ProtectHome=read-only
 ReadWritePaths=/opt/vn30f1m-bot2
@@ -32,14 +32,15 @@ InaccessiblePaths=/opt/vn30f1m
 
 # --- RESOURCE CONTROLS (498 MiB VPS SAFE HARBOR) ---
 MemoryAccounting=yes
-MemoryMax=75M
 MemoryHigh=60M
+MemoryMax=75M
 MemorySwapMax=0
 CPUAccounting=yes
 CPUQuota=40%
 TasksMax=30
 Nice=10
 OOMScoreAdjust=+500
+OOMPolicy=kill
 
 StandardOutput=journal
 StandardError=journal
