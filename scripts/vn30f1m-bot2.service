@@ -1,5 +1,5 @@
 [Unit]
-Description=VN30F1M Institutional Paper Trading Pipeline Service (Bot 2 - REGIME-ROUTER-02)
+Description=VN30F1M Paper Trading Pipeline Service (Bot 2 - REGIME-ROUTER-02)
 After=network-online.target
 Wants=network-online.target
 
@@ -13,10 +13,16 @@ Environment="PYTHONUNBUFFERED=1"
 Environment="PATH=/opt/vn30f1m-bot2/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
 EnvironmentFile=/opt/vn30f1m-bot2/app/.env
 
-ExecStart=/opt/vn30f1m-bot2/.venv/bin/python scripts/run_cloud_paper_trading.py
+ExecStart=/opt/vn30f1m-bot2/.venv/bin/python scripts/run_cloud_paper_trading.py \
+    --db-path /opt/vn30f1m-bot2/data/paper_trading.db \
+    --lock-path /opt/vn30f1m-bot2/run/bot2.pid \
+    --health-file /opt/vn30f1m-bot2/run/health.json \
+    --audit-file /opt/vn30f1m-bot2/logs/audit/dnse_cloud_audit.jsonl
 
-Restart=always
-RestartSec=10s
+Restart=on-failure
+RestartSec=30s
+StartLimitIntervalSec=300
+StartLimitBurst=3
 TimeoutStartSec=30s
 TimeoutStopSec=30s
 KillSignal=SIGTERM
@@ -28,12 +34,12 @@ LimitNOFILE=65535
 ProtectSystem=strict
 ProtectHome=read-only
 ReadWritePaths=/opt/vn30f1m-bot2
-InaccessiblePaths=/opt/vn30f1m
+InaccessiblePaths=/opt/vn30f1m /var/lib/vn30f1m /var/log/vn30f1m /run/vn30f1m
 
-# --- RESOURCE CONTROLS (498 MiB VPS SAFE HARBOR) ---
+# --- RESOURCE CONTROLS (TENTATIVE TEST LIMITS) ---
 MemoryAccounting=yes
-MemoryHigh=60M
-MemoryMax=75M
+MemoryHigh=90M
+MemoryMax=105M
 MemorySwapMax=0
 CPUAccounting=yes
 CPUQuota=40%
