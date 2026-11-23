@@ -2,6 +2,8 @@
 Description=VN30F1M Paper Trading Pipeline Service (Bot 2 - REGIME-ROUTER-02)
 After=network-online.target
 Wants=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
 
 [Service]
 Type=simple
@@ -21,8 +23,6 @@ ExecStart=/opt/vn30f1m-bot2/.venv/bin/python scripts/run_cloud_paper_trading.py 
 
 Restart=on-failure
 RestartSec=30s
-StartLimitIntervalSec=300
-StartLimitBurst=3
 TimeoutStartSec=30s
 TimeoutStopSec=30s
 KillSignal=SIGTERM
