@@ -57,13 +57,18 @@ else
     echo "Running as root. Using system systemd manager..."
 fi
 
-# Pre-execution check: Ensure namespaced units do not already exist or run
+# ------------------------------------------------------------------------------
+# PRE-EXECUTION CHECK (P0-01 STRICT): FAIL IMMEDIATELY IF ANY UNIT PRE-EXISTS
+# Never touch, stop, or reset pre-existing units!
+# ------------------------------------------------------------------------------
 for u in "${UNIT_BOT1_BASE}" "${UNIT_BOT1_STRESS}" "${UNIT_BOT2}"; do
-    if ${SYSTEMCTL_CMD} is-active --quiet "${u}.service" 2>/dev/null; then
-        echo "WARNING: Unit ${u}.service is already active. Forcing stop before test..."
-        ${SYSTEMCTL_CMD} stop "${u}.service" 2>/dev/null || true
+    UNIT_ACTIVE=$(${SYSTEMCTL_CMD} is-active "${u}.service" 2>/dev/null || true)
+    UNIT_LOADED=$(${SYSTEMCTL_CMD} show "${u}.service" -p LoadState --value 2>/dev/null || true)
+    if [[ "${UNIT_ACTIVE}" == "active" || "${UNIT_LOADED}" == "loaded" ]]; then
+        echo "FATAL (P0-01): Unit ${u}.service already exists or is active (Active: ${UNIT_ACTIVE}, Load: ${UNIT_LOADED})."
+        echo "Harness is strictly forbidden from touching, stopping, or resetting pre-existing units. Aborting immediately."
+        exit 1
     fi
-    ${SYSTEMCTL_CMD} reset-failed "${u}.service" 2>/dev/null || true
 done
 
 # ------------------------------------------------------------------------------
@@ -82,14 +87,14 @@ cleanup_stage_40_1() {
     # Signal Bot 2 to terminate if running
     touch "${STOP_TRIGGER}" 2>/dev/null || true
 
-    # Stop all transient services
+    # Stop test units that were spawned during this test session only
     echo "Stopping test units..."
     for u in "${UNIT_BOT1_BASE}" "${UNIT_BOT1_STRESS}" "${UNIT_BOT2}"; do
         ${SYSTEMCTL_CMD} stop "${u}.service" 2>/dev/null || true
         ${SYSTEMCTL_CMD} reset-failed "${u}.service" 2>/dev/null || true
     done
 
-    # Remove runtime directory only. KEEP OUTPUT_DIR INTACT!
+    # Remove runtime scratchpad only. KEEP OUTPUT_DIR INTACT!
     echo "Cleaning up runtime scratchpad: ${RUNTIME_DIR}..."
     rm -rf "${RUNTIME_DIR}" 2>/dev/null || true
 
@@ -103,7 +108,7 @@ cleanup_stage_40_1() {
 trap cleanup_stage_40_1 EXIT ERR
 
 # ------------------------------------------------------------------------------
-# 3. STEP 1: PRE-EXECUTION ENVIRONMENT & CGROUP V2 AUDIT (Gate G1) (Section 2, 11)
+# 3. STEP 1: PRE-EXECUTION ENVIRONMENT & CGROUP V2 AUDIT (Gate G1, P0-05)
 # ------------------------------------------------------------------------------
 CURRENT_STEP="STEP_1_AUDIT_ENVIRONMENT"
 echo ""
@@ -140,8 +145,8 @@ if [[ -f "${SCRIPT_DIR}/check_env.py" ]]; then
     cp "${SCRIPT_DIR}/ratify_gates.py" "${RUNTIME_DIR}/ratify_gates.py"
 fi
 
-# Rigorous G1 Verification: Kernel >= 5.8, cgroup2fs, controllers (P1-01)
-python3 "${RUNTIME_DIR}/check_env.py"
+# Rigorous G1 Verification (P0-05): Verifies Kernel, systemd manager active, and transient controller delegation
+python3 "${RUNTIME_DIR}/check_env.py" "${SYSTEMD_CMD}" "${SYSTEMCTL_CMD}"
 
 # ------------------------------------------------------------------------------
 # 4. STEP 2: SETUP WORKLOAD RUNTIMES & DATABASES (Section 4, 5, 7)
@@ -215,7 +220,7 @@ if [[ ! -d "${CGROUP_DIR}" ]]; then
 fi
 
 # Verify required controller files exist in cgroup
-for f in memory.max memory.high memory.current memory.events cpu.max cpu.stat pids.max pids.current; do
+for f in memory.max memory.high memory.swap.max memory.swap.current memory.current memory.events cpu.max cpu.stat pids.max pids.current; do
     if [[ ! -f "${CGROUP_DIR}/${f}" ]]; then
         echo "FATAL: Required cgroup controller file missing: ${CGROUP_DIR}/${f}"
         exit 1
@@ -223,7 +228,7 @@ for f in memory.max memory.high memory.current memory.events cpu.max cpu.stat pi
 done
 
 # ------------------------------------------------------------------------------
-# 7. STEP 5: PRE-TEST SNAPSHOTS (While Bot 2 is IDLE) (Section 4.3)
+# 7. STEP 5: PRE-TEST SNAPSHOTS (While Bot 2 is IDLE) (Section 4.3, P0-04)
 # ------------------------------------------------------------------------------
 CURRENT_STEP="STEP_5_PRE_SNAPSHOTS"
 echo ""
@@ -236,8 +241,9 @@ CPU_STAT_PRE="${OUTPUT_DIR}/cpu_stat_pre.txt"
     echo "Date: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo "memory.max: $(cat "${CGROUP_DIR}/memory.max")"
     echo "memory.high: $(cat "${CGROUP_DIR}/memory.high")"
+    echo "memory.swap.max: $(cat "${CGROUP_DIR}/memory.swap.max")"
+    echo "memory.swap.current: $(cat "${CGROUP_DIR}/memory.swap.current")"
     echo "memory.current: $(cat "${CGROUP_DIR}/memory.current")"
-    echo "memory.swap.current: $(cat "${CGROUP_DIR}/memory.swap.current" 2>/dev/null || echo '0')"
     echo "memory.events:"
     cat "${CGROUP_DIR}/memory.events"
 } > "${MEMORY_PRE}"
@@ -308,9 +314,9 @@ for i in {1..14}; do
     sleep 1
 done
 
-# Wait specifically for Mock Bot 1 stress workload to finish
+# Strict wait for Mock Bot 1 stress workload to finish (NO || true)
 echo "  -> Awaiting Mock Bot 1 Stress completion..."
-wait "${BOT1_STRESS_RUN_PID}" 2>/dev/null || true
+wait "${BOT1_STRESS_RUN_PID}"
 
 STRESS_STATUS=$(${SYSTEMCTL_CMD} show "${UNIT_BOT1_STRESS}.service" -p ExecMainStatus --value)
 if [[ "${STRESS_STATUS}" != "0" ]]; then
@@ -321,12 +327,15 @@ fi
 
 # ------------------------------------------------------------------------------
 # 10. STEP 8: POST-TEST SNAPSHOTS (WHILE BOT 2 IS ACTIVE) (Section 4.3, 8)
+# Snapshot cpu.max and pids.max before stopping Bot 2 (P0-02, P0-04)
 # ------------------------------------------------------------------------------
 CURRENT_STEP="STEP_8_POST_SNAPSHOTS"
 echo ""
 echo "[STEP 7] Recording Post-test Snapshots (Bot 2 is guaranteed ACTIVE in cgroup)..."
 MEMORY_POST="${OUTPUT_DIR}/memory_post.txt"
 CPU_STAT_POST="${OUTPUT_DIR}/cpu_stat_post.txt"
+CPU_MAX_SNAPSHOT="${OUTPUT_DIR}/cpu_max.txt"
+PIDS_MAX_SNAPSHOT="${OUTPUT_DIR}/pids_max.txt"
 
 if [[ ! -d "${CGROUP_DIR}" ]]; then
     echo "FATAL: Cgroup directory disappeared prematurely before post-snapshot!"
@@ -338,13 +347,16 @@ fi
     echo "Date: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo "memory.max: $(cat "${CGROUP_DIR}/memory.max")"
     echo "memory.high: $(cat "${CGROUP_DIR}/memory.high")"
+    echo "memory.swap.max: $(cat "${CGROUP_DIR}/memory.swap.max")"
+    echo "memory.swap.current: $(cat "${CGROUP_DIR}/memory.swap.current")"
     echo "memory.current: $(cat "${CGROUP_DIR}/memory.current")"
-    echo "memory.swap.current: $(cat "${CGROUP_DIR}/memory.swap.current" 2>/dev/null || echo '0')"
     echo "memory.events:"
     cat "${CGROUP_DIR}/memory.events"
 } > "${MEMORY_POST}"
 
 cat "${CGROUP_DIR}/cpu.stat" > "${CPU_STAT_POST}"
+cat "${CGROUP_DIR}/cpu.max" > "${CPU_MAX_SNAPSHOT}"
+cat "${CGROUP_DIR}/pids.max" > "${PIDS_MAX_SNAPSHOT}"
 
 echo "  -> Post-test snapshots successfully recorded:"
 cat "${MEMORY_POST}"
@@ -352,19 +364,27 @@ cat "${MEMORY_POST}"
 # Now safely signal Bot 2 to stop
 echo "  -> Signalling Bot 2 to stop via STOP_TRIGGER..."
 touch "${STOP_TRIGGER}"
-wait "${BOT2_RUN_PID}" 2>/dev/null || true
+
+# Strict wait for Bot 2 to exit (NO || true)
+wait "${BOT2_RUN_PID}"
 sleep 1
 
 # ------------------------------------------------------------------------------
-# 11. STEP 9: SQLITE PRAGMA INTEGRITY VERIFICATION (Section 7.5)
+# 11. STEP 9: SQLITE PRAGMA INTEGRITY & TRANSACTION AUDIT (Section 7.5, P1-01)
 # ------------------------------------------------------------------------------
 CURRENT_STEP="STEP_9_SQLITE_INTEGRITY"
 echo ""
-echo "[STEP 8] Performing SQLite PRAGMA integrity_check (Section 7.5)..."
-python3 "${RUNTIME_DIR}/check_sqlite.py" "${BOT1_BASE_DB}" "${BOT1_STRESS_DB}"
+echo "[STEP 8] Performing SQLite PRAGMA integrity_check and commit reconciliation (P1-01)..."
+
+BASE_COMMITS=$(grep "###BOT1_METRICS###" "${BOT1_BASELINE_LOG}" | sed 's/.*"commits_total": *\([0-9]*\).*/\1/')
+STRESS_COMMITS=$(grep "###BOT1_METRICS###" "${BOT1_STRESS_LOG}" | sed 's/.*"commits_total": *\([0-9]*\).*/\1/')
+
+python3 "${RUNTIME_DIR}/check_sqlite.py" "${BOT1_BASE_DB}" "${BOT1_STRESS_DB}" "${BASE_COMMITS}" "${STRESS_COMMITS}"
 
 # ------------------------------------------------------------------------------
-# 12. STEP 10: AUTOMATED 5-GATE ENGINE (FAIL-CLOSED) (Section 11)
+# 12. STEP 10: AUTOMATED 5-GATE ENGINE & REPORT GENERATION (P1-04)
+# Ratifier reads snapshots exclusively; does NOT touch cgroup after Bot 2 exits (P0-02)
+# Generates verification_report.txt before manifest generation (P1-04)
 # ------------------------------------------------------------------------------
 CURRENT_STEP="STEP_10_GATE_ENGINE"
 echo ""
@@ -378,47 +398,84 @@ python3 "${RUNTIME_DIR}/ratify_gates.py" \
     "${MAX_MEM_OBSERVED}" \
     "${CPU_STAT_PRE}" \
     "${CPU_STAT_POST}" \
-    "${CGROUP_DIR}" \
+    "${CPU_MAX_SNAPSHOT}" \
+    "${PIDS_MAX_SNAPSHOT}" \
     "${MAX_PIDS_OBSERVED}" \
     "${POLLING_ERROR_COUNT}" \
     "${BOT1_BASELINE_LOG}" \
     "${BOT1_STRESS_LOG}" \
     "${BOT1_BASE_RAW_JSON}" \
     "${BOT1_STRESS_RAW_JSON}" \
+    "${BOT1_BASE_DB}" \
+    "${BOT1_STRESS_DB}" \
     "${STRESS_STATUS}"
 
 # ------------------------------------------------------------------------------
-# 13. STEP 11: TWO-STAGE MANIFEST GENERATION (Section 10)
+# 13. STEP 11: TWO-STAGE MANIFEST GENERATION (Section 10, P1-03, P1-04)
+# Manifest is strictly the final step; verifies exact mandatory artifact list!
 # ------------------------------------------------------------------------------
 CURRENT_STEP="STEP_11_MANIFEST_GENERATION"
 echo ""
 echo "[STEP 10] Closing execution log redirect before hashing (Section 10)..."
-echo "All steps complete. Finalizing artifact manifest..."
+echo "All steps complete. Validating mandatory artifacts and generating manifest.sha256..."
 
 # Safely close log redirection to prevent mid-hash modification
 exec 1>&-
 exec 2>&-
 sleep 1
 
+# P1-03: Strict verification of exactly 17 mandatory artifact files
+MANDATORY_ARTIFACTS=(
+    "environment.txt"
+    "cgroup_controllers.txt"
+    "bot1_baseline.log"
+    "bot1_baseline.raw_samples.json"
+    "bot2_stress.log"
+    "memory_pre.txt"
+    "memory_post.txt"
+    "memory_telemetry.log"
+    "cpu_stat_pre.txt"
+    "cpu_stat_post.txt"
+    "cpu_max.txt"
+    "pids_max.txt"
+    "pids_telemetry.log"
+    "bot1_stress.log"
+    "bot1_stress.raw_samples.json"
+    "verification_report.txt"
+    "execution.log"
+)
+
 MANIFEST_FILE="${OUTPUT_DIR}/manifest.sha256"
+
+# Verify all mandatory artifacts exist and are non-empty
+for f in "${MANDATORY_ARTIFACTS[@]}"; do
+    TARGET_PATH="${OUTPUT_DIR}/${f}"
+    if [[ ! -f "${TARGET_PATH}" ]]; then
+        echo "FATAL (P1-03): Mandatory artifact missing: '${TARGET_PATH}'" >&2
+        exit 1
+    fi
+    if [[ ! -s "${TARGET_PATH}" ]]; then
+        echo "FATAL (P1-03): Mandatory artifact is 0 bytes: '${TARGET_PATH}'" >&2
+        exit 1
+    fi
+done
+
 {
     echo "# =============================================================================="
     echo "# ARTIFACT MANIFEST & INTEGRITY AUDIT (STAGE 40.1)"
     echo "# Standard: P40-DOC-08 Section 10"
-    echo "# Package Content: Exactly 15 Artifacts (13 Evidence + 1 Execution Log + 1 Manifest)"
+    echo "# Package Content: Exactly 18 Artifacts (17 Audited Files + 1 Manifest File)"
     echo "# Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo "# Host Uname: $(uname -a)"
     echo "# =============================================================================="
     printf "%-36s | %10s | %-24s | %s\n" "Artifact File" "Size (B)" "Last Modified" "SHA-256 Checksum"
     echo "-------------------------------------------------------------------------------------------------------------------"
     cd "${OUTPUT_DIR}"
-    for f in *; do
-        if [[ -f "$f" && "$f" != "manifest.sha256" ]]; then
-            SIZE=$(stat -c %s "$f")
-            MTIME=$(stat -c "%Y" "$f")
-            MTIME_FMT=$(date -u -d "@${MTIME}" "+%Y-%m-%d %H:%M:%SZ" 2>/dev/null || date -u "+%Y-%m-%d %H:%M:%SZ")
-            HASH=$(sha256sum "$f" | awk '{print $1}')
-            printf "%-36s | %10d | %-24s | %s\n" "$f" "$SIZE" "$MTIME_FMT" "$HASH"
-        fi
+    for f in "${MANDATORY_ARTIFACTS[@]}"; do
+        SIZE=$(stat -c %s "$f")
+        MTIME=$(stat -c "%Y" "$f")
+        MTIME_FMT=$(date -u -d "@${MTIME}" "+%Y-%m-%d %H:%M:%SZ" 2>/dev/null || date -u "+%Y-%m-%d %H:%M:%SZ")
+        HASH=$(sha256sum "$f" | awk '{print $1}')
+        printf "%-36s | %10d | %-24s | %s\n" "$f" "$SIZE" "$MTIME_FMT" "$HASH"
     done
 } > "${MANIFEST_FILE}"

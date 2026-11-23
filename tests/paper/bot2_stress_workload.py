@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """
-STAGE 40.1 - BOT 2 STRESS WORKLOAD SCRIPT (COORDINATED LIFECYCLE)
+STAGE 40.1 - BOT 2 STRESS WORKLOAD SCRIPT (COORDINATED LIFECYCLE - STRICT FAIL-CLOSED)
 Standard: P40-DOC-08 Section 4.2, 5.2, 8
-Idles upon startup to allow idle pre-snapshots; allocates memory regulated by
+Idles upon startup to allow idle pre-snapshots; allocates memory regulated strictly by
 kernel cgroup memory.current (targeting 66.5 - 69.5 MiB) to exercise MemoryHigh=65M
 while remaining safely below MemoryMax=80M; runs 4 threads to exercise CPUQuota=50%.
-Exits cleanly upon detection of STOP_TRIGGER.
+
+CRITICAL (P0-03):
+Zero fallbacks allowed. If cgroup directory cannot be resolved or memory.current
+cannot be read, the process exits immediately with a fatal nonzero exit code.
 """
 import sys
 import os
@@ -22,7 +25,7 @@ def run_bot2():
     stop_trigger = sys.argv[3]
     cgroup_hint = sys.argv[4] if len(sys.argv) > 4 else None
 
-    # Discover own unified cgroup v2 directory
+    # Strict Cgroup v2 Directory Resolution (NO FALLBACK to /sys/fs/cgroup root)
     def resolve_cgroup_dir():
         if cgroup_hint and os.path.isdir(cgroup_hint):
             return cgroup_hint
@@ -32,32 +35,31 @@ def run_bot2():
                     parts = line.strip().split('::')
                     if len(parts) == 2:
                         rel = parts[1].lstrip('/')
+                        if not rel:
+                            continue
                         cand = os.path.join('/sys/fs/cgroup', rel)
                         if os.path.isdir(cand):
                             return cand
-        except Exception:
-            pass
-        return '/sys/fs/cgroup'
+        except Exception as e:
+            sys.exit(f"FATAL: Error reading /proc/self/cgroup: {e}. Zero fallback permitted.")
+
+        sys.exit("FATAL (P0-03): Unable to resolve non-root cgroup v2 slice from /proc/self/cgroup. Zero fallback permitted.")
 
     cg_dir = resolve_cgroup_dir()
 
+    # Strict Cgroup memory.current Reader (NO FALLBACK to VmRSS or 0)
     def get_cgroup_memory_current():
         mem_file = os.path.join(cg_dir, 'memory.current')
-        if os.path.exists(mem_file):
-            try:
-                with open(mem_file, 'r', encoding='utf-8') as f:
-                    return int(f.read().strip())
-            except Exception:
-                pass
-        # Fallback to VmRSS from /proc/self/status only if cgroup file cannot be read
+        if not os.path.exists(mem_file):
+            sys.exit(f"FATAL (P0-03): Required cgroup file '{mem_file}' does not exist. Zero fallback permitted.")
         try:
-            with open('/proc/self/status', 'r', encoding='utf-8') as f:
-                for line in f:
-                    if line.startswith('VmRSS:'):
-                        return int(line.split()[1]) * 1024
-        except Exception:
-            pass
-        return 0
+            with open(mem_file, 'r', encoding='utf-8') as f:
+                content = f.read().strip()
+                if not content.isdigit():
+                    sys.exit(f"FATAL (P0-03): Invalid non-integer memory.current '{content}' in '{mem_file}'.")
+                return int(content)
+        except Exception as e:
+            sys.exit(f"FATAL (P0-03): Failed to read '{mem_file}': {e}. Zero fallback permitted.")
 
     # Ensure parent directory for database exists
     os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
@@ -73,7 +75,7 @@ def run_bot2():
     while not os.path.exists(start_trigger):
         if os.path.exists(stop_trigger):
             conn.close()
-            print("BOT2: STOP_TRIGGER detected during idle phase. Exiting.")
+            print("BOT2: STOP_TRIGGER detected during idle phase. Exiting cleanly.")
             sys.exit(0)
         time.sleep(0.05)
 
@@ -90,7 +92,7 @@ def run_bot2():
     for t in threads:
         t.start()
 
-    # Phase 3: Closed-loop memory ramp regulated by cgroup memory.current
+    # Phase 3: Closed-loop memory ramp regulated strictly by cgroup memory.current
     # Cgroup constraints: MemoryHigh=65M (68,157,440 B), MemoryMax=80M (83,886,080 B)
     # Target: 66.5 MiB to 69.5 MiB cgroup memory.current
     TARGET_CGROUP_MIN = int(66.5 * 1024 * 1024)

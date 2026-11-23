@@ -4,6 +4,7 @@ STAGE 40.1 - MOCK BOT 1 WORKLOAD SCRIPT (FAIL-CLOSED)
 Standard: P40-DOC-08 Section 4.1, 7.1-7.4
 Simulates trading daemon with nominal 5.0ms scheduling loop and 500ms SQLite WAL heartbeat commits.
 Generates N >= 2,000 raw samples and exports full JSON raw datasets for independent audit.
+Tracks SQLite errors and strictly guarantees transaction integrity (P1-01, P1-02).
 """
 import sys
 import os
@@ -43,6 +44,8 @@ def run_workload():
     t_end = time.perf_counter() + duration_s
     last_beat = time.perf_counter()
     commit_count = 0
+    sqlite_errors = 0
+    sqlite_error_messages = []
 
     print(f"BOT1 ({test_mode}): Starting execution for {duration_s}s...")
 
@@ -66,19 +69,26 @@ def run_workload():
             last_beat = now
 
             t_c0 = time.perf_counter_ns()
-            conn.execute("INSERT INTO bot1_state (ts, uptime, commit_count) VALUES (datetime('now'), ?, ?);",
-                         (now, commit_count))
-            conn.commit()
-            t_c1 = time.perf_counter_ns()
-            c_lat_ms = (t_c1 - t_c0) / 1e6
-            if math.isfinite(c_lat_ms):
-                commit_latencies.append(c_lat_ms)
-            commit_count += 1
+            try:
+                conn.execute("INSERT INTO bot1_state (ts, uptime, commit_count) VALUES (datetime('now'), ?, ?);",
+                             (now, commit_count))
+                conn.commit()
+                t_c1 = time.perf_counter_ns()
+                c_lat_ms = (t_c1 - t_c0) / 1e6
+                if math.isfinite(c_lat_ms):
+                    commit_latencies.append(c_lat_ms)
+                commit_count += 1
+            except Exception as e:
+                sqlite_errors += 1
+                sqlite_error_messages.append(str(e))
 
     conn.close()
     end_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-    # Fail-closed check: Ensure samples are non-empty
+    # Fail-closed checks
+    if sqlite_errors > 0:
+        sys.exit(f"FATAL (P1-01): SQLite errors encountered during {test_mode} run: {sqlite_errors} ({sqlite_error_messages})")
+
     if len(sched_latencies) < 2000:
         sys.exit(f"FATAL: Insufficient scheduling samples recorded ({len(sched_latencies)} < 2000). Test invalid.")
 
@@ -104,7 +114,7 @@ def run_workload():
     hb_p95 = float(np.percentile(arr_hb, 95))
     hb_max = float(np.max(arr_hb))
 
-    # Section 7.4: Standardized maximum lateness over nominal interval
+    # Standardized maximum lateness over nominal interval (Section 7.4)
     hb_max_lateness = float(max(0.0, hb_max - heartbeat_interval))
     late_hb_count = int(np.sum(arr_hb > (heartbeat_interval + 0.100)))
 
@@ -132,7 +142,9 @@ def run_workload():
             'sched_wakeup_p99_ms': p99
         },
         'sqlite_commit_stats': {
-            'count': commit_count,
+            'successful_commits': commit_count,
+            'sqlite_errors': sqlite_errors,
+            'error_messages': sqlite_error_messages,
             'min_ms': float(np.min(arr_commit)),
             'max_ms': c_max,
             'mean_ms': float(np.mean(arr_commit)),
@@ -171,7 +183,8 @@ def run_workload():
         'hb_max_s': hb_max,
         'heartbeat_max_lateness_s': hb_max_lateness,
         'late_heartbeat_count_over_100ms': late_hb_count,
-        'commits_total': commit_count
+        'commits_total': commit_count,
+        'sqlite_errors': sqlite_errors
     }
 
     print("BOT1 Execution complete. Emitting telemetry marker:")
